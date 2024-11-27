@@ -10,7 +10,7 @@ using InstagramMVC.Utilities;
 
 namespace InstagramMVC.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[Controller]")]
     [ApiController]
     public class PictureController : Controller
     {
@@ -66,7 +66,8 @@ namespace InstagramMVC.Controllers
 
             return View(pictureViewModel);
         }
-
+       
+        [HttpGet("Grid")]
         public async Task<IActionResult> Grid()
         {
             var pictures = await _pictureRepository.GetAll();

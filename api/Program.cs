@@ -4,7 +4,10 @@ using InstagramMVC.DAL;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options => {
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -25,7 +28,6 @@ builder.Services.AddDbContext<MediaDbContext>(options =>
 builder.Services.AddScoped<IPictureRepository, PictureRepository>();
 //builder.Services.AddScoped<INoteRepository, NoteRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
-
 
 var app = builder.Build();
 
