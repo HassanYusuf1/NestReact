@@ -1,44 +1,49 @@
+using Microsoft.EntityFrameworkCore;
+using InstagramMVC.DAL;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Add services to the container
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Configure CORS policy to allow React and Swagger
+builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy",
+                builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+        });
+
+// Register the database context
+builder.Services.AddDbContext<MediaDbContext>(options =>
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("MediaDbContextConnection"));
+});
+
+// Register repositories
+builder.Services.AddScoped<IPictureRepository, PictureRepository>();
+//builder.Services.AddScoped<INoteRepository, NoteRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// Middleware ordering: Ensure proper handling of requests
+app.UseRouting();
+app.UseCors("CorsPolicy"); // Apply CORS policy here
+app.UseAuthorization();
+app.UseStaticFiles();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}"); // Default route setup
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

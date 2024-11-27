@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using InstagramMVC.Models;
 using InstagramMVC.DAL;
-using InstagramMVC.ViewModels;
+//using InstagramMVC.ViewModels;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using InstagramMVC.Utilities;
+//using InstagramMVC.Utilities;
 
 namespace InstagramMVC.Controllers
 {

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using InstagramMVC.Models;
 using InstagramMVC.DAL;
-using InstagramMVC.ViewModels;
+//using InstagramMVC.ViewModels;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;

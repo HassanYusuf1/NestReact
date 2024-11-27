@@ -1,0 +1,31 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using InstagramMVC.Models;
+using Microsoft.Extensions.Options;
+
+namespace InstagramMVC.DAL
+{
+
+    public class MediaDbContext : IdentityDbContext<IdentityUser>
+    {
+        public MediaDbContext (DbContextOptions<MediaDbContext> options) : base (options)
+        {
+            //Database.EnsureCreated();
+
+        }
+    
+        public DbSet<Picture> Pictures {get; set;}
+        //public DbSet<Note> Notes {get; set;}
+        public DbSet<Comment> Comments { get; set; }  
+    
+
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseLazyLoadingProxies();
+        
+    }
+    }
+}
+
