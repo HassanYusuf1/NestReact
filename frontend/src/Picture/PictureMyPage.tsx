@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchMyPictures } from './PictureService';
 
+
 type Picture = {
   pictureId: number;
   title: string;
@@ -16,6 +17,7 @@ const PictureMyPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  // Fetch data on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -45,6 +47,7 @@ const PictureMyPage: React.FC = () => {
     <div className="container-page">
       <h1>Mine Bilder</h1>
 
+      {/* Render a grid of pictures */}
       <div className="row mt-5">
         {pictures.length === 0 ? (
           <p>Ingen bilder funnet.</p>
@@ -61,6 +64,26 @@ const PictureMyPage: React.FC = () => {
                   <h3>{picture.title}</h3>
                   <p>{picture.description}</p>
                   <p>Opplastet: {new Date(picture.uploadDate).toLocaleDateString()}</p>
+                </div>
+                <div className="picture-actions mt-3 d-flex justify-content-center">
+                  <button
+                    className="btn btn-warning me-2"
+                    onClick={() => navigate(`/pictures/${picture.pictureId}/edit`)}
+                  >
+                    Rediger
+                  </button>
+                  <button
+                    className="btn btn-danger me-2"
+                    onClick={() => navigate(`/pictures/${picture.pictureId}/delete`)}
+                  >
+                    Slett
+                  </button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => window.location.href = picture.pictureUrl}
+                  >
+                    Last ned
+                  </button>
                 </div>
               </div>
             </div>
