@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { fetchPictures } from './PictureService';
+import { Picture } from '../types/picture';
 
 const PicturesGridPage: React.FC = () => {
-  const [pictures, setPictures] = useState<any[]>([]);
+  const [pictures, setPictures] = useState<Picture[]>([]); // Bruker typen Picture[]
 
   useEffect(() => {
     const loadPictures = async () => {
