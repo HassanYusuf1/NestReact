@@ -335,7 +335,7 @@ public class PictureController : Controller
         return View("PictureDetails", picture);
     }
 
-    [HttpGet("Edit/{id}")]
+    [HttpGet]
     [Authorize]
     public async Task<IActionResult> Edit(int id, string source = "Grid")
     {
@@ -357,7 +357,7 @@ public class PictureController : Controller
         return View(picture);
     }
 
-    [HttpPost("Edit/{id}")]
+    [HttpPost]
     [Authorize]
     public async Task<IActionResult> Edit(int id, Picture updatedPicture, IFormFile? newPictureUrl, string source)
     {
@@ -424,7 +424,7 @@ public class PictureController : Controller
         }
     }
 
-    [HttpGet("Delete/{id}")]
+    [HttpGet]
     [Authorize]
     public async Task<IActionResult> Delete(int id, string source = "Grid")
     {
@@ -446,7 +446,7 @@ public class PictureController : Controller
         return View(picture);
     }
 
-    [HttpPost("DeleteConfirmed/{id}")]
+    [HttpPost]
     [Authorize]
     public async Task<IActionResult> DeleteConfirmed(int id, string source)
     {
