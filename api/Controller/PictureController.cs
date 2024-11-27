@@ -170,26 +170,51 @@ public async Task<IActionResult> CreatePicture([FromForm] PictureDto pictureDto)
             return Ok(existingPicture);
         }
 
-        [HttpDelete("delete/{id}")]
-        
-        public async Task<IActionResult> DeletePicture(int id)
+       [HttpDelete("delete/{id}")]
+public async Task<IActionResult> DeletePicture(int id)
+{
+    var picture = await _pictureRepository.PictureId(id);
+    if (picture == null)
+    {
+        _logger.LogError("[PictureAPIController] Picture with id {Id} not found", id);
+        return NotFound("Picture not found.");
+    }
+
+    // Fjern bildet fra filsystemet
+    if (!string.IsNullOrEmpty(picture.PictureUrl))
+    {
+        string fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", picture.PictureUrl.TrimStart('/'));
+
+        if (System.IO.File.Exists(fullPath))
         {
-            var picture = await _pictureRepository.PictureId(id);
-            if (picture == null)
+            try
             {
-                _logger.LogError("[PictureAPIController] Picture with id {Id} not found", id);
-                return NotFound("Picture not found.");
+                System.IO.File.Delete(fullPath);
+                _logger.LogInformation("Picture file at {Path} deleted successfully", fullPath);
             }
-
-            bool success = await _pictureRepository.Delete(id);
-            if (!success)
+            catch (Exception ex)
             {
-                _logger.LogError("[PictureAPIController] Picture with id {Id} could not be deleted", id);
-                return StatusCode(500, "Internal server error while deleting the picture.");
+                _logger.LogError(ex, "Failed to delete picture file at {Path}", fullPath);
+                return StatusCode(500, "Failed to delete the picture file from the server.");
             }
-
-            return NoContent();
         }
+        else
+        {
+            _logger.LogWarning("Picture file at {Path} was not found on the server", fullPath);
+        }
+    }
+
+    // Fjern bildet fra databasen
+    bool success = await _pictureRepository.Delete(id);
+    if (!success)
+    {
+        _logger.LogError("[PictureAPIController] Picture with id {Id} could not be deleted from the database", id);
+        return StatusCode(500, "Internal server error while deleting the picture.");
+    }
+
+    return NoContent();
+}
+
     }
 }
 
