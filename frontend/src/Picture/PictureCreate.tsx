@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPicture } from './PictureService';
 
-const CreatePicturePage: React.FC<{ token: string }> = ({ token }) => {
+const CreatePicturePage: React.FC = () => {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
@@ -25,7 +25,7 @@ const CreatePicturePage: React.FC<{ token: string }> = ({ token }) => {
 
     try {
       const picture = { title, description, pictureUrl: pictureFile };
-      await createPicture(picture, token);
+      await createPicture(picture);
       navigate('/pictures'); // Naviger tilbake til listen etter vellykket opprettelse
     } catch (error) {
       console.error('Error creating picture:', error);

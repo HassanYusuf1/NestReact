@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { deletePicture } from './PictureService';
 
-const DeletePicturePage: React.FC<{ token: string }> = ({ token }) => {
+const DeletePicturePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
@@ -12,7 +12,7 @@ const DeletePicturePage: React.FC<{ token: string }> = ({ token }) => {
     }
 
     try {
-      await deletePicture(Number(id), token);
+      await deletePicture(Number(id));
       navigate('/pictures'); // Naviger tilbake til listen etter sletting
     } catch (error) {
       console.error(`Error deleting picture with id ${id}:`, error);

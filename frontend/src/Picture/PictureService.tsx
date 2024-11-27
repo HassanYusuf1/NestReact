@@ -7,7 +7,7 @@ const headers = {
 // Handle server responses
 const handleResponse = async (response: Response) => {
   if (response.ok) {
-    if (response.status === 204) { // No content to return
+    if (response.status === 204) {
       return null;
     }
     return response.json();
@@ -29,12 +29,11 @@ export const fetchPictures = async () => {
 };
 
 // Get pictures for the current user
-export const fetchMyPictures = async (token: string) => {
+export const fetchMyPictures = async () => {
   try {
     const response = await fetch(`${API_URL}/api/pictureapi/mypage`, {
       headers: {
         ...headers,
-        Authorization: `Bearer ${token}`,
       },
     });
     return handleResponse(response);
@@ -56,7 +55,7 @@ export const fetchPictureById = async (pictureId: number) => {
 };
 
 // Create a new picture
-export const createPicture = async (picture: any, token: string) => {
+export const createPicture = async (picture: any) => {
   try {
     const formData = new FormData();
     formData.append('title', picture.title);
@@ -67,9 +66,6 @@ export const createPicture = async (picture: any, token: string) => {
 
     const response = await fetch(`${API_URL}/api/pictureapi/create`, {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
       body: formData,
     });
     return handleResponse(response);
@@ -80,7 +76,7 @@ export const createPicture = async (picture: any, token: string) => {
 };
 
 // Update an existing picture
-export const updatePicture = async (pictureId: number, updatedPicture: any, token: string) => {
+export const updatePicture = async (pictureId: number, updatedPicture: any) => {
   try {
     const formData = new FormData();
     formData.append('title', updatedPicture.title);
@@ -91,9 +87,6 @@ export const updatePicture = async (pictureId: number, updatedPicture: any, toke
 
     const response = await fetch(`${API_URL}/api/pictureapi/edit/${pictureId}`, {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
       body: formData,
     });
     return handleResponse(response);
@@ -104,13 +97,10 @@ export const updatePicture = async (pictureId: number, updatedPicture: any, toke
 };
 
 // Delete a picture
-export const deletePicture = async (pictureId: number, token: string) => {
+export const deletePicture = async (pictureId: number) => {
   try {
     const response = await fetch(`${API_URL}/api/pictureapi/deleteconfirmed/${pictureId}`, {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     });
     return handleResponse(response);
   } catch (error) {
@@ -118,4 +108,3 @@ export const deletePicture = async (pictureId: number, token: string) => {
     throw error;
   }
 };
-
