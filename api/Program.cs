@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+
+
 using InstagramMVC.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
