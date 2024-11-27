@@ -35,6 +35,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 // Register repositories
 builder.Services.AddScoped<IPictureRepository, PictureRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<INoteRepository, NoteRepository>();
 
 // Add Razor pages if necessary for authentication
 builder.Services.AddRazorPages();
