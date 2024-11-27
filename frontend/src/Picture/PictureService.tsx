@@ -54,26 +54,25 @@ export const fetchPictureById = async (pictureId: number) => {
   }
 };
 
-// Create a new picture
-export const createPicture = async (picture: any) => {
-  try {
-    const formData = new FormData();
-    formData.append('title', picture.title);
-    formData.append('description', picture.description);
-    if (picture.pictureUrl) {
-      formData.append('pictureUrl', picture.pictureUrl);
-    }
 
+// Create a new picture
+export const createPicture = async (formData: FormData) => {
+  try {
     const response = await fetch(`${API_URL}/api/PictureAPI/create`, {
       method: 'POST',
-      body: formData,
+      body: formData, // Ikke sett Content-Type til 'application/json' her, fordi vi bruker FormData
     });
-    return handleResponse(response);
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText);
+    }
+    return response.json();
   } catch (error) {
     console.error('Error creating picture:', error);
     throw error;
   }
 };
+
 
 // Update an existing picture
 export const updatePicture = async (pictureId: number, updatedPicture: any) => {

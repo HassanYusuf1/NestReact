@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,12 +14,16 @@ namespace InstagramMVC.DTOs
         [StringLength(500)]
         public string? Description { get; set; }
 
-        [Required]
-        public string? PictureUrl { get; set; } // URL eller sti til bildet
+        // Endret navn fra PictureUrl til PictureFile
+        // For å kunne ta imot filopplastning ved opprettelse og redigering
+        public IFormFile? PictureFile { get; set; }
+
+        // For å returnere URL til klienten
+        public string? PictureUrl { get; set; }
 
         [Required]
         public DateTime UploadDate { get; set; }
 
-        public string? UserName { get; set; } // Brukernavnet til brukeren som har lastet opp bildet
+        public string? UserName { get; set; }
     }
 }
