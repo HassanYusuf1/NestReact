@@ -1,6 +1,12 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Byggefiler
+bin/
+obj/
 
+# NuGet-pakker
+*.nupkg
+*.snupkg
 
 # dependencies
 /node_modules
