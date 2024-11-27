@@ -20,7 +20,7 @@ const handleResponse = async (response: Response) => {
 // Get all pictures
 export const fetchPictures = async () => {
   try {
-    const response = await fetch(`${API_URL}/api/pictureapi/picture`);
+    const response = await fetch(`${API_URL}/api/PictureAPI/allpictures`);
     return handleResponse(response);
   } catch (error) {
     console.error('Error fetching pictures:', error);
@@ -31,7 +31,7 @@ export const fetchPictures = async () => {
 // Get pictures for the current user
 export const fetchMyPictures = async () => {
   try {
-    const response = await fetch(`${API_URL}/api/pictureapi/mypage`, {
+    const response = await fetch(`${API_URL}/api/PictureAPI/mypage`, {
       headers: {
         ...headers,
       },
@@ -46,7 +46,7 @@ export const fetchMyPictures = async () => {
 // Get picture by id
 export const fetchPictureById = async (pictureId: number) => {
   try {
-    const response = await fetch(`${API_URL}/api/pictureapi/details/${pictureId}`);
+    const response = await fetch(`${API_URL}/api/PictureAPI/details/${pictureId}`);
     return handleResponse(response);
   } catch (error) {
     console.error(`Error fetching picture with id ${pictureId}:`, error);
@@ -64,7 +64,7 @@ export const createPicture = async (picture: any) => {
       formData.append('pictureUrl', picture.pictureUrl);
     }
 
-    const response = await fetch(`${API_URL}/api/pictureapi/create`, {
+    const response = await fetch(`${API_URL}/api/PictureAPI/create`, {
       method: 'POST',
       body: formData,
     });
@@ -85,8 +85,8 @@ export const updatePicture = async (pictureId: number, updatedPicture: any) => {
       formData.append('newPictureUrl', updatedPicture.newPictureUrl);
     }
 
-    const response = await fetch(`${API_URL}/api/pictureapi/edit/${pictureId}`, {
-      method: 'POST',
+    const response = await fetch(`${API_URL}/api/PictureAPI/edit/${pictureId}`, {
+      method: 'PUT',
       body: formData,
     });
     return handleResponse(response);
@@ -99,8 +99,8 @@ export const updatePicture = async (pictureId: number, updatedPicture: any) => {
 // Delete a picture
 export const deletePicture = async (pictureId: number) => {
   try {
-    const response = await fetch(`${API_URL}/api/pictureapi/deleteconfirmed/${pictureId}`, {
-      method: 'POST',
+    const response = await fetch(`${API_URL}/api/PictureAPI/delete/${pictureId}`, {
+      method: 'DELETE',
     });
     return handleResponse(response);
   } catch (error) {
