@@ -27,7 +27,7 @@ const NavMenu: React.FC = () => {
           <Nav className="me-auto mb-2 mb-lg-0">
             <Nav.Link href="/pictures">Pictures</Nav.Link>
             <Nav.Link href="/notes">Notes</Nav.Link>
-            <Nav.Link href="/mypage/pictures">MyPagePics</Nav.Link>
+            <Nav.Link href="/picture/mypage">MyPagePics</Nav.Link>
             <Nav.Link href="/mypage/notes">MyPageNotes</Nav.Link>
           </Nav>
 

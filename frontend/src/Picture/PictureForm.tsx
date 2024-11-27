@@ -55,7 +55,6 @@ const PictureForm: React.FC<PictureFormProps> = ({ picture, isMyPage }) => {
           </button>
         </div>
       )}
-
     </div>
   );
 };
