@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
+import NavBar from './shared/NavBar'; 
 import CreatePicturePage from './Picture/PictureCreate';
 import DeletePicturePage from './Picture/PictureDelete';
 import PictureDetails from './Picture/PictureDetails';
@@ -9,8 +10,9 @@ import PictureMyPage from './Picture/PictureMyPage';
 
 const App: React.FC = () => {
   return (
-    <Container>
-      <Router>
+    <Router>
+      <NavBar /> 
+      <Container>
         <Routes>
           <Route path="/pictures" element={<PictureGrid />} />
           <Route path="/pictures/create" element={<CreatePicturePage />} />
@@ -19,8 +21,8 @@ const App: React.FC = () => {
           <Route path="/mypage" element={<PictureMyPage />} />
           <Route path="*" element={<Navigate to="/pictures" replace />} />
         </Routes>
-      </Router>
-    </Container>
+      </Container>
+    </Router>
   );
 };
 
