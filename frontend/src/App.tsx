@@ -7,6 +7,10 @@ import DeletePicturePage from './Picture/PictureDelete';
 import PictureDetails from './Picture/PictureDetails';
 import PictureGrid from './Picture/PictureGrid';
 import PictureMyPage from './Picture/PictureMyPage';
+import NotesPage from './Notes/NotesPage';
+import NotesCreate from './Notes/NotesCreate';
+import NotesEdit from './Notes/NotesEdit';
+import NoteDisplay from './Notes/NoteDisplay';
 
 const App: React.FC = () => {
   return (
@@ -20,6 +24,10 @@ const App: React.FC = () => {
           <Route path="/pictures/:id/delete" element={<DeletePicturePage />} />
           <Route path="/picture/mypage" element={<PictureMyPage />} />
           <Route path="*" element={<Navigate to="/pictures" replace />} />
+          <Route path="/notes" element={<NotesPage />} />
+          <Route path="/notescreate" element={<NotesCreate />} />
+          <Route path="/edit/:noteId" element={<NotesEdit />} />
+          <Route path="/notesdetails/:noteId" element={<NoteDisplay />} />
         </Routes>
       </Container>
     </Router>
