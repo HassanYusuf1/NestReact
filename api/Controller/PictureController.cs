@@ -124,7 +124,7 @@ public async Task<IActionResult> CreatePicture([FromForm] PictureDto pictureDto)
         Title = pictureDto.Title,
         Description = pictureDto.Description,
         UploadDate = DateTime.Now,
-        PictureUrl = "/images/" + uniqueFileName // Lagre URL-en som peker til bildet
+        PictureUrl = $"{Request.Scheme}://{Request.Host}/images/{uniqueFileName}"
     };
 
     bool success = await _pictureRepository.Create(newPicture);
