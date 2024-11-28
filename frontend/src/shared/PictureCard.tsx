@@ -90,8 +90,11 @@ const PictureCard: React.FC<PictureCardProps> = ({ picture, returnUrl }) => {
       <div className="picture-card-footer p-3">
         <p className="text-muted">
           <a
-            href="javascript:void(0);"
-            onClick={() => setCommentsVisible(!commentsVisible)}
+            href="#"
+            onClick={(e) => {
+              e.preventDefault(); // Forhindrer standard navigering
+              setCommentsVisible(!commentsVisible);
+            }}
             className="view-comments-link"
           >
             {commentsVisible ? "Hide comments" : `View all comments`}
@@ -115,6 +118,8 @@ const PictureCard: React.FC<PictureCardProps> = ({ picture, returnUrl }) => {
 
         <div className="add-comment-section p-3">
           <textarea
+            id="newComment"
+            name="newComment"
             className="form-control mb-2"
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
