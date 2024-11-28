@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { fetchPictureById, deletePicture } from './PictureService';
-import { Picture } from '../types/picture'; // Sørg for at du har riktig Picture-type
+import { Picture } from '../types/picture';
 
 const DeletePicturePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const [picture, setPicture] = useState<Picture | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Henter bildet med gitt ID når komponenten lastes inn
+  const searchParams = new URLSearchParams(location.search);
+  const source = searchParams.get('source') || '/picture/grid'; // Default til grid hvis ikke angitt
+
   useEffect(() => {
     if (id) {
       const fetchData = async () => {
@@ -25,7 +28,6 @@ const DeletePicturePage: React.FC = () => {
     }
   }, [id]);
 
-  // Funksjon for å håndtere sletting av bildet
   const handleDelete = async () => {
     if (!window.confirm('Er du sikker på at du vil slette dette bildet?')) {
       return;
@@ -33,7 +35,7 @@ const DeletePicturePage: React.FC = () => {
 
     try {
       await deletePicture(Number(id));
-      navigate('/pictures'); // Navigerer tilbake til oversikten etter sletting
+      navigate(source);
     } catch (error) {
       console.error(`Feil ved sletting av bildet med id ${id}:`, error);
       setError('Kunne ikke slette bildet. Vennligst prøv igjen senere.');
@@ -58,10 +60,7 @@ const DeletePicturePage: React.FC = () => {
       </div>
       <div className="mt-3">
         <button onClick={handleDelete} className="btn btn-danger me-3">Slett</button>
-        <button
-          onClick={() => navigate('/pictures')}
-          className="btn btn-secondary"
-        >
+        <button onClick={() => navigate(source)} className="btn btn-secondary">
           Avbryt
         </button>
       </div>

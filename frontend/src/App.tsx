@@ -19,13 +19,13 @@ const App: React.FC = () => {
       <NavBar /> 
       <Container>
         <Routes>
-          <Route path="/pictures" element={<PictureGrid />} />
+          <Route path="/picture/grid" element={<PictureGrid />} />
           <Route path="/pictures/create" element={<CreatePicturePage />} />
           <Route path="/pictures/:id" element={<PictureDetails />} />
           <Route path="/pictures/:id/edit" element={<PictureEditPage />} /> 
           <Route path="/pictures/:id/delete" element={<DeletePicturePage />} />
           <Route path="/picture/mypage" element={<PictureMyPage />} />
-          <Route path="*" element={<Navigate to="/pictures" replace />} />
+          <Route path="*" element={<Navigate to="/picture/grid" replace />} />
           <Route path="/notes" element={<NotesPage />} />
           <Route path="/notescreate" element={<NotesCreate />} />
           <Route path="/edit/:noteId" element={<NotesEdit />} />
