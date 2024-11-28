@@ -190,7 +190,7 @@ public async Task<IActionResult> EditPicture(int id, [FromForm] PictureDto updat
 }
 
 
-       [HttpDelete("delete/{id}")]
+  [HttpDelete("delete/{id}")]
 public async Task<IActionResult> DeletePicture(int id)
 {
     var picture = await _pictureRepository.PictureId(id);
@@ -200,31 +200,34 @@ public async Task<IActionResult> DeletePicture(int id)
         return NotFound("Picture not found.");
     }
 
-    // Fjern bildet fra filsystemet
     if (!string.IsNullOrEmpty(picture.PictureUrl))
     {
-        string fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", picture.PictureUrl.TrimStart('/'));
-
-        if (System.IO.File.Exists(fullPath))
+        try
         {
-            try
+            Uri pictureUri = new Uri(picture.PictureUrl);
+            string fileName = Path.GetFileName(pictureUri.LocalPath);
+            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+
+            _logger.LogInformation("Full file path for deletion: {Path}", fullPath);
+
+            if (System.IO.File.Exists(fullPath))
             {
+                System.IO.File.SetAttributes(fullPath, FileAttributes.Normal);
                 System.IO.File.Delete(fullPath);
                 _logger.LogInformation("Picture file at {Path} deleted successfully", fullPath);
             }
-            catch (Exception ex)
+            else
             {
-                _logger.LogError(ex, "Failed to delete picture file at {Path}", fullPath);
-                return StatusCode(500, "Failed to delete the picture file from the server.");
+                _logger.LogWarning("Picture file at {Path} was not found on the server", fullPath);
             }
         }
-        else
+        catch (Exception ex)
         {
-            _logger.LogWarning("Picture file at {Path} was not found on the server", fullPath);
+            _logger.LogError(ex, "Failed to delete picture file from URL {PictureUrl}", picture.PictureUrl);
+            return StatusCode(500, "Failed to delete the picture file from the server.");
         }
     }
 
-    // Fjern bildet fra databasen
     bool success = await _pictureRepository.Delete(id);
     if (!success)
     {
@@ -234,6 +237,9 @@ public async Task<IActionResult> DeletePicture(int id)
 
     return NoContent();
 }
+
+
+
 
     }
 }

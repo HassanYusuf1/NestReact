@@ -12,7 +12,8 @@ const PictureCard: React.FC<PictureCardProps> = ({ picture, returnUrl }) => {
 
   return (
     <div className="picture-card">
-      <Link to={`/pictures/${picture.pictureId}`}>
+      {/* Send med "source" parameteren i lenken til detaljer */}
+      <Link to={`/pictures/${picture.pictureId}?source=${returnUrl}`}>
         <img
           src={picture.pictureUrl}
           alt={picture.title || 'Picture'}
@@ -27,17 +28,16 @@ const PictureCard: React.FC<PictureCardProps> = ({ picture, returnUrl }) => {
       <div className="picture-actions mt-3 d-flex justify-content-center">
         <button
           className="btn btn-warning me-2"
-          onClick={() => navigate(`/pictures/${picture.pictureId}/edit`)}
+          onClick={() => navigate(`/pictures/${picture.pictureId}/edit?source=${returnUrl}`)}
         >
           Edit
         </button>
         <button
-  className="btn btn-danger me-2"
-  onClick={() => navigate(`/pictures/${picture.pictureId}/delete?source=${returnUrl}`)}
->
-  Delete
-</button>
-
+          className="btn btn-danger me-2"
+          onClick={() => navigate(`/pictures/${picture.pictureId}/delete?source=${returnUrl}`)}
+        >
+          Delete
+        </button>
         <button
           className="btn btn-primary"
           onClick={() => window.location.href = picture.pictureUrl}
