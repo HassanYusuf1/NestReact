@@ -1,363 +1,130 @@
 using Microsoft.AspNetCore.Mvc;
 using InstagramMVC.Models;
 using InstagramMVC.DAL;
-//using InstagramMVC.ViewModels;
+using InstagramMVC.DTOs;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace InstagramMVC.Controllers
 {
-    
-    public class CommentController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public class CommentAPIController : ControllerBase
     {
-        private readonly ICommentRepository _CommentRepository;
-        private readonly ILogger<CommentController> _logger;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly ICommentRepository _commentRepository;
+        private readonly ILogger<CommentAPIController> _logger;
 
-
-        public CommentController(ICommentRepository CommentRepository, ILogger<CommentController> logger, UserManager<IdentityUser> userManager)
+        public CommentAPIController(ICommentRepository commentRepository, ILogger<CommentAPIController> logger)
         {
-            _CommentRepository= CommentRepository;
+            _commentRepository = commentRepository;
             _logger = logger;
-            _userManager = userManager; 
         }
-        [HttpGet]
-        public IActionResult CreateComment(int pictureId)
+
+        [HttpGet("getcomments/{pictureId}")]
+        public async Task<IActionResult> GetComments(int pictureId)
         {
+            var pictureIdResult = await _commentRepository.GetPictureId(pictureId);
+            if (pictureIdResult == null)
+            {
+                _logger.LogError("[CommentAPIController] Could not retrieve comments for pictureId {PictureId}", pictureId);
+                return NotFound("Comments not found for the specified picture.");
+            }
+
+            var commentDtos = new List<CommentDto>(); // Use GetPictureId result here if needed.
+
+            return Ok(commentDtos);
+        }
+
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateComment([FromBody] CommentDto commentDto)
+        {
+            if (commentDto == null)
+            {
+                return BadRequest("Comment data cannot be null");
+            }
+
+            var newComment = new Comment
+            {
+                PictureId = commentDto.PictureId,
+                NoteId = commentDto.NoteId,
+                CommentDescription = commentDto.CommentDescription,
+                CommentTime = DateTime.Now,
+                UserName = commentDto.UserName
+            };
+
             try
             {
-                var Comment = new Comment
-                {
-                    PictureId= pictureId
-
-                };
-                return View(Comment);
-
-
+                await _commentRepository.Create(newComment);
             }
-            //Nye Commenter return til view
-           
-            catch(Exception e)
+            catch (Exception ex)
             {
-                _logger.LogError(e, "Failed to upload comment");
-                throw;
-            }
-        }
-    [HttpPost]
-    [Authorize]
-    public async Task<IActionResult> CreateComment(Comment Comment)
-    {
-        try
-        {
-            if (ModelState.IsValid)
-            {
-                Comment.CommentTime = DateTime.Now;
-                Comment.UserName = _userManager.GetUserName(User);
-                await _CommentRepository.Create(Comment);
-
-                return RedirectToAction("Grid", "Picture", new { id = Comment.PictureId });
+                _logger.LogError(ex, "[CommentAPIController] Could not create comment.");
+                return StatusCode(500, "Internal server error while creating the comment.");
             }
 
-            _logger.LogWarning("[CommentController] Failed to upload comment, ModelState not working");
-            return View(Comment);
+            return CreatedAtAction(nameof(GetComments), new { pictureId = newComment.PictureId }, newComment);
         }
-        catch (Exception e)
+
+        [HttpPut("edit/{id}")]
+        public async Task<IActionResult> EditComment(int id, [FromBody] CommentDto updatedCommentDto)
         {
-            _logger.LogError(e, "Error during comment upload");
-            throw;
-        }
-    }
-
-   [HttpGet]
-[Authorize]
-public async Task<IActionResult> EditComment(int Id, string source = "Grid")
-{
-    var comment = await _CommentRepository.GetCommentById(Id);
-
-    if (comment == null)
-    {
-        _logger.LogError("[CommentController] Could not find comment with id {Id}", Id);
-        return NotFound();
-    }
-
-    var currentUserName = _userManager.GetUserName(User);
-    if (comment.UserName != currentUserName)
-    {
-        _logger.LogWarning("Unauthorized edit attempt by user {UserName} for comment {CommentId}", currentUserName, Id);
-        return Forbid();
-    }
-
-    TempData["Source"] = source; // Store source in TempData for later use in view
-    return View(comment);
-}
-
-[HttpPost]
-[Authorize]
-public async Task<IActionResult> EditComment(int Id, Comment updatedComment, string source)
-{
-    if (Id != updatedComment.CommentId || !ModelState.IsValid)
-    {
-        TempData["Source"] = source; // Preserve source value in case of validation error
-        return View(updatedComment);
-    }
-
-    var existingComment = await _CommentRepository.GetCommentById(Id);
-    if (existingComment == null)
-    {
-        _logger.LogError("Could not find comment ID {CommentId}", updatedComment.CommentId);
-        return NotFound();
-    }
-
-    var currentUserName = _userManager.GetUserName(User);
-    if (existingComment.UserName != currentUserName)
-    {
-        _logger.LogWarning("Unauthorized edit attempt by user {UserName} for comment {CommentId}", currentUserName, updatedComment.CommentId);
-        return Forbid();
-    }
-
-    // Update the comment content and timestamp
-    existingComment.CommentDescription = updatedComment.CommentDescription;
-    existingComment.CommentTime = DateTime.Now;
-
-    bool success = await _CommentRepository.Edit(existingComment);
-    if (success)
-    {
-        // Redirect to the correct page based on the Source parameter
-        return RedirectToAction(source == "MyPage" ? "MyPage" : "Grid", "Picture");
-    }
-    else
-    {
-        _logger.LogWarning("[CommentController] Could not update the comment.");
-        TempData["Source"] = source; // Preserve source value in case of update failure
-        return View(updatedComment);
-    }
-}
-
-
-
-
-[HttpGet]
-[Authorize]
-public async Task<IActionResult> DeleteComment(int id, string source = "Grid")
-{
-    var comment = await _CommentRepository.GetCommentById(id);
-
-    if (comment == null)
-    {
-        _logger.LogWarning("Comment not found when trying to delete, comment ID: {CommentId}", id);
-        return NotFound();
-    }
-
-    var currentUserName = _userManager.GetUserName(User);
-    if (comment.UserName != currentUserName)
-    {
-        _logger.LogWarning("Unauthorized delete attempt by user {UserName} for comment {CommentId}", currentUserName, id);
-        return Forbid();
-    }
-
-    // Store the source in TempData for later use in the POST method.
-    TempData["Source"] = source;
-
-    return View(comment);
-}
-
-
-[HttpPost]
-[Authorize]
-public async Task<IActionResult> DeleteConfirmedComment(int id, string source)
-{
-    var comment = await _CommentRepository.GetCommentById(id);
-    if (comment == null)
-    {
-        _logger.LogWarning("[CommentController] Comment with Id {CommentId} not found", id);
-        return NotFound();
-    }
-
-    var currentUserName = _userManager.GetUserName(User);
-    if (comment.UserName != currentUserName)
-    {
-        _logger.LogWarning("Unauthorized delete attempt by user {UserName} for comment {CommentId}", currentUserName, id);
-        return Forbid();
-    }
-
-    bool success = await _CommentRepository.Delete(id);
-
-    if (!success)
-    {
-        _logger.LogError("[CommentController] Comment with Id {CommentId} was not deleted successfully", id);
-        TempData["Source"] = source; // Preserve source value in case of deletion failure
-        return BadRequest("Comment not deleted");
-    }
-
-    // Redirect to the correct page based on the Source parameter
-    return RedirectToAction(source == "MyPage" ? "MyPage" : "Grid", "Picture");
-}
-
-
-
-        //FOR NOTATER
-    [HttpGet]
-    [Authorize]
-    public IActionResult CreateCommentNote(int noteId)
-    {
-        try
-        {
-            var Comment = new Comment
+            if (updatedCommentDto == null || id != updatedCommentDto.CommentId)
             {
-                NoteId = noteId
-            };
-            return View(Comment);
+                return BadRequest("Invalid comment data");
+            }
+
+            var existingComment = await _commentRepository.GetCommentById(id);
+            if (existingComment == null)
+            {
+                _logger.LogError("[CommentAPIController] Comment with id {CommentId} not found", id);
+                return NotFound("Comment not found.");
+            }
+
+            existingComment.CommentDescription = updatedCommentDto.CommentDescription;
+            existingComment.CommentTime = DateTime.Now;
+
+            var success = await _commentRepository.Edit(existingComment);
+            if (!success)
+            {
+                _logger.LogWarning("[CommentAPIController] Could not update the comment.");
+                return StatusCode(500, "Internal server error while updating the comment.");
+            }
+
+            return Ok(existingComment);
         }
-        catch (Exception e)
+
+        [HttpGet("delete/confirm/{id}")]
+        public async Task<IActionResult> ConfirmDeleteComment(int id)
         {
-            _logger.LogError(e, "Error create new comment");
-            throw;
-        }
-    }
+            var comment = await _commentRepository.GetCommentById(id);
+            if (comment == null)
+            {
+                _logger.LogError("[CommentAPIController] Comment with id {CommentId} not found", id);
+                return NotFound("Comment not found.");
+            }
 
-[HttpPost]
-[Authorize]
-public async Task<IActionResult> CreateCommentNote(Comment Comment)
-{
-    try
-    {
-        if (ModelState.IsValid)
+            return Ok(comment);
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteComment(int id)
         {
-            Comment.PictureId = null;
-            Comment.CommentTime = DateTime.Now;
-            Comment.UserName = _userManager.GetUserName(User);
+            var comment = await _commentRepository.GetCommentById(id);
+            if (comment == null)
+            {
+                _logger.LogError("[CommentAPIController] Comment with id {CommentId} not found", id);
+                return NotFound("Comment not found.");
+            }
 
-            await _CommentRepository.Create(Comment);
-            return RedirectToAction("Notes", "Note", new { id = Comment.NoteId });
-            
+            var success = await _commentRepository.Delete(id);
+            if (!success)
+            {
+                _logger.LogError("[CommentAPIController] Comment with id {CommentId} could not be deleted", id);
+                return StatusCode(500, "Internal server error while deleting the comment.");
+            }
+
+            return NoContent();
         }
-                                                
-        _logger.LogWarning("[CommentController] Error new note upload, ModelState invalid");
-        return View(Comment);
-    }
-    catch (Exception e)
-    {
-        _logger.LogError(e, "Error comment upload");
-        throw;
-    }
-}
-
-[HttpGet]
-[Authorize]
-public async Task<IActionResult> EditCommentNote(int id, string source = "Notes")
-{
-    var comment = await _CommentRepository.GetCommentById(id);
-
-    if (comment == null)
-    {
-        _logger.LogError("[CommentController] Could not find comment with id {Id}", id);
-        return NotFound();
-    }
-
-    var currentUserName = _userManager.GetUserName(User);
-    if (comment.UserName != currentUserName)
-    {
-        _logger.LogWarning("Unauthorized edit attempt by user {UserName} for comment {CommentId}", currentUserName, id);
-        return Forbid();
-    }
-
-    TempData["Source"] = source; // Store source in TempData for later use in view
-    return View(comment);
-}
-
-
-[HttpPost]
-[Authorize]
-public async Task<IActionResult> EditCommentNote(int id, Comment updatedComment, string source)
-{
-    if (id != updatedComment.CommentId || !ModelState.IsValid)
-    {
-        TempData["Source"] = source; // Preserve source value in case of validation error
-        return View(updatedComment);
-    }
-
-    var existingComment = await _CommentRepository.GetCommentById(id);
-    if (existingComment == null)
-    {
-        _logger.LogError("Could not find comment ID {CommentId}", updatedComment.CommentId);
-        return NotFound();
-    }
-
-    var currentUserName = _userManager.GetUserName(User);
-    if (existingComment.UserName != currentUserName)
-    {
-        _logger.LogWarning("Unauthorized edit attempt by user {UserName} for comment {CommentId}", currentUserName, updatedComment.CommentId);
-        return Forbid();
-    }
-
-    // Update the comment content and timestamp
-    existingComment.CommentDescription = updatedComment.CommentDescription;
-    existingComment.CommentTime = DateTime.Now;
-
-    bool success = await _CommentRepository.Edit(existingComment);
-    if (success)
-    {
-        // Redirect to the correct page based on the Source parameter
-        return RedirectToAction(source == "Notes" ? "Notes" : "MyPage", "Note", new { id = existingComment.NoteId });
-    }
-    else
-    {
-        _logger.LogWarning("[CommentController] Could not update the comment.");
-        TempData["Source"] = source; // Preserve source value in case of update failure
-        return View(updatedComment);
-    }
-}
-
-
-[HttpGet]
-[Authorize]
-public async Task<IActionResult> DeleteCommentNote(int id)
-{
-    var Comment = await _CommentRepository.GetCommentById(id);
-
-    if (Comment == null)
-    {
-        _logger.LogWarning("Comment not found when trying to delete, comment ID : {CommentId}", id);
-        return NotFound();
-    }
-
-    var currentUserName = _userManager.GetUserName(User);
-    if (Comment.UserName != currentUserName)
-    {
-        _logger.LogWarning("Unauthorized delete attempt by user {UserName} for comment {CommentId}", currentUserName, id);
-        return Forbid();
-    }
-
-    return View(Comment);
-}
-
-[HttpPost]
-[Authorize]
-public async Task<IActionResult> DeleteConfirmedCommentNote(int id)
-{
-    var Comment = await _CommentRepository.GetCommentById(id);
-    if (Comment == null)
-    {
-        _logger.LogWarning("Comment not found when trying to delete, comment ID : {CommentId}", id);
-        return NotFound();
-    }
-
-    var noteId = Comment.NoteId;
-
-    try
-    {
-        await _CommentRepository.Delete(id);
-        _logger.LogInformation("Comment with ID {CommentId} ble slettet", id);
-        return RedirectToAction("Notes", "Note", new { id = noteId });
-    }
-    catch (Exception e)
-    {
-        _logger.LogError(e, "Error delete comment with ID {Id}", id);
-        return RedirectToAction("Notes", "Note", new { id = noteId });
-    }
-}
-        
     }
 }
