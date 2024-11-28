@@ -32,10 +32,10 @@ const CommentUpdatePage: React.FC = () => {
     fetchComment();
   }, [commentId]);
 
-  const handleCommentNoteUpdated = async (comment: Comment) => {
+  const handleCommentUpdated = async (comment: Comment) => {
 
     try {
-      const response = await fetch(`${API_URL}/api/CommentAPI/editnote/${comment.commentId}`, {
+      const response = await fetch(`${API_URL}/api/CommentAPI/edit/${comment.commentId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const CommentUpdatePage: React.FC = () => {
       }
       const data = await response.json();
       console.log('Comment updated successfully:', data);
-      navigate('/comments'); // Navigate back after successful creation
+      navigate('/pictures'); // Navigate back after successful creation
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
     }
@@ -60,7 +60,7 @@ const CommentUpdatePage: React.FC = () => {
   return (
     <div>
       <h2>Update Comment</h2>
-      <CommentForm onCommentChanged={handleCommentNoteUpdated} commentId={comment.commentId} isUpdate={true} initialData={comment} />
+      <CommentForm onCommentChanged={handleCommentUpdated} commentId={comment.commentId} isUpdate={true} initialData={comment} />
     </div>
   );
 };
