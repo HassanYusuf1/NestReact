@@ -24,9 +24,13 @@ const CreatePicturePage: React.FC = () => {
     }
 
     try {
-      const picture = { title, description, pictureUrl: pictureFile };
-      await createPicture(picture);
-      navigate('/mypage/pictures'); // Naviger tilbake til "MyPage" etter vellykket opprettelse
+      const formData = new FormData();
+      formData.append('Title', title);
+      formData.append('Description', description);
+      formData.append('PictureFile', pictureFile); // MERK: "PictureFile" må matche backend
+
+      await createPicture(formData);
+      navigate('/mypage/pictures');
     } catch (error) {
       console.error('Error creating picture:', error);
     }
@@ -59,10 +63,10 @@ const CreatePicturePage: React.FC = () => {
         </div>
 
         <div className="form-group mb-3">
-          <label htmlFor="PictureUrl">Select Image</label>
+          <label htmlFor="PictureFile">Select Image</label>
           <input
             type="file"
-            id="PictureUrl"
+            id="PictureFile"
             onChange={handleFileChange}
             className="form-control"
             required

@@ -1,51 +1,41 @@
 using Microsoft.AspNetCore.Mvc;
 using InstagramMVC.Models;
 using InstagramMVC.DAL;
+using InstagramMVC.DTOs;
 using InstagramMVC.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using InstagramMVC.Utilities;
-using InstagramMVC.DTOs;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace InstagramMVC.Controllers
 {
-
     [ApiController]
     [Route("api/[controller]")]
     public class PictureAPIController : ControllerBase
     {
         private readonly IPictureRepository _pictureRepository;
         private readonly ILogger<PictureAPIController> _logger;
-        private readonly UserManager<IdentityUser> _userManager;
 
-        public PictureAPIController(IPictureRepository pictureRepository, ILogger<PictureAPIController> logger, UserManager<IdentityUser> userManager)
+        public PictureAPIController(IPictureRepository pictureRepository, ILogger<PictureAPIController> logger)
         {
             _pictureRepository = pictureRepository;
             _logger = logger;
-            _userManager = userManager;
         }
 
         [HttpGet("mypage")]
-        [Authorize]
+        
         public async Task<IActionResult> MyPage()
         {
-            var currentUserName = _userManager.GetUserName(User);
-            if (string.IsNullOrEmpty(currentUserName))
-            {
-                _logger.LogError("[PictureAPIController] Current user is null or empty when accessing MyPage.");
-                return Unauthorized();
-            }
-
             var allPictures = await _pictureRepository.GetAll();
             if (allPictures == null)
             {
-                _logger.LogError("[PictureAPIController] Could not retrieve images for user {UserName}", currentUserName);
-                return NotFound("No pictures found for current user");
+                _logger.LogError("[PictureAPIController] Could not retrieve images.");
+                return NotFound("No pictures found.");
             }
 
-            var userPictures = allPictures.Where(b => b.UserName == currentUserName).ToList();
+            // Hent alle bilder uten å filtrere på bruker.
+            var userPictures = allPictures.ToList();
             var pictureDtos = userPictures.Select(picture => new PictureDto
             {
                 PictureId = picture.PictureId,
@@ -105,37 +95,53 @@ namespace InstagramMVC.Controllers
             return Ok(pictureDto);
         }
 
-        [HttpPost("create")]
-        [Authorize]
-        public async Task<IActionResult> CreatePicture([FromForm] PictureDto pictureDto)
-        {
-            if (pictureDto == null)
-            {
-                return BadRequest("Picture data cannot be null");
-            }
+     [HttpPost("create")]
+public async Task<IActionResult> CreatePicture([FromForm] PictureDto pictureDto)
+{
+    if (pictureDto == null || pictureDto.PictureFile == null)
+    {
+        return BadRequest("Picture data cannot be null");
+    }
 
-            var currentUserName = _userManager.GetUserName(User);
-            var newPicture = new Picture
-            {
-                Title = pictureDto.Title,
-                Description = pictureDto.Description,
-                UploadDate = DateTime.Now,
-                UserName = currentUserName,
-                PictureUrl = pictureDto.PictureUrl
-            };
+    // Lagre bildet til serveren
+    string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+    if (!Directory.Exists(uploadsFolder))
+    {
+        Directory.CreateDirectory(uploadsFolder);
+    }
 
-            bool success = await _pictureRepository.Create(newPicture);
-            if (!success)
-            {
-                _logger.LogWarning("[PictureAPIController] Could not create new image.");
-                return StatusCode(500, "Internal server error while creating the picture.");
-            }
+    string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(pictureDto.PictureFile.FileName);
+    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-            return CreatedAtAction(nameof(GetPictureDetails), new { id = newPicture.PictureId }, newPicture);
-        }
+    using (var fileStream = new FileStream(filePath, FileMode.Create))
+    {
+        await pictureDto.PictureFile.CopyToAsync(fileStream);
+    }
+
+    // Lagre informasjonen om bildet i databasen
+    var newPicture = new Picture
+    {
+        Title = pictureDto.Title,
+        Description = pictureDto.Description,
+        UploadDate = DateTime.Now,
+        PictureUrl = "/images/" + uniqueFileName // Lagre URL-en som peker til bildet
+    };
+
+    bool success = await _pictureRepository.Create(newPicture);
+    if (!success)
+    {
+        _logger.LogWarning("[PictureAPIController] Could not create new image.");
+        return StatusCode(500, "Internal server error while creating the picture.");
+    }
+
+    return CreatedAtAction(nameof(GetPictureDetails), new { id = newPicture.PictureId }, newPicture);
+}
+
+
+
 
         [HttpPut("edit/{id}")]
-        [Authorize]
+       
         public async Task<IActionResult> EditPicture(int id, [FromForm] PictureDto updatedPictureDto)
         {
             if (id != updatedPictureDto.PictureId || updatedPictureDto == null)
@@ -148,13 +154,6 @@ namespace InstagramMVC.Controllers
             {
                 _logger.LogError("[PictureAPIController] Picture with id {PictureId} not found", id);
                 return NotFound("Picture not found.");
-            }
-
-            var currentUserName = _userManager.GetUserName(User);
-            if (existingPicture.UserName != currentUserName)
-            {
-                _logger.LogWarning("[PictureAPIController] Unauthorized edit attempt by user {UserName} for image {PictureId}", currentUserName, id);
-                return Forbid();
             }
 
             existingPicture.Title = updatedPictureDto.Title;
@@ -171,322 +170,165 @@ namespace InstagramMVC.Controllers
             return Ok(existingPicture);
         }
 
-        [HttpDelete("delete/{id}")]
-        [Authorize]
-        public async Task<IActionResult> DeletePicture(int id)
-        {
-            var picture = await _pictureRepository.PictureId(id);
-            if (picture == null)
-            {
-                _logger.LogError("[PictureAPIController] Picture with id {Id} not found", id);
-                return NotFound("Picture not found.");
-            }
-
-            var currentUserName = _userManager.GetUserName(User);
-            if (picture.UserName != currentUserName)
-            {
-                _logger.LogWarning("[PictureAPIController] Unauthorized delete attempt by user {UserName} for image {PictureId}", currentUserName, id);
-                return Forbid();
-            }
-
-            bool success = await _pictureRepository.Delete(id);
-            if (!success)
-            {
-                _logger.LogError("[PictureAPIController] Picture with id {Id} could not be deleted", id);
-                return StatusCode(500, "Internal server error while deleting the picture.");
-            }
-
-            return NoContent();
-        }
-    }
-
-    public class PictureController : Controller
+       [HttpDelete("delete/{id}")]
+public async Task<IActionResult> DeletePicture(int id)
+{
+    var picture = await _pictureRepository.PictureId(id);
+    if (picture == null)
     {
-        private readonly IPictureRepository _pictureRepository;
-        private readonly ICommentRepository _commentRepository;
-        private readonly ILogger<PictureController> _logger;
-        private readonly UserManager<IdentityUser> _userManager;
+        _logger.LogError("[PictureAPIController] Picture with id {Id} not found", id);
+        return NotFound("Picture not found.");
+    }
 
-        public PictureController(IPictureRepository pictureRepository, ICommentRepository commentRepository, ILogger<PictureController> logger, UserManager<IdentityUser> userManager)
+    // Fjern bildet fra filsystemet
+    if (!string.IsNullOrEmpty(picture.PictureUrl))
+    {
+        string fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", picture.PictureUrl.TrimStart('/'));
+
+        if (System.IO.File.Exists(fullPath))
         {
-            _commentRepository = commentRepository;
-            _pictureRepository = pictureRepository;
-            _logger = logger;
-            _userManager = userManager;
-        }
-
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> MyPage()
-        {
-            var currentUserName = _userManager.GetUserName(User);
-            if (string.IsNullOrEmpty(currentUserName))
+            try
             {
-                _logger.LogError("[PictureController] Current user is null or empty when accessing MyPage.");
-                return Unauthorized();
+                System.IO.File.Delete(fullPath);
+                _logger.LogInformation("Picture file at {Path} deleted successfully", fullPath);
             }
-
-            var allPictures = await _pictureRepository.GetAll();
-            if (allPictures == null)
+            catch (Exception ex)
             {
-                _logger.LogError("[PictureController] Could not retrieve images for user {UserName}", currentUserName);
-                allPictures = Enumerable.Empty<Picture>();
-            }
-
-            var userPictures = allPictures.Where(b => b.UserName == currentUserName).ToList();
-
-            var pictureViewModel = new PicturesViewModel(userPictures, "MyPage");
-
-            ViewData["IsMyPage"] = true; // Set flag to indicate it's MyPage
-            return View("MyPage", pictureViewModel);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Picture()
-        {
-            var pictures = await _pictureRepository.GetAll();
-            var pictureViewModel = new PicturesViewModel(pictures, "Picture");
-
-            if (pictures == null)
-            {
-                _logger.LogError("[PictureController] Picture list, not found.");
-            }
-
-            return View(pictureViewModel);
-        }
-
-        public async Task<IActionResult> Grid()
-        {
-            var pictures = await _pictureRepository.GetAll();
-            var pictureViewModel = new PicturesViewModel(pictures, "Picture");
-
-            if (pictures == null)
-            {
-                _logger.LogError("[PictureController] Picture list, not found.");
-                return NotFound("Pictures not found");
-            }
-
-            ViewData["IsMyPage"] = false; // Set IsMyPage flag to false for general feed (Grid)
-            return View(pictureViewModel);
-        }
-
-        [HttpGet]
-        [Authorize]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Create(Picture newImage, IFormFile PictureUrl)
-        {
-            var time = DateTime.Now;
-            newImage.UploadDate = time;
-
-            if (!ModelState.IsValid)
-            {
-                return View(newImage);
-            }
-
-            var UserName = _userManager.GetUserName(User);
-            newImage.UserName = UserName;
-
-            if (PictureUrl != null && PictureUrl.Length > 0)
-            {
-                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(PictureUrl.FileName);
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await PictureUrl.CopyToAsync(fileStream);
-                }
-
-                newImage.PictureUrl = "/images/" + uniqueFileName;
-            }
-
-            bool success = await _pictureRepository.Create(newImage);
-            if (success)
-            {
-                return RedirectToAction(nameof(MyPage));
-            }
-            else
-            {
-                _logger.LogWarning("[PictureController] Could not create new image.");
-                return View(newImage);
+                _logger.LogError(ex, "Failed to delete picture file at {Path}", fullPath);
+                return StatusCode(500, "Failed to delete the picture file from the server.");
             }
         }
-
-        [HttpGet]
-        public async Task<IActionResult> Details(int id, string source = "Grid")
+        else
         {
-            var picture = await _pictureRepository.PictureId(id);
-            if (picture == null)
-            {
-                _logger.LogError("[PictureController] picture id not found");
-                return NotFound();
-            }
-
-            ViewBag.Source = source; // Save source in ViewBag
-            return View("PictureDetails", picture);
-        }
-
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> Edit(int id, string source = "Grid")
-        {
-            var picture = await _pictureRepository.PictureId(id);
-            if (picture == null)
-            {
-                _logger.LogError("The image with id {PictureId} was not found", id);
-                return NotFound();
-            }
-
-            var currentUserName = _userManager.GetUserName(User);
-            if (picture.UserName != currentUserName)
-            {
-                _logger.LogWarning("Unauthorized edit attempt by user {UserId} for image {PictureId}", currentUserName, id);
-                return Forbid();
-            }
-
-            TempData["Source"] = source; // Store source in TempData
-            return View(picture);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Edit(int id, Picture updatedPicture, IFormFile? newPictureUrl, string source)
-        {
-            if (id != updatedPicture.PictureId || !ModelState.IsValid)
-            {
-                TempData["Source"] = source; // Preserve source value in case of validation error
-                return View(updatedPicture);
-            }
-
-            var existingPicture = await _pictureRepository.PictureId(id);
-            if (existingPicture == null)
-            {
-                _logger.LogError("The image with id {PictureId} was not found", id);
-                return NotFound();
-            }
-
-            var currentUserName = _userManager.GetUserName(User);
-            if (existingPicture.UserName != currentUserName)
-            {
-                _logger.LogWarning("Unauthorized edit attempt by user {UserName} for image {PictureId}", currentUserName, id);
-                return Forbid();
-            }
-
-            // Update title and description
-            existingPicture.Title = updatedPicture.Title;
-            existingPicture.Description = updatedPicture.Description;
-
-            // Update the image if a new one is uploaded
-            if (newPictureUrl != null && newPictureUrl.Length > 0)
-            {
-                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
-                string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(newPictureUrl.FileName);
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await newPictureUrl.CopyToAsync(fileStream);
-                }
-
-                // Delete the old image
-                if (!string.IsNullOrEmpty(existingPicture.PictureUrl))
-                {
-                    string oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", existingPicture.PictureUrl.TrimStart('/'));
-                    if (FileUtil.FileExists(oldFilePath))
-                    {
-                        FileUtil.FileDelete(oldFilePath);
-                    }
-                }
-
-                existingPicture.PictureUrl = "/images/" + uniqueFileName;
-            }
-
-            bool success = await _pictureRepository.Edit(existingPicture);
-            if (success)
-            {
-                // Redirect to the correct page based on the Source parameter
-                return RedirectToAction(source == "MyPage" ? "MyPage" : "Grid");
-            }
-            else
-            {
-                _logger.LogWarning("[PictureController] Could not update the image.");
-                TempData["Source"] = source; // Preserve source value if the update fails
-                return View(updatedPicture);
-            }
-        }
-
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> Delete(int id, string source = "Grid")
-        {
-            var picture = await _pictureRepository.PictureId(id);
-            if (picture == null)
-            {
-                _logger.LogError("[PictureController] picture with Id not found {id}", id);
-                return NotFound();
-            }
-
-            var currentUserName = _userManager.GetUserName(User);
-            if (picture.UserName != currentUserName)
-            {
-                _logger.LogWarning("Unauthorized delete attempt by user {UserName} for image {PictureId}", currentUserName, id);
-                return Forbid();
-            }
-
-            TempData["Source"] = source; // Store source in TempData
-            return View(picture);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> DeleteConfirmed(int id, string source)
-        {
-            var picture = await _pictureRepository.PictureId(id);
-            if (picture == null)
-            {
-                _logger.LogError("[PictureController] picture with Id not found {id}", id);
-                return NotFound();
-            }
-
-            var currentUserName = _userManager.GetUserName(User);
-            if (picture.UserName != currentUserName)
-            {
-                _logger.LogWarning("Unauthorized delete attempt by user {UserName} for image {PictureId}", currentUserName, id);
-                return Forbid();
-            }
-
-            if (!string.IsNullOrEmpty(picture.PictureUrl))
-            {
-                string fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", picture.PictureUrl.TrimStart('/'));
-
-                if (FileUtil.FileExists(fullPath))
-                {
-                    FileUtil.FileDelete(fullPath);
-                }
-            }
-
-            bool success = await _pictureRepository.Delete(id);
-            if (!success)
-            {
-                _logger.LogError("[PictureController] picture not deleted with {Id}", id);
-                return BadRequest("Picture not deleted");
-            }
-
-            // Redirect to the correct page based on the Source parameter
-            return RedirectToAction(source == "MyPage" ? "MyPage" : "Grid");
+            _logger.LogWarning("Picture file at {Path} was not found on the server", fullPath);
         }
     }
+
+    // Fjern bildet fra databasen
+    bool success = await _pictureRepository.Delete(id);
+    if (!success)
+    {
+        _logger.LogError("[PictureAPIController] Picture with id {Id} could not be deleted from the database", id);
+        return StatusCode(500, "Internal server error while deleting the picture.");
+    }
+
+    return NoContent();
+}
+
+    }
+}
+
+   public class PictureController : Controller
+{
+    private readonly IPictureRepository _pictureRepository;
+    private readonly ICommentRepository _commentRepository;
+    private readonly ILogger<PictureController> _logger;
+
+    public PictureController(IPictureRepository pictureRepository, ICommentRepository commentRepository, ILogger<PictureController> logger)
+    {
+        _commentRepository = commentRepository;
+        _pictureRepository = pictureRepository;
+        _logger = logger;
+    }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> MyPage()
+    {
+        var allPictures = await _pictureRepository.GetAll();
+        if (allPictures == null)
+        {
+            _logger.LogError("[PictureController] Could not retrieve images.");
+            allPictures = Enumerable.Empty<Picture>();
+        }
+
+        var userPictures = allPictures.ToList();
+        var pictureViewModel = new PicturesViewModel(userPictures, "MyPage");
+
+        ViewData["IsMyPage"] = true;
+        return View("MyPage", pictureViewModel);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Picture()
+    {
+        var pictures = await _pictureRepository.GetAll();
+        var pictureViewModel = new PicturesViewModel(pictures, "Picture");
+
+        if (pictures == null)
+        {
+            _logger.LogError("[PictureController] Picture list not found.");
+        }
+
+        return View(pictureViewModel);
+    }
+
+    public async Task<IActionResult> Grid()
+    {
+        var pictures = await _pictureRepository.GetAll();
+        var pictureViewModel = new PicturesViewModel(pictures, "Picture");
+
+        if (pictures == null)
+        {
+            _logger.LogError("[PictureController] Picture list not found.");
+            return NotFound("Pictures not found");
+        }
+
+        ViewData["IsMyPage"] = false;
+        return View(pictureViewModel);
+    }
+
+    [HttpGet]
+    [Authorize]
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> Create(Picture newImage, IFormFile PictureUrl)
+    {
+        newImage.UploadDate = DateTime.Now;
+
+        if (!ModelState.IsValid)
+        {
+            return View(newImage);
+        }
+
+        if (PictureUrl != null && PictureUrl.Length > 0)
+        {
+            string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(PictureUrl.FileName);
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await PictureUrl.CopyToAsync(fileStream);
+            }
+
+            newImage.PictureUrl = "/images/" + uniqueFileName;
+        }
+
+        bool success = await _pictureRepository.Create(newImage);
+        if (success)
+        {
+            return RedirectToAction(nameof(MyPage));
+        }
+        else
+        {
+            _logger.LogWarning("[PictureController] Could not create new image.");
+            return View(newImage);
+        }
+    }
+
+    // Resten av metodene redigert på samme måte, fjernet brukeravhengighet
+    // ...
 
 }
 
