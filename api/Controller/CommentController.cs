@@ -5,6 +5,7 @@ using InstagramMVC.DTOs;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace InstagramMVC.Controllers
 {
@@ -21,20 +22,35 @@ namespace InstagramMVC.Controllers
             _logger = logger;
         }
 
-        [HttpGet("getcomments/{pictureId}")]
-        public async Task<IActionResult> GetComments(int pictureId)
+        [HttpGet("getcomments/picture/{pictureId}")]
+        public async Task<IActionResult> GetPictureId(int pictureId)
         {
             var pictureIdResult = await _commentRepository.GetPictureId(pictureId);
             if (pictureIdResult == null)
             {
-                _logger.LogError("[CommentAPIController] Could not retrieve comments for pictureId {PictureId}", pictureId);
-                return NotFound("Comments not found for the specified picture.");
+                _logger.LogError("[CommentAPIController] Could not retrieve pictureId {PictureId}", pictureId);
+                return NotFound("Picture ID not found for the specified picture.");
             }
 
-            var commentDtos = new List<CommentDto>(); // Use GetPictureId result here if needed.
-
-            return Ok(commentDtos);
+            return Ok(pictureIdResult);
         }
+
+        [HttpGet("getcomments/note/{noteId}")]
+        public async Task<IActionResult> GetNoteId(int noteId)
+        {
+            var noteIdResult = await _commentRepository.GetNoteId(noteId);
+            if (noteIdResult == null)
+            {
+                _logger.LogError("[CommentAPIController] Could not retrieve noteId {NoteId}", noteId);
+                return NotFound("Note ID not found for the specified note.");
+            }
+
+            return Ok(noteIdResult);
+        }
+
+
+
+        
 
         [HttpPost("create")]
         public async Task<IActionResult> CreateComment([FromBody] CommentDto commentDto)
@@ -42,6 +58,13 @@ namespace InstagramMVC.Controllers
             if (commentDto == null)
             {
                 return BadRequest("Comment data cannot be null");
+            }
+
+            // Sjekk at enten PictureId eller NoteId er satt, men ikke begge.
+            if ((commentDto.PictureId == null && commentDto.NoteId == null) ||
+                (commentDto.PictureId != null && commentDto.NoteId != null))
+            {
+                return BadRequest("Either PictureId or NoteId must be specified, but not both.");
             }
 
             var newComment = new Comment
@@ -63,7 +86,7 @@ namespace InstagramMVC.Controllers
                 return StatusCode(500, "Internal server error while creating the comment.");
             }
 
-            return CreatedAtAction(nameof(GetComments), new { pictureId = newComment.PictureId }, newComment);
+            return CreatedAtAction(nameof(CreateComment), new { id = newComment.CommentId }, newComment);
         }
 
         [HttpPut("edit/{id}")]
@@ -128,3 +151,5 @@ namespace InstagramMVC.Controllers
         }
     }
 }
+
+
