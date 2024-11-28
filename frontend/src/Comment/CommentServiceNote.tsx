@@ -18,7 +18,7 @@ const handleResponse = async (response: Response) => {
 };
 
 // Get all comments
-export const fetchCommentsNote = async () => {
+export const fetchCommentsNote = async (noteId: number) => {
   try {
     const response = await fetch(`${API_URL}/api/CommentAPI/allnotecomments`);
     return handleResponse(response);
