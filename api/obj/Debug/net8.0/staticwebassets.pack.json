@@ -5,19 +5,11 @@
       "PackagePath": "staticwebassets\\css"
     },
     {
-<<<<<<< HEAD
       "Id": "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\wwwroot\\images\\519a3873-337e-4078-be54-54662fc83e4b_PNG_transparency_demonstration_1.png",
       "PackagePath": "staticwebassets\\images\\519a3873-337e-4078-be54-54662fc83e4b_PNG_transparency_demonstration_1.png"
     },
     {
       "Id": "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\wwwroot\\images\\53488d14-64a2-4ede-864a-d766d64ad05b_4ca74965-d17b-49a7-bf85-8d5c6259718a.jpg",
-=======
-      "Id": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\images\\519a3873-337e-4078-be54-54662fc83e4b_PNG_transparency_demonstration_1.png",
-      "PackagePath": "staticwebassets\\images\\519a3873-337e-4078-be54-54662fc83e4b_PNG_transparency_demonstration_1.png"
-    },
-    {
-      "Id": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\images\\53488d14-64a2-4ede-864a-d766d64ad05b_4ca74965-d17b-49a7-bf85-8d5c6259718a.jpg",
->>>>>>> 3d951a7adee6419c3bf830f56c11637c402cf216
       "PackagePath": "staticwebassets\\images\\53488d14-64a2-4ede-864a-d766d64ad05b_4ca74965-d17b-49a7-bf85-8d5c6259718a.jpg"
     },
     {
@@ -25,13 +17,8 @@
       "PackagePath": "staticwebassets\\images\\5849d57c-ddb5-4d21-b50b-c962ac969d2e_4ca74965-d17b-49a7-bf85-8d5c6259718a.jpg"
     },
     {
-<<<<<<< HEAD
       "Id": "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\wwwroot\\images\\a0406d3c-a59f-4334-9bdf-891cc92e89a7_Skjermbilde 2023-09-01 150015.png",
       "PackagePath": "staticwebassets\\images\\a0406d3c-a59f-4334-9bdf-891cc92e89a7_Skjermbilde 2023-09-01 150015.png"
-=======
-      "Id": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\images\\b9a66ef7-1762-4b82-9c97-38d25803abc7_premium_photo-1666672388644-2d99f3feb9f1.jpg",
-      "PackagePath": "staticwebassets\\images\\b9a66ef7-1762-4b82-9c97-38d25803abc7_premium_photo-1666672388644-2d99f3feb9f1.jpg"
->>>>>>> 3d951a7adee6419c3bf830f56c11637c402cf216
     },
     {
       "Id": "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\wwwroot\\images\\b9a66ef7-1762-4b82-9c97-38d25803abc7_premium_photo-1666672388644-2d99f3feb9f1.jpg",

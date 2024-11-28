@@ -64,20 +64,12 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\5849d57c-ddb5-4d21-b50b-c962ac969d2e_4ca74965-d17b-49a7-bf85-8d5c6259718a.jpg))</OriginalItemSpec>
     </StaticWebAsset>
-<<<<<<< HEAD
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\a0406d3c-a59f-4334-9bdf-891cc92e89a7_Skjermbilde 2023-09-01 150015.png))">
-=======
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\b9a66ef7-1762-4b82-9c97-38d25803abc7_premium_photo-1666672388644-2d99f3feb9f1.jpg))">
->>>>>>> 3d951a7adee6419c3bf830f56c11637c402cf216
       <SourceType>Package</SourceType>
       <SourceId>Api</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/Api</BasePath>
-<<<<<<< HEAD
       <RelativePath>images/a0406d3c-a59f-4334-9bdf-891cc92e89a7_Skjermbilde 2023-09-01 150015.png</RelativePath>
-=======
-      <RelativePath>images/b9a66ef7-1762-4b82-9c97-38d25803abc7_premium_photo-1666672388644-2d99f3feb9f1.jpg</RelativePath>
->>>>>>> 3d951a7adee6419c3bf830f56c11637c402cf216
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -86,11 +78,7 @@
       <AssetTraitValue></AssetTraitValue>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-<<<<<<< HEAD
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\a0406d3c-a59f-4334-9bdf-891cc92e89a7_Skjermbilde 2023-09-01 150015.png))</OriginalItemSpec>
-=======
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\b9a66ef7-1762-4b82-9c97-38d25803abc7_premium_photo-1666672388644-2d99f3feb9f1.jpg))</OriginalItemSpec>
->>>>>>> 3d951a7adee6419c3bf830f56c11637c402cf216
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\b9a66ef7-1762-4b82-9c97-38d25803abc7_premium_photo-1666672388644-2d99f3feb9f1.jpg))">
       <SourceType>Package</SourceType>
