@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Note } from '../types/Note';
 import { useNavigate } from 'react-router-dom';
+import CommentTableNote from '../Comment/CommentTableNote';
 
 const API_URL = 'http://localhost:5215';
 
@@ -50,6 +51,7 @@ const NotesPage: React.FC = () => {
             <h4 className="note-title">{note.title}</h4>
             <p className="note-content">{note.content}</p>
             <p className="note-timestamp">Uploaded: {new Date(note.uploadDate).toLocaleDateString()}</p>
+            <CommentTableNote></CommentTableNote>
           </div>
           <div className="card-footer bg-light">
             <div className="note-actions">
