@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const NavMenu: React.FC = () => {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // For å simulere innloggingsstatus
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); 
 
   // Funksjon for å håndtere innlogging/utlogging
   const handleLoginLogout = () => {
