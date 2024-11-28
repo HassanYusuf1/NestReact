@@ -29,6 +29,7 @@ const CommentTable: React.FC<CommentTableProps> = ({ noteId }) => {
         {comments.map((comment) => (
           <div key={comment.commentId} className="comment-card">
             <p>{comment.Content}</p>
+            <input type='text'>Comment something</input>
           </div>
         ))}
       </div>
