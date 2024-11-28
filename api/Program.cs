@@ -51,11 +51,12 @@ if (app.Environment.IsDevelopment())
 }
 
 // Middleware ordering: Ensure proper handling of requests
+app.UseStaticFiles();
 app.UseRouting();
 app.UseCors("CorsPolicy"); // Apply CORS policy here
 app.UseAuthentication(); // Use Authentication Middleware
 app.UseAuthorization(); // Use Authorization Middleware
-app.UseStaticFiles();
+
 
 app.MapRazorPages(); // Legg til Razor Pages-ruter for autentisering
 

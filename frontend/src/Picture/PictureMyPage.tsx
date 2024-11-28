@@ -23,6 +23,7 @@ const PictureMyPage: React.FC = () => {
       try {
         setLoading(true);
         const data = await fetchMyPictures();
+        console.log("Fetched Pictures:", data);
         setPictures(data);
       } catch (err) {
         setError('Kunne ikke laste bilder. Vennligst prøv igjen senere.');
