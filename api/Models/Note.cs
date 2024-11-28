@@ -14,5 +14,8 @@ namespace InstagramMVC.Models
         public DateTime UploadDate {get; set;} // dato innlegget ble opprettet
 
         
+
+
+        
     }
 }

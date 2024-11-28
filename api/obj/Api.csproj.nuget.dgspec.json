@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hassan\\Documents\\DataIngeniør\\WebApp\\EksamenReact\\NestReact\\api\\Api.csproj": {}
+    "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hassan\\Documents\\DataIngeniør\\WebApp\\EksamenReact\\NestReact\\api\\Api.csproj": {
+    "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hassan\\Documents\\DataIngeniør\\WebApp\\EksamenReact\\NestReact\\api\\Api.csproj",
+        "projectUniqueName": "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\Api.csproj",
         "projectName": "Api",
-        "projectPath": "C:\\Users\\hassan\\Documents\\DataIngeniør\\WebApp\\EksamenReact\\NestReact\\api\\Api.csproj",
+        "projectPath": "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\Api.csproj",
         "packagesPath": "C:\\Users\\hassan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hassan\\Documents\\DataIngeniør\\WebApp\\EksamenReact\\NestReact\\api\\obj\\",
+        "outputPath": "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\hassan\\AppData\\Roaming\\NuGet\\NuGet.Config"
