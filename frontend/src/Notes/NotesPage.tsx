@@ -51,7 +51,7 @@ const NotesPage: React.FC = () => {
             <h4 className="note-title">{note.title}</h4>
             <p className="note-content">{note.content}</p>
             <p className="note-timestamp">Uploaded: {new Date(note.uploadDate).toLocaleDateString()}</p>
-            <CommentTableNote></CommentTableNote>
+            <CommentTableNote noteId={note.noteId}></CommentTableNote>
           </div>
           <div className="card-footer bg-light">
             <div className="note-actions">
