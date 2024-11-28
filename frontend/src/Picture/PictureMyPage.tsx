@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { fetchMyPictures } from './PictureService';
-
-
-type Picture = {
-  pictureId: number;
-  title: string;
-  description: string;
-  pictureUrl: string;
-  uploadDate: string;
-};
+import { Picture } from '../types/picture';
 
 const PictureMyPage: React.FC = () => {
   const [pictures, setPictures] = useState<Picture[]>([]);
@@ -23,7 +15,6 @@ const PictureMyPage: React.FC = () => {
       try {
         setLoading(true);
         const data = await fetchMyPictures();
-        console.log("Fetched Pictures:", data);
         setPictures(data);
       } catch (err) {
         setError('Kunne ikke laste bilder. Vennligst prøv igjen senere.');
@@ -56,11 +47,13 @@ const PictureMyPage: React.FC = () => {
           pictures.map((picture) => (
             <div key={picture.pictureId} className="col-12 col-md-4 col-lg-4 mb-4">
               <div className="picture-card">
-                <img
-                  src={picture.pictureUrl}
-                  alt={picture.title}
-                  className="img-fluid picture-image"
-                />
+                <Link to={`/pictures/${picture.pictureId}`}>
+                  <img
+                    src={picture.pictureUrl}
+                    alt={picture.title || 'Picture'}
+                    className="img-fluid picture-image"
+                  />
+                </Link>
                 <div className="picture-info">
                   <h3>{picture.title}</h3>
                   <p>{picture.description}</p>

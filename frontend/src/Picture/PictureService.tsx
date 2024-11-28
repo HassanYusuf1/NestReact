@@ -78,10 +78,12 @@ export const createPicture = async (formData: FormData) => {
 export const updatePicture = async (pictureId: number, updatedPicture: any) => {
   try {
     const formData = new FormData();
-    formData.append('title', updatedPicture.title);
-    formData.append('description', updatedPicture.description);
+    formData.append('PictureId', String(pictureId)); // Vær sikker på at PictureId blir sendt
+    formData.append('Title', updatedPicture.title); // Bruk eksakt samme navn som i PictureDto
+    formData.append('Description', updatedPicture.description);
+    
     if (updatedPicture.newPictureUrl) {
-      formData.append('newPictureUrl', updatedPicture.newPictureUrl);
+      formData.append('PictureFile', updatedPicture.newPictureUrl); // Merk at dette må være 'PictureFile'
     }
 
     const response = await fetch(`${API_URL}/api/PictureAPI/edit/${pictureId}`, {
@@ -94,6 +96,7 @@ export const updatePicture = async (pictureId: number, updatedPicture: any) => {
     throw error;
   }
 };
+
 
 // Delete a picture
 export const deletePicture = async (pictureId: number) => {

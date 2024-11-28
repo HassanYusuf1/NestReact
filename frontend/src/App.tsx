@@ -7,6 +7,7 @@ import DeletePicturePage from './Picture/PictureDelete';
 import PictureDetails from './Picture/PictureDetails';
 import PictureGrid from './Picture/PictureGrid';
 import PictureMyPage from './Picture/PictureMyPage';
+import PictureEditPage from './Picture/PictureEdit'; 
 import NotesPage from './Notes/NotesPage';
 import NotesCreate from './Notes/NotesCreate';
 import NotesEdit from './Notes/NotesEdit';
@@ -21,6 +22,7 @@ const App: React.FC = () => {
           <Route path="/pictures" element={<PictureGrid />} />
           <Route path="/pictures/create" element={<CreatePicturePage />} />
           <Route path="/pictures/:id" element={<PictureDetails />} />
+          <Route path="/pictures/:id/edit" element={<PictureEditPage />} /> 
           <Route path="/pictures/:id/delete" element={<DeletePicturePage />} />
           <Route path="/picture/mypage" element={<PictureMyPage />} />
           <Route path="*" element={<Navigate to="/pictures" replace />} />

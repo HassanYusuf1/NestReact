@@ -141,34 +141,54 @@ public async Task<IActionResult> CreatePicture([FromForm] PictureDto pictureDto)
 
 
         [HttpPut("edit/{id}")]
-       
-        public async Task<IActionResult> EditPicture(int id, [FromForm] PictureDto updatedPictureDto)
+public async Task<IActionResult> EditPicture(int id, [FromForm] PictureDto updatedPictureDto)
+{
+    if (updatedPictureDto == null || id != updatedPictureDto.PictureId)
+    {
+        return BadRequest("Invalid picture data");
+    }
+
+    var existingPicture = await _pictureRepository.PictureId(id);
+    if (existingPicture == null)
+    {
+        _logger.LogError("[PictureAPIController] Picture with id {PictureId} not found", id);
+        return NotFound("Picture not found.");
+    }
+
+    // Oppdater bare tittel og beskrivelse
+    existingPicture.Title = updatedPictureDto.Title;
+    existingPicture.Description = updatedPictureDto.Description;
+
+    // Hvis en ny fil er lastet opp, oppdater bilde-URL
+    if (updatedPictureDto.PictureFile != null)
+    {
+        string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+        if (!Directory.Exists(uploadsFolder))
         {
-            if (id != updatedPictureDto.PictureId || updatedPictureDto == null)
-            {
-                return BadRequest("Invalid picture data");
-            }
-
-            var existingPicture = await _pictureRepository.PictureId(id);
-            if (existingPicture == null)
-            {
-                _logger.LogError("[PictureAPIController] Picture with id {PictureId} not found", id);
-                return NotFound("Picture not found.");
-            }
-
-            existingPicture.Title = updatedPictureDto.Title;
-            existingPicture.Description = updatedPictureDto.Description;
-            existingPicture.PictureUrl = updatedPictureDto.PictureUrl;
-
-            bool success = await _pictureRepository.Edit(existingPicture);
-            if (!success)
-            {
-                _logger.LogWarning("[PictureAPIController] Could not update the picture.");
-                return StatusCode(500, "Internal server error while updating the picture.");
-            }
-
-            return Ok(existingPicture);
+            Directory.CreateDirectory(uploadsFolder);
         }
+
+        string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(updatedPictureDto.PictureFile.FileName);
+        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+        using (var fileStream = new FileStream(filePath, FileMode.Create))
+        {
+            await updatedPictureDto.PictureFile.CopyToAsync(fileStream);
+        }
+
+        existingPicture.PictureUrl = "/images/" + uniqueFileName; // Oppdater URL hvis et nytt bilde ble lastet opp
+    }
+
+    bool success = await _pictureRepository.Edit(existingPicture);
+    if (!success)
+    {
+        _logger.LogWarning("[PictureAPIController] Could not update the picture.");
+        return StatusCode(500, "Internal server error while updating the picture.");
+    }
+
+    return Ok(existingPicture);
+}
+
 
        [HttpDelete("delete/{id}")]
 public async Task<IActionResult> DeletePicture(int id)
