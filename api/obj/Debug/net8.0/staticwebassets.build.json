@@ -1,10 +1,6 @@
 {
   "Version": 1,
-<<<<<<< HEAD
   "Hash": "dfpnIrpo75edL61JHP6hTX3EXF6RRDyw1eMmvzIGGcc=",
-=======
-  "Hash": "VeyBtLFYn1t7yftK2VswjH85zhKgm12GHG2W03cIiqQ=",
->>>>>>> 3d951a7adee6419c3bf830f56c11637c402cf216
   "Source": "Api",
   "BasePath": "_content/Api",
   "Mode": "Default",
@@ -1180,30 +1176,7 @@
       "OriginalItemSpec": "wwwroot\\css\\j"
     },
     {
-<<<<<<< HEAD
       "Identity": "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\wwwroot\\images\\519a3873-337e-4078-be54-54662fc83e4b_PNG_transparency_demonstration_1.png",
-=======
-      "Identity": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\images\\519a3873-337e-4078-be54-54662fc83e4b_PNG_transparency_demonstration_1.png",
-      "SourceId": "Api",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\",
-      "BasePath": "_content/Api",
-      "RelativePath": "images/519a3873-337e-4078-be54-54662fc83e4b_PNG_transparency_demonstration_1.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\519a3873-337e-4078-be54-54662fc83e4b_PNG_transparency_demonstration_1.png"
-    },
-    {
-      "Identity": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\images\\53488d14-64a2-4ede-864a-d766d64ad05b_4ca74965-d17b-49a7-bf85-8d5c6259718a.jpg",
->>>>>>> 3d951a7adee6419c3bf830f56c11637c402cf216
       "SourceId": "Api",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\wwwroot\\",
@@ -1260,20 +1233,12 @@
       "OriginalItemSpec": "wwwroot\\images\\5849d57c-ddb5-4d21-b50b-c962ac969d2e_4ca74965-d17b-49a7-bf85-8d5c6259718a.jpg"
     },
     {
-<<<<<<< HEAD
       "Identity": "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\wwwroot\\images\\a0406d3c-a59f-4334-9bdf-891cc92e89a7_Skjermbilde 2023-09-01 150015.png",
-=======
-      "Identity": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\images\\b9a66ef7-1762-4b82-9c97-38d25803abc7_premium_photo-1666672388644-2d99f3feb9f1.jpg",
->>>>>>> 3d951a7adee6419c3bf830f56c11637c402cf216
       "SourceId": "Api",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\wwwroot\\",
       "BasePath": "_content/Api",
-<<<<<<< HEAD
       "RelativePath": "images/a0406d3c-a59f-4334-9bdf-891cc92e89a7_Skjermbilde 2023-09-01 150015.png",
-=======
-      "RelativePath": "images/b9a66ef7-1762-4b82-9c97-38d25803abc7_premium_photo-1666672388644-2d99f3feb9f1.jpg",
->>>>>>> 3d951a7adee6419c3bf830f56c11637c402cf216
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1284,11 +1249,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-<<<<<<< HEAD
       "OriginalItemSpec": "wwwroot\\images\\a0406d3c-a59f-4334-9bdf-891cc92e89a7_Skjermbilde 2023-09-01 150015.png"
-=======
-      "OriginalItemSpec": "wwwroot\\images\\b9a66ef7-1762-4b82-9c97-38d25803abc7_premium_photo-1666672388644-2d99f3feb9f1.jpg"
->>>>>>> 3d951a7adee6419c3bf830f56c11637c402cf216
     },
     {
       "Identity": "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\wwwroot\\images\\b9a66ef7-1762-4b82-9c97-38d25803abc7_premium_photo-1666672388644-2d99f3feb9f1.jpg",
