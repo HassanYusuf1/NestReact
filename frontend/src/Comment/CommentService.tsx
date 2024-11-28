@@ -18,7 +18,7 @@ const handleResponse = async (response: Response) => {
 };
 
 // Get all comments
-export const fetchComments = async () => {
+export const fetchComments = async (pictureId: number) => {
   try {
     const response = await fetch(`${API_URL}/api/CommentAPI/allcomments`);
     return handleResponse(response);

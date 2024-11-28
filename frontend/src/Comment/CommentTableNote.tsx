@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { fetchCommentsNote } from './CommentServiceNote';
+import { fetchComments } from './CommentService';
 import { Comment } from '../types/Comment';
 
-const CommentTableNote: React.FC = () => {
-  const [comments, setComments] = useState<Comment[]>([]); // Bruker typen Comment[]
+interface CommentTableProps {
+  noteId: number; // Identifier for the specific note
+}
+
+const CommentTable: React.FC<CommentTableProps> = ({ noteId }) => {
+  const [comments, setComments] = useState<Comment[]>([]);
 
   useEffect(() => {
     const loadComments = async () => {
       try {
-        const data = await fetchCommentsNote();
+        const data = await fetchComments(noteId);
         setComments(data);
       } catch (error) {
         console.error('Error fetching comments:', error);
@@ -16,7 +20,7 @@ const CommentTableNote: React.FC = () => {
     };
 
     loadComments();
-  }, []);
+  }, [noteId]); // Re-run effect if noteId changes
 
   return (
     <div className="comments-grid">
@@ -32,4 +36,4 @@ const CommentTableNote: React.FC = () => {
   );
 };
 
-export default CommentTableNote;
+export default CommentTable;
