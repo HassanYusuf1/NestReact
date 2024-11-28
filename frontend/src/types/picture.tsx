@@ -8,10 +8,4 @@ export interface Picture {
     userName?: string;              
   }
   
-  export interface Comment {
-    commentId: number;              
-    text: string;                   
-    userName: string;               
-    createdAt: Date;               
-  }
-  
+ 

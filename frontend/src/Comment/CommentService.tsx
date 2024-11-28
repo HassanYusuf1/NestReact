@@ -20,13 +20,14 @@ const handleResponse = async (response: Response) => {
 // Get all comments
 export const fetchComments = async (pictureId: number) => {
   try {
-    const response = await fetch(`${API_URL}/api/CommentAPI/allcomments`);
+    const response = await fetch(`${API_URL}/api/CommentAPI/getcomments/picture/${pictureId}`);
     return handleResponse(response);
   } catch (error) {
     console.error('Error fetching comments:', error);
     throw error;
   }
 };
+
 
 // Get comment by id
 export const fetchCommentById = async (commentId: number) => {
