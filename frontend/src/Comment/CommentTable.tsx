@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { fetchComments } from './CommentService';
 import { Comment } from '../types/Comment';
 
-const CommentTable: React.FC = () => {
-  const [comments, setComments] = useState<Comment[]>([]); // Bruker typen Comment[]
+interface CommentTableProps {
+  pictureId: number; // Identifier for the specific picture
+}
+
+const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
+  const [comments, setComments] = useState<Comment[]>([]);
 
   useEffect(() => {
     const loadComments = async () => {
       try {
-        const data = await fetchComments();
+        const data = await fetchComments(pictureId);
         setComments(data);
       } catch (error) {
         console.error('Error fetching comments:', error);
@@ -16,7 +20,7 @@ const CommentTable: React.FC = () => {
     };
 
     loadComments();
-  }, []);
+  }, [pictureId]); // Re-run effect if pictureId changes
 
   return (
     <div className="comments-grid">

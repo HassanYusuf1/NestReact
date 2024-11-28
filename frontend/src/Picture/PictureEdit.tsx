@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { fetchPictureById, updatePicture } from './PictureService';
 import { Picture } from '../types/picture';
 
 const PictureEditPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [picture, setPicture] = useState<Picture | null>(null);
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
+
+  // Hente "source" parameteren fra URL-en, standard til "/picture/grid" hvis den ikke er angitt
+  const searchParams = new URLSearchParams(location.search);
+  const source = searchParams.get('source') || '/picture/grid';
 
   useEffect(() => {
     const loadPicture = async () => {
@@ -30,16 +36,15 @@ const PictureEditPage: React.FC = () => {
     e.preventDefault();
     try {
       if (id && picture) {
-        // Oppdater tittel og beskrivelse uten å laste opp ny fil
         const updatedPicture = {
           pictureId: picture.pictureId,
           title,
           description,
-          uploadDate: picture.uploadDate,  // Beholder opplastingsdatoen
-          userName: picture.userName       // Beholder brukernavnet
+          uploadDate: picture.uploadDate,
+          userName: picture.userName
         };
         await updatePicture(Number(id), updatedPicture);
-        navigate('/pictures');
+        navigate(source); // Navigerer tilbake til riktig side etter lagring
       }
     } catch (error) {
       console.error(`Error updating picture with id ${id}:`, error);
@@ -82,7 +87,7 @@ const PictureEditPage: React.FC = () => {
           <button
             type="button"
             className="btn btn-secondary ms-3"
-            onClick={() => navigate('/pictures')}
+            onClick={() => navigate(source)} // Navigerer tilbake til riktig side ved avbryt
           >
             Cancel
           </button>
