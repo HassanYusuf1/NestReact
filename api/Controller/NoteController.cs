@@ -37,7 +37,7 @@ public class NoteAPIController : ControllerBase
             Title = note.Title,
             Content = note.Content,
             UploadDate = note.UploadDate
-        });        
+        });
         return Ok(noteDtos);
     }
 
@@ -48,12 +48,12 @@ public class NoteAPIController : ControllerBase
         {
             return BadRequest("Note cannot be null");
         }
-        var newNote= new Note
+        var newNote = new Note
         {
             Title = noteDto.Title,
             Content = noteDto.Content,
             UploadDate = noteDto.UploadDate
-        };        
+        };
         await _noteRepository.Create(newNote);
         return CreatedAtAction(nameof(GetNotes), new { id = newNote.NoteId }, newNote);
 
@@ -114,10 +114,10 @@ public class NoteAPIController : ControllerBase
             return BadRequest("Item deletion failed");
         }
         return NoContent(); // 200 Ok is commonly used when the server returns a response body with additional information about the result of the request. 
-    }   
+    }
 
 }
-public class NoteController : Controller 
+public class NoteController : Controller
 {
     private readonly ILogger<NoteController> _logger;
     private readonly ICommentRepository _commentRepository;
@@ -129,23 +129,23 @@ public class NoteController : Controller
         _logger = logger;
     }
 
-[HttpGet]
-[Authorize]
-public async Task<IActionResult> MyPage()
-{
-
-    var allNotes = await _noteRepository.GetAll();
-    if (allNotes == null)
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> MyPage()
     {
-        _logger.LogError("[NoteController] Could not retrieve notes for user");
-        return NotFound();
+
+        var allNotes = await _noteRepository.GetAll();
+        if (allNotes == null)
+        {
+            _logger.LogError("[NoteController] Could not retrieve notes for user");
+            return NotFound();
+        }
+
+
+        ViewData["IsMyPage"] = true; // Set the source for MyPage
+
+        return View("MyPage");
     }
-
-    
-    ViewData["IsMyPage"] = true; // Set the source for MyPage
-
-    return View("MyPage");
-}
 
 
     [HttpGet]
@@ -246,23 +246,23 @@ public async Task<IActionResult> MyPage()
     }
 
 
-   [HttpGet]
-[Authorize]
-public async Task<IActionResult> Notes()
-{
-    var notes = await _noteRepository.GetAll();
-    var notesViewModel = new NotesViewModel(notes, "Notes");
-    if (notes == null)
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> Notes()
     {
-        _logger.LogError("[NoteController] Note List not found when running _noteRepository.GetAll()");
-        return NotFound("Note List not found.");
+        var notes = await _noteRepository.GetAll();
+        var notesViewModel = new NotesViewModel(notes, "Notes");
+        if (notes == null)
+        {
+            _logger.LogError("[NoteController] Note List not found when running _noteRepository.GetAll()");
+            return NotFound("Note List not found.");
+        }
+
+
+        ViewData["IsMyPage"] = false; // Set the source for general feed
+
+        return View(notesViewModel);
     }
-    
-    
-    ViewData["IsMyPage"] = false; // Set the source for general feed
-    
-    return View(notesViewModel);
-}
 
     [HttpGet]
     public async Task<IActionResult> Details(int id, string source = "Notes")
