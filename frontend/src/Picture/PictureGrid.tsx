@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { fetchPictures } from './PictureService';
 import { Picture } from '../types/picture';
+import PictureCard from '../shared/PictureCard';
 
 const PicturesGridPage: React.FC = () => {
-  const [pictures, setPictures] = useState<Picture[]>([]); // Bruker typen Picture[]
+  const [pictures, setPictures] = useState<Picture[]>([]);
 
   useEffect(() => {
     const loadPictures = async () => {
@@ -21,12 +22,10 @@ const PicturesGridPage: React.FC = () => {
   return (
     <div className="pictures-grid">
       <h2>All Pictures</h2>
-      <div className="grid">
+      <div className="row flex-column align-items-center">
         {pictures.map((picture) => (
-          <div key={picture.pictureId} className="picture-card">
-            <img src={picture.pictureUrl} alt={picture.title} />
-            <h3>{picture.title}</h3>
-            <p>{picture.description}</p>
+          <div key={picture.pictureId} className="col-12 mb-4">
+            <PictureCard picture={picture} returnUrl="/pictures" />
           </div>
         ))}
       </div>

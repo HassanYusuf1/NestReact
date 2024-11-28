@@ -30,7 +30,7 @@ const CreatePicturePage: React.FC = () => {
       formData.append('PictureFile', pictureFile); // MERK: "PictureFile" må matche backend
 
       await createPicture(formData);
-      navigate('/mypage/pictures');
+      navigate('/picture/mypage');
     } catch (error) {
       console.error('Error creating picture:', error);
     }
@@ -78,7 +78,7 @@ const CreatePicturePage: React.FC = () => {
           <button
             type="button"
             className="btn btn-secondary ms-3"
-            onClick={() => navigate('/mypage/pictures')}
+            onClick={() => navigate('/picture/mypage')}
           >
             Cancel
           </button>
