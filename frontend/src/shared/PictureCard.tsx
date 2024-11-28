@@ -12,7 +12,6 @@ const PictureCard: React.FC<PictureCardProps> = ({ picture, returnUrl }) => {
 
   return (
     <div className="picture-card">
-      {/* Send med "source" parameteren i lenken til detaljer */}
       <Link to={`/pictures/${picture.pictureId}?source=${returnUrl}`}>
         <img
           src={picture.pictureUrl}
