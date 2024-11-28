@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchMyPictures } from './PictureService';
@@ -18,7 +17,7 @@ const PictureMyPage: React.FC = () => {
         const data = await fetchMyPictures();
         setPictures(data);
       } catch (err) {
-        setError('Kunne ikke laste bilder. Vennligst prøv igjen senere.');
+        setError('Could not load pictures. Please try again later.');
         console.error(err);
       } finally {
         setLoading(false);
@@ -29,7 +28,7 @@ const PictureMyPage: React.FC = () => {
   }, []);
 
   if (loading) {
-    return <p>Laster bilder...</p>;
+    return <p>Loading pictures...</p>;
   }
 
   if (error) {
@@ -38,10 +37,10 @@ const PictureMyPage: React.FC = () => {
 
   return (
     <div className="container-page">
-      <h1>Mine Bilder</h1>
+      <h1>My Pictures</h1>
       <div className="row mt-5">
         {pictures.length === 0 ? (
-          <p>Ingen bilder funnet.</p>
+          <p>No pictures found.</p>
         ) : (
           pictures.map((picture) => (
             <div key={picture.pictureId} className="col-12 col-md-4 col-lg-4 mb-4">
@@ -55,7 +54,7 @@ const PictureMyPage: React.FC = () => {
           className="btn btn-primary"
           onClick={() => navigate('/pictures/create')}
         >
-          Last opp nytt bilde
+          Upload new picture
         </button>
       </div>
     </div>
