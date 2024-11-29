@@ -16,12 +16,12 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\css\j))</OriginalItemSpec>
     </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\ec8334c4-12a2-4962-804d-5878e28eb9da_premium_photo-1666672388644-2d99f3feb9f1.jpg))">
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\0c8df1ea-b8ef-461d-8831-a4b84f8686c4_PNG_transparency_demonstration_1.png))">
       <SourceType>Package</SourceType>
       <SourceId>Api</SourceId>
       <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
       <BasePath>_content/Api</BasePath>
-      <RelativePath>images/ec8334c4-12a2-4962-804d-5878e28eb9da_premium_photo-1666672388644-2d99f3feb9f1.jpg</RelativePath>
+      <RelativePath>images/0c8df1ea-b8ef-461d-8831-a4b84f8686c4_PNG_transparency_demonstration_1.png</RelativePath>
       <AssetKind>All</AssetKind>
       <AssetMode>All</AssetMode>
       <AssetRole>Primary</AssetRole>
@@ -30,7 +30,7 @@
       <AssetTraitValue></AssetTraitValue>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\ec8334c4-12a2-4962-804d-5878e28eb9da_premium_photo-1666672388644-2d99f3feb9f1.jpg))</OriginalItemSpec>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\images\0c8df1ea-b8ef-461d-8831-a4b84f8686c4_PNG_transparency_demonstration_1.png))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\js\k))">
       <SourceType>Package</SourceType>

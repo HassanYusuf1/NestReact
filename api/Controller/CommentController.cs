@@ -22,24 +22,16 @@ namespace InstagramMVC.Controllers
             _logger = logger;
         }
 
-                [HttpGet("getcomments/picture/{pictureId}")]
+        [HttpGet("getcomments/picture/{pictureId}")]
         public async Task<IActionResult> GetCommentsByPictureId(int pictureId)
         {
-            // Først sjekk om pictureId er gyldig
-            var pictureIdResult = await _commentRepository.GetPictureId(pictureId);
-            if (pictureIdResult == null)
-            {
-                _logger.LogError("[CommentAPIController] Could not retrieve pictureId {PictureId}", pictureId);
-                return NotFound("Picture ID not found for the specified picture.");
-            }
-
-            // Hvis gyldig, hent kommentarene for pictureId
+            // Hent kommentarene for pictureId direkte
             var comments = await _commentRepository.GetAll();
             var filteredComments = comments.Where(c => c.PictureId == pictureId).ToList();
 
             if (!filteredComments.Any())
             {
-                _logger.LogError("[CommentAPIController] No comments found for pictureId {PictureId}", pictureId);
+                _logger.LogWarning("[CommentAPIController] No comments found for pictureId {PictureId}", pictureId);
                 return NotFound("No comments found for the specified picture.");
             }
 
@@ -47,30 +39,23 @@ namespace InstagramMVC.Controllers
         }
 
 
-       
-       [HttpGet("getcomments/note/{noteId}")]
+
+        [HttpGet("getcomments/note/{noteId}")]
         public async Task<IActionResult> GetCommentsByNoteId(int noteId)
         {
-            // Først sjekk om noteId er gyldig
-            var noteIdResult = await _commentRepository.GetNoteId(noteId);
-            if (noteIdResult == null)
-            {
-                _logger.LogError("[CommentAPIController] Could not retrieve noteId {NoteId}", noteId);
-                return NotFound("Note ID not found for the specified note.");
-            }
-
-            // Hvis gyldig, hent kommentarene for noteId
+            // Hent kommentarene for noteId direkte
             var comments = await _commentRepository.GetAll();
             var filteredComments = comments.Where(c => c.NoteId == noteId).ToList();
 
             if (!filteredComments.Any())
             {
-                _logger.LogError("[CommentAPIController] No comments found for noteId {NoteId}", noteId);
+                _logger.LogWarning("[CommentAPIController] No comments found for noteId {NoteId}", noteId);
                 return NotFound("No comments found for the specified note.");
             }
 
             return Ok(filteredComments);
         }
+
 
 
 
