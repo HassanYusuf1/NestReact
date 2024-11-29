@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
-import { Nav, Navbar, NavDropdown, Button } from 'react-bootstrap';
+import { Nav, Navbar, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 const NavMenu: React.FC = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); 
 
-  // Funksjon for å håndtere innlogging/utlogging
   const handleLoginLogout = () => {
     if (isLoggedIn) {
-      // Log ut
       setIsLoggedIn(false);
       navigate('/');
     } else {
-      // Naviger til login-side
       navigate('/login');
     }
   };
@@ -25,7 +22,8 @@ const NavMenu: React.FC = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto mb-2 mb-lg-0">
-            <Nav.Link href="/picture/grid">Pictures</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/pictures">Pictures</Nav.Link> {/* Corrected the path to /pictures */}
             <Nav.Link href="/notes">Notes</Nav.Link>
             <Nav.Link href="/picture/mypage">MyPagePics</Nav.Link>
             <Nav.Link href="/mypage/notes">MyPageNotes</Nav.Link>
