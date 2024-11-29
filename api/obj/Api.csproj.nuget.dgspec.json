@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\Api.csproj": {}
+    "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\Api.csproj": {
+    "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\Api.csproj",
+        "projectUniqueName": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\Api.csproj",
         "projectName": "Api",
-        "projectPath": "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\Api.csproj",
-        "packagesPath": "C:\\Users\\hassan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\obj\\",
+        "projectPath": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\Api.csproj",
+        "packagesPath": "C:\\Users\\mbmik\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\hassan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\mbmik\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
