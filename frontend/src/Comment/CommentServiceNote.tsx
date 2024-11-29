@@ -35,17 +35,6 @@ export const fetchCommentsNote = async (noteId: number): Promise<Comment[]> => {
   }
 };
 
-// Get comment by id (Note specific)
-export const fetchCommentNoteById = async (commentId: number) => {
-  try {
-    const response = await fetch(`${API_URL}/api/CommentAPI/details/${commentId}`);
-    return handleResponse(response);
-  } catch (error) {
-    console.error(`Error fetching comment with id ${commentId}:`, error);
-    throw error;
-  }
-};
-
 // Create a comment associated with a note
 export const createCommentNote = async (commentData: {
   noteId: number;

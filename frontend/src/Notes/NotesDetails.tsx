@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { Note } from "../types/Note";
+import { fetchNoteById } from "./NoteService";
 
 interface NoteDetail {
   onNoteDeleted: (note: Note) => void;
@@ -15,33 +16,12 @@ const NotesDetails: React.FC<NoteDetail> = ({ onNoteDeleted }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+
   // Replace with your actual API base URL
   const API_URL = "http://localhost:5215";
 
   useEffect(() => {
-    const fetchNote = async () => {
-      if (!noteId) {
-        setError("Invalid note ID.");
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const response = await fetch(`${API_URL}/api/noteapi/${noteId}`); // default Get
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setNote(data);
-      } catch (error) {
-        setError("Failed to fetch note");
-        console.error("There was a problem with the fetch operation:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchNote();
+    fetchNoteById();
   }, [noteId]);
 
   if (loading) {
