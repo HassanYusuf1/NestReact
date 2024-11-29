@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
-import NavBar from './shared/NavBar'; 
+import NavMenu from './shared/NavBar'; // Changed NavBar to NavMenu to match import
+import HomePage from './Home/Home';
 import CreatePicturePage from './Picture/PictureCreate';
 import DeletePicturePage from './Picture/PictureDelete';
 import PictureDetails from './Picture/PictureDetails';
@@ -17,21 +18,22 @@ import CommentEditPage from './Comment/CommentEdit';
 const App: React.FC = () => {
   return (
     <Router>
-      <NavBar /> 
+      <NavMenu /> 
       <Container>
         <Routes>
-          <Route path="/pictures" element={<PictureGrid />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/pictures" element={<PictureGrid />} /> {/* Changed path to /pictures */}
           <Route path="/pictures/create" element={<CreatePicturePage />} />
           <Route path="/pictures/:id" element={<PictureDetails />} />
           <Route path="/pictures/:id/edit" element={<PictureEditPage />} /> 
           <Route path="/pictures/:id/delete" element={<DeletePicturePage />} />
           <Route path="/picture/mypage" element={<PictureMyPage />} />
-          <Route path="*" element={<Navigate to="/pictures" replace />} />
           <Route path="/notes" element={<NotesPage />} />
           <Route path="/notescreate" element={<NotesCreate />} />
           <Route path="/edit/:noteId" element={<NotesEdit />} />
           <Route path="/notesdetails/:noteId" element={<NoteDisplay />} />
           <Route path="/commenteditnote/:commentId" element={<CommentEditPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Container>
     </Router>

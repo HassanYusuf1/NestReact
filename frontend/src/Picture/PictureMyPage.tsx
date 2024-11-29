@@ -37,24 +37,24 @@ const PictureMyPage: React.FC = () => {
 
   return (
     <div className="container-page">
-      <h1>My Pictures</h1>
+      <h1 className="text-center mb-4">My Pictures</h1>
       <div className="row mt-5">
         {pictures.length === 0 ? (
-          <p>No pictures found.</p>
+          <p className="text-center">No pictures found.</p>
         ) : (
           pictures.map((picture) => (
-            <div key={picture.pictureId} className="col-12 col-md-4 col-lg-4 mb-4">
+            <div key={picture.pictureId} className="col-12 col-md-6 col-lg-4 mb-4 d-flex justify-content-center">
               <PictureCard picture={picture} returnUrl="/picture/mypage" />
             </div>
           ))
         )}
       </div>
-      <div className="mt-4 text-center">
+      <div className="mt-5 text-center">
         <button
-          className="btn btn-primary"
+          className="btn btn-primary btn-lg rounded-pill shadow-sm"
           onClick={() => navigate('/pictures/create')}
         >
-          Upload new picture
+          📤 Upload New Picture
         </button>
       </div>
     </div>
