@@ -42,7 +42,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ onCommentChanged, commentId, 
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
-      <Button variant="primary" type="submit">Create comment</Button>
+      <Button variant="primary" type="submit">Save</Button>
       <Button variant="secondary" onClick={onCancel} className="ms-2">Cancel</Button>
     </Form>
   );

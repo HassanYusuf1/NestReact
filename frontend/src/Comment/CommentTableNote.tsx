@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { fetchCommentsNote } from './CommentServiceNote'; // Service to fetch comments
+import { fetchCommentsNote, createCommentNote } from './CommentServiceNote'; // Service to fetch comments
 import { Comment } from '../types/Comment';
+import { Note } from '../types/Note';
 
 interface CommentTableProps {
+  note: Note;
   noteId: number; // Identifier for the specific note
 }
 
-const CommentTable: React.FC<CommentTableProps> = ({ noteId }) => {
+const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
+  const [newComment, setNewComment] = useState<string>("");
   const [comments, setComments] = useState<Comment[]>([]);
   const [showComments, setShowComments] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -24,6 +27,26 @@ const CommentTable: React.FC<CommentTableProps> = ({ noteId }) => {
       setError('Failed to load comments. Please try again later.');
     } finally {
       setIsLoading(false); // Stop loading
+    }
+  };
+
+  const handleCreateComment = async () => {
+    if (!newComment.trim()) {
+      alert("Please enter a valid comment.");
+      return;
+    }
+
+    try {
+      const createdComment = await createCommentNote({
+        noteId: note.noteId,
+        commentDescription: newComment,
+        userName: "currentUserName" // Husk å erstatte dette med den innloggede brukeren.
+      });
+
+      setComments(prevComments => [...prevComments, createdComment]);
+      setNewComment("");
+    } catch (error) {
+      console.error("Error creating comment:", error);
     }
   };
 
@@ -65,20 +88,33 @@ const CommentTable: React.FC<CommentTableProps> = ({ noteId }) => {
               {comments.map((comment) => (
                 <div key={comment.commentId} className="comment-card">
                   <p>{comment.commentDescription}</p>
-                  <input
-                    type="text"
-                    placeholder="Add a reply..."
-                    className="reply-input"
-                  />
+                  <p>{new Date(comment.uploadDate).toLocaleDateString()}</p>
                 </div>
               ))}
             </div>
           )}
 
-          {/* Fallback for no comments */}
-          {!isLoading && !error && comments.length === 0 && (
-            <p>No comments available for this note.</p>
-          )}
+            {/* Fallback for no comments */}
+            {!isLoading && !error && comments.length === 0 && (
+              <p>No comments available for this note.</p>
+            )}
+          
+          <div className="add-comment-section p-3">
+          <textarea
+            id="newComment"
+            name="newComment"
+            className="form-control mb-2"
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Add a comment..."
+          />
+          <button
+            className="btn btn-secondary"
+            onClick={handleCreateComment}
+          >
+            Add Comment
+          </button>
+        </div>
         </div>
       )}
     </div>

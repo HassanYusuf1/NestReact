@@ -67,3 +67,24 @@ export const NotefetchCommentById = async (commentId: number) => {
     throw error;
   }
 };
+
+export const createCommentNote = async (commentData: {
+  pictureId?: number;
+  noteId?: number;
+  commentDescription: string;
+  userName: string;
+}) => {
+  try {
+    const response = await fetch(`${API_URL}/api/CommentAPI/create`, {
+      method: 'POST',
+      headers: {
+        ...headers,
+      },
+      body: JSON.stringify(commentData),
+    });
+    return handleResponse(response);
+  } catch (error) {
+    console.error('Error creating comment:', error);
+    throw error;
+  }
+};
