@@ -5,7 +5,11 @@
       "PackagePath": "staticwebassets\\css"
     },
     {
+<<<<<<< HEAD
       "Id": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\images\\0c8df1ea-b8ef-461d-8831-a4b84f8686c4_PNG_transparency_demonstration_1.png",
+=======
+      "Id": "C:\\Users\\hassan\\Documents\\DataIngeniør\\NestReact\\api\\wwwroot\\images\\0c8df1ea-b8ef-461d-8831-a4b84f8686c4_PNG_transparency_demonstration_1.png",
+>>>>>>> 6cab07c36b5775f5a6253e0b01da1c2c6206ef25
       "PackagePath": "staticwebassets\\images\\0c8df1ea-b8ef-461d-8831-a4b84f8686c4_PNG_transparency_demonstration_1.png"
     },
     {
