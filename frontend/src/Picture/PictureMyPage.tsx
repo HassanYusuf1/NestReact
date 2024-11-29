@@ -43,7 +43,7 @@ const PictureMyPage: React.FC = () => {
           <p className="text-center">No pictures found.</p>
         ) : (
           pictures.map((picture) => (
-            <div key={picture.pictureId} className="col-md-6 col-lg-4 mb-4">
+            <div key={picture.pictureId} className="col-12 col-md-6 col-lg-4 mb-4">
               <PictureCard picture={picture} returnUrl="/picture/mypage" />
             </div>
           ))

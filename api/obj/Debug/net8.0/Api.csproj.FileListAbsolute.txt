@@ -456,7 +456,6 @@ C:\Users\mbmik\OneDrive\Dokumenter\GitHub\NestReact\api\obj\Debug\net8.0\Api.pdb
 C:\Users\mbmik\OneDrive\Dokumenter\GitHub\NestReact\api\obj\Debug\net8.0\Api.genruntimeconfig.cache
 C:\Users\mbmik\OneDrive\Dokumenter\GitHub\NestReact\api\obj\Debug\net8.0\ref\Api.dll
 =======
->>>>>>> 8bb6e2e9c776c461b262abbbdb96cd35a7c69539
 C:\Users\hassan\Desktop\NestReact\api\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\hassan\Desktop\NestReact\api\bin\Debug\net8.0\appsettings.json
 C:\Users\hassan\Desktop\NestReact\api\bin\Debug\net8.0\Api.staticwebassets.runtime.json
@@ -609,3 +608,4 @@ C:\Users\hassan\Desktop\NestReact\api\obj\Debug\net8.0\refint\Api.dll
 C:\Users\hassan\Desktop\NestReact\api\obj\Debug\net8.0\Api.pdb
 C:\Users\hassan\Desktop\NestReact\api\obj\Debug\net8.0\Api.genruntimeconfig.cache
 C:\Users\hassan\Desktop\NestReact\api\obj\Debug\net8.0\ref\Api.dll
+>>>>>>> 8bb6e2e9c776c461b262abbbdb96cd35a7c69539

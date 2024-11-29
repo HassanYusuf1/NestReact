@@ -155,13 +155,13 @@ const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
                                 setEditingCommentText(comment.commentDescription);
                               }}
                             >
-                              Edit
+                              ✏️ Edit
                             </button>
                             <button
                               className="btn btn-link text-danger p-0 fw-bold"
                               onClick={() => handleDeleteComment(comment.commentId)}
                             >
-                              Delete
+                              🗑️ Delete
                             </button>
                           </span>
                         )}
