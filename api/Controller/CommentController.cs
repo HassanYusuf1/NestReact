@@ -32,7 +32,7 @@ namespace InstagramMVC.Controllers
             if (!filteredComments.Any())
             {
                 _logger.LogWarning("[CommentAPIController] No comments found for pictureId {PictureId}", pictureId);
-                return NotFound("No comments found for the specified picture.");
+                return Ok(new List<Comment>());
             }
 
             return Ok(filteredComments);
@@ -50,7 +50,7 @@ namespace InstagramMVC.Controllers
             if (!filteredComments.Any())
             {
                 _logger.LogWarning("[CommentAPIController] No comments found for noteId {NoteId}", noteId);
-                return NotFound("No comments found for the specified note.");
+                return Ok(new List<Comment>());
             }
 
             return Ok(filteredComments);

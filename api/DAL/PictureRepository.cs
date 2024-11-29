@@ -41,9 +41,9 @@ namespace InstagramMVC.DAL
                 _logger.LogInformation("Picture uploaded with ID: {0}", picture.PictureId);
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                _logger.LogError("[PictureRepository] Error uploading picture {@picture}, error: {e} ", picture , e.Message);
+                _logger.LogError("[PictureRepository] Error uploading picture {@picture}, error: {e} ", picture, e.Message);
                 return false;
             }
         }
@@ -63,16 +63,17 @@ namespace InstagramMVC.DAL
 
         public async Task<bool> Edit(Picture picture)
         {
-           try{
-            _context.Pictures.Update(picture);
-            await _context.SaveChangesAsync();
-            return true;
-           }
-           catch(Exception e)
-           {
-            _logger.LogError("[PictureRepository] Error picture update ID {PictureId} , error: {e}", picture.PictureId,e.Message);
-            return false;
-           }
+            try
+            {
+                _context.Pictures.Update(picture);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("[PictureRepository] Error picture update ID {PictureId} , error: {e}", picture.PictureId, e.Message);
+                return false;
+            }
         }
 
         public async Task<bool> Delete(int id)
@@ -82,7 +83,7 @@ namespace InstagramMVC.DAL
                 var picture = await _context.Pictures.FindAsync(id);
                 if (picture == null)
                 {
-                    _logger.LogError("[PictureRepository] Picture delete failed. Picture with ID {id} not found",id);
+                    _logger.LogError("[PictureRepository] Picture delete failed. Picture with ID {id} not found", id);
                     return false;
                 }
                 _context.Pictures.Remove(picture);
@@ -90,7 +91,7 @@ namespace InstagramMVC.DAL
                 return true;
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _logger.LogError("[PictureRepository] Error picture delete with ID {id} , error: {e}", id, e.Message);
                 return false;
