@@ -1,6 +1,8 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Home.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
 
 const HomePage: React.FC = () => {
   return (
