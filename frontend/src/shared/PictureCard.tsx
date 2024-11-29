@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Picture } from '../types/picture';
-import { Comment } from '../types/Comment'; // Import the Comment interface
-import { createComment, fetchComments } from '../Comment/CommentService';
+import { Comment } from '../types/Comment';
+import { createComment, fetchComments, editComment, deleteComment } from '../Comment/CommentService';
 
 type PictureCardProps = {
   picture: Picture;
@@ -14,14 +14,20 @@ const PictureCard: React.FC<PictureCardProps> = ({ picture, returnUrl }) => {
   const [newComment, setNewComment] = useState<string>("");
   const [commentsVisible, setCommentsVisible] = useState<boolean>(false);
   const [comments, setComments] = useState<Comment[]>([]);
+  const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
+  const [editingCommentText, setEditingCommentText] = useState<string>("");
 
   useEffect(() => {
-    if (commentsVisible) {
-      fetchComments(picture.pictureId)
-        .then(setComments)
-        .catch((error) => console.error('Error fetching comments:', error));
-    }
-  }, [commentsVisible, picture.pictureId]);
+    const loadComments = async () => {
+      try {
+        const fetchedComments = await fetchComments(picture.pictureId);
+        setComments(fetchedComments);
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+    loadComments();
+  }, [picture.pictureId]);
 
   const handleCreateComment = async () => {
     if (!newComment.trim()) {
@@ -30,19 +36,51 @@ const PictureCard: React.FC<PictureCardProps> = ({ picture, returnUrl }) => {
     }
 
     try {
-      await createComment({
+      const createdComment = await createComment({
         pictureId: picture.pictureId,
         commentDescription: newComment,
-        userName: "currentUserName" // Dette kan fjernes eller endres avhengig av ditt backend-oppsett
+        userName: "currentUserName" // Husk å erstatte dette med den innloggede brukeren.
       });
+
+      setComments(prevComments => [...prevComments, createdComment]);
       setNewComment("");
-      setCommentsVisible(true);
-      // Fetch updated comments
-      fetchComments(picture.pictureId)
-        .then(setComments)
-        .catch((error) => console.error('Error fetching comments:', error));
     } catch (error) {
       console.error("Error creating comment:", error);
+    }
+  };
+
+  const handleEditComment = async (commentId: number) => {
+    if (!editingCommentText.trim()) {
+      alert("Please enter a valid comment.");
+      return;
+    }
+
+    try {
+      await editComment(commentId, { commentDescription: editingCommentText });
+      setComments(prevComments =>
+        prevComments.map(comment =>
+          comment.commentId === commentId ? { ...comment, commentDescription: editingCommentText } : comment
+        )
+      );
+      setEditingCommentId(null);
+      setEditingCommentText("");
+    } catch (error) {
+      console.error(`Error editing comment with id ${commentId}:`, error);
+      setEditingCommentId(null);
+      setEditingCommentText("");
+    }
+  };
+
+  const handleDeleteComment = async (commentId: number) => {
+    try {
+      await deleteComment(commentId);
+      setComments(prevComments => prevComments.filter(comment => comment.commentId !== commentId));
+    } catch (error) {
+      if (error.message.includes("Comment not found")) {
+        setComments(prevComments => prevComments.filter(comment => comment.commentId !== commentId));
+      } else {
+        console.error(`Error deleting comment with id ${commentId}:`, error);
+      }
     }
   };
 
@@ -88,26 +126,69 @@ const PictureCard: React.FC<PictureCardProps> = ({ picture, returnUrl }) => {
       </div>
 
       <div className="picture-card-footer p-3">
-        <p className="text-muted">
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault(); // Forhindrer standard navigering
-              setCommentsVisible(!commentsVisible);
-            }}
-            className="view-comments-link"
-          >
-            {commentsVisible ? "Hide comments" : `View all comments`}
-          </a>
-        </p>
+      <p className="text-muted">
+  <button
+    type="button"
+    onClick={() => setCommentsVisible(!commentsVisible)}
+    className="view-comments-link btn btn-link p-0"
+  >
+    {commentsVisible ? "Hide comments" : `View all comments`}
+  </button>
+</p>
+
 
         {commentsVisible && (
           <div id={`all-comments-${picture.pictureId}`} className="comments-section">
             {comments.length > 0 ? (
               comments.map(comment => (
                 <div key={comment.commentId} className="comment-card p-2 mb-2">
-                  <p>{comment.commentDescription}</p>
-                  <p className="text-muted small">{new Date(comment.uploadDate).toLocaleString()}</p>
+                  {editingCommentId === comment.commentId ? (
+                    <div>
+                      <textarea
+                        className="form-control mb-2"
+                        value={editingCommentText}
+                        onChange={(e) => setEditingCommentText(e.target.value)}
+                        autoFocus
+                      />
+                      <button
+                        className="btn btn-success me-2"
+                        onClick={() => handleEditComment(comment.commentId)}
+                      >
+                        Save
+                      </button>
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() => {
+                          setEditingCommentId(null);
+                          setEditingCommentText("");
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <p>{comment.commentDescription}</p>
+                      <p className="text-muted small">
+                        {comment.uploadDate ? new Date(comment.uploadDate).toLocaleString() : "Unknown date"}
+                      </p>
+                      <button
+                        className="btn btn-link"
+                        onClick={() => {
+                          setEditingCommentId(comment.commentId);
+                          setEditingCommentText(comment.commentDescription);
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-link text-danger"
+                        onClick={() => handleDeleteComment(comment.commentId)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))
             ) : (

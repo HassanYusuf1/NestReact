@@ -28,7 +28,6 @@ export const fetchComments = async (pictureId: number) => {
   }
 };
 
-
 // Get comment by id
 export const fetchCommentById = async (commentId: number) => {
   try {
@@ -39,6 +38,8 @@ export const fetchCommentById = async (commentId: number) => {
     throw error;
   }
 };
+
+// Create a comment
 export const createComment = async (commentData: {
   pictureId?: number;
   noteId?: number;
@@ -59,6 +60,29 @@ export const createComment = async (commentData: {
     throw error;
   }
 };
+
+export const editComment = async (commentId: number, updatedCommentData: { commentDescription: string; }) => {
+  if (!updatedCommentData.commentDescription) {
+    throw new Error("Comment description cannot be empty");
+  }
+  try {
+    const response = await fetch(`${API_URL}/api/CommentAPI/edit/${commentId}`, {
+      method: 'PUT',
+      headers: {
+        ...headers,
+      },
+      body: JSON.stringify({
+        commentId, 
+        ...updatedCommentData
+      }),
+    });
+    return handleResponse(response);
+  } catch (error) {
+    console.error(`Error editing comment with id ${commentId}:`, error);
+    throw error;
+  }
+};
+
 
 // Delete a comment
 export const deleteComment = async (commentId: number) => {
