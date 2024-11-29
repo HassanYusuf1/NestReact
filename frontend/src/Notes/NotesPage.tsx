@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './styles/note.css'; // Path to the downloaded CSS file
 import { Button } from 'react-bootstrap';
 import { Note } from '../types/Note';
 import { useNavigate } from 'react-router-dom';
@@ -9,20 +10,34 @@ const API_URL = 'http://localhost:5215';
 
 
 const NotesPage: React.FC = () => {
-  const navigate = useNavigate();
-  const [notes, setNotes] = useState<Note[]>([]); // State for notes, typed as an array of Note
-  const [loading, setLoading] = useState<boolean>(false); // State for loading, typed as boolean
-  const [error, setError] = useState<string | null>(null); // State for error, typed as string or null
+  const navigate = useNavigate(); // Create a navigate function
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const getNotes = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await fetchAllNotes();
+      const sortedNotes = data.sort((a, b) => b.noteId - a.noteId);
+      setNotes(sortedNotes);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error occurred.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    fetchAllNotes();
+    getNotes();
   }, []);
 
   return (
     <div>
       <Button onClick={() => navigate(`/notescreate`)} className="btn btn-secondary mt-3">Create Note</Button>
       <h1>Notes</h1>
-      <Button onClick={fetchAllNotes} className="btn btn-primary mb-3" disabled={loading}>
+      <Button onClick={getNotes} className="btn btn-primary mb-3" disabled={loading}>
         {loading ? 'Loading...' : 'Refresh Items'}
       </Button>
       {error && <p style={{ color: 'red' }}>{error}</p>}

@@ -10,18 +10,30 @@ interface NoteDetail {
 
 // Component for showing a detailed view of a note
 const NotesDetails: React.FC<NoteDetail> = ({ onNoteDeleted }) => {
-  const navigate = useNavigate();
   const { noteId } = useParams<{ noteId: string }>(); // Extract `noteId` from route parameters
   const [note, setNote] = useState<Note | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-
-  // Replace with your actual API base URL
-  const API_URL = "http://localhost:5215";
-
   useEffect(() => {
-    fetchNoteById();
+    const handleFetchNote = async () => {
+      if (!noteId) {
+        setError('No note ID provided.');
+        return;
+      }
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await fetchNoteById(noteId);
+        setNote(data); // Update the state with the fetched note
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unknown error occurred.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    handleFetchNote();
   }, [noteId]);
 
   if (loading) {

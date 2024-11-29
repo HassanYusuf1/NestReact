@@ -14,6 +14,7 @@ import NotesCreate from './Notes/NotesCreate';
 import NotesEdit from './Notes/NotesEdit';
 import NoteDisplay from './Notes/NoteDisplay';
 import CommentEditPage from './Comment/CommentEdit';
+import NotesMyPage from './Notes/NotesMyPage';
 
 const App: React.FC = () => {
   return (
@@ -33,6 +34,7 @@ const App: React.FC = () => {
           <Route path="/edit/:noteId" element={<NotesEdit />} />
           <Route path="/notesdetails/:noteId" element={<NoteDisplay />} />
           <Route path="/commenteditnote/:commentId" element={<CommentEditPage />} />
+          <Route path="/notes/mypage" element={<NotesMyPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Container>

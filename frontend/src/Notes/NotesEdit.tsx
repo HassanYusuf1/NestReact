@@ -8,13 +8,30 @@ const API_URL = 'http://localhost:5215'
 
 const NoteUpdatePage: React.FC = () => {
   const { noteId } = useParams<{ noteId: string }>(); // Get noteId from the URL
-  const navigate = useNavigate(); // Create a navigate function
+  const navigate = useNavigate();
   const [note, setNote] = useState<Note | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchNoteById();
+    const handleFetchNote = async () => {
+      if (!noteId) {
+        setError('No note ID provided.');
+        return;
+      }
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await fetchNoteById(noteId);
+        setNote(data); // Update the state with the fetched note
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unknown error occurred.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    handleFetchNote();
   }, [noteId]);
 
   const handleNoteUpdated = async (note: Note) => {

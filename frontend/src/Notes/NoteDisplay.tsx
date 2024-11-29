@@ -7,13 +7,33 @@ import { fetchNoteByIdForDisplay } from './NoteService';
 const API_URL = 'http://localhost:5215'
 
 const NotesCreate: React.FC = () => {
-  const navigate = useNavigate(); // Create a navigate function
-  const [error, setError] = useState<string | null>(null);
   const { noteId } = useParams<{ noteId: string }>();
+  const navigate = useNavigate(); // Create a navigate function
+  const [note, setNote] = useState<Note | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  
 
-useEffect(() => {
-  fetchNoteByIdForDisplay();
-}, [noteId]);
+  const fetchNote = async () => {
+    if (!noteId) {
+      setError('No note ID provided.');
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await fetchNoteByIdForDisplay(noteId);
+      setNote(data); // Update state with fetched note
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch note.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchNote();
+  }, [noteId]); // Fetch note when the component mounts or when noteId changes
 
   const handleNotesDeleted = async (note: Note) => {
     const confirmDelete = window.confirm(`Are you sure you want to delete the note "${note?.title}"?`);
