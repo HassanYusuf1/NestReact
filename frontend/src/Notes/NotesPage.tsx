@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './styles/note.css'; // Path to the downloaded CSS file
 import { Button } from 'react-bootstrap';
 import { Note } from '../types/Note';
 import { useNavigate } from 'react-router-dom';
