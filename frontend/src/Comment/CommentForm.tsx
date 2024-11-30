@@ -12,9 +12,9 @@ interface CommentFormProps {
 
 const CommentForm: React.FC<CommentFormProps> = ({ onCommentChanged, commentId, isUpdate = false, initialData }) => {
   const [commentDescription, setCommentDescription] = useState<string>(''); // Endret fra 'Content' til 'commentDescription'
-  const [userName, setUserName] = useState<string>('');
-  const [uploadDate, setUploadDate] = useState<Date>(new Date()); // Default to the current date
-  const [error, setError] = useState<string | null>(null);
+  const [userName] = useState<string>('');
+  const [uploadDate] = useState<Date>(new Date()); // Default to the current date
+  const [error ] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const onCancel = () => {

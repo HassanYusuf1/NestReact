@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   fetchCommentsNote,
   createCommentNote,
@@ -8,7 +8,6 @@ import {
 import { Comment } from '../types/Comment';
 import { Note } from '../types/Note';
 import { formatTimeAgo } from "../utils/dateUtils";
-
 
 interface CommentTableProps {
   note: Note;
@@ -24,7 +23,8 @@ const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [editingCommentText, setEditingCommentText] = useState<string>('');
 
-  const loadComments = async () => {
+  // Memoize loadComments using useCallback
+  const loadComments = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
@@ -37,7 +37,13 @@ const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [noteId]);
+
+  useEffect(() => {
+    if (showComments) {
+      loadComments();
+    }
+  }, [showComments, loadComments]);
 
   const handleCreateComment = async () => {
     if (!newComment.trim()) {
@@ -93,12 +99,6 @@ const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
       }
     }
   };
-
-  useEffect(() => {
-    if (showComments) {
-      loadComments();
-    }
-  }, [showComments, noteId]);
 
   const toggleCommentsVisibility = () => {
     setShowComments((prev) => !prev);
@@ -203,8 +203,6 @@ const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
       )}
     </div>
   );
-  
-  
 };
 
 export default CommentTable;

@@ -15,8 +15,8 @@ interface NoteFormProps {
 const NoteForm: React.FC<NoteFormProps> = ({onNoteChanged, noteId, isUpdate = false, initialData}) => {
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
-  const [uploadDate, setUploadDate] = useState<Date>(new Date()); // Default to the current date
-  const [error, setError] = useState<string | null>(null);
+  const [uploadDate ] = useState<Date>(new Date()); // Default to the current date
+  const [error] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const onCancel = () => {
