@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { fetchAllNotes } from "./NoteService";
 import { Note } from "../types/Note";
 import { Button } from "react-bootstrap";
@@ -12,6 +12,7 @@ const NotesMyPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const location = useLocation(); // To get the source of the current page
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,13 +54,13 @@ const NotesMyPage: React.FC = () => {
                 </p>
                 <div className="d-flex justify-content-start gap-1">
                   <Button
-                    onClick={() => navigate(`/edit/${note.noteId}`)}
+                    onClick={() => navigate(`/edit/${note.noteId}`, { state: { from: location.pathname } })}
                     className="btn btn-warning btn-sm"
                   >
                     Edit
                   </Button>
                   <Button
-                    onClick={() => navigate(`/NotesDetails/${note.noteId}`)}
+                    onClick={() => navigate(`/NotesDetails/${note.noteId}`, { state: { from: location.pathname } })}
                     className="btn btn-danger btn-sm"
                   >
                     Delete
