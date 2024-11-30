@@ -33,12 +33,6 @@ const NotesPage: React.FC = () => {
   return (
     <div className="container-custom">
       <h1 className="text-center">Notes</h1>
-      <Button onClick={getNotes} className="btn btn-primary mb-3" disabled={loading}>
-        {loading ? 'Loading...' : 'Refresh Items'}
-      </Button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      {/* Bootstrap grid system with col-12 for single column */}
       <div className="row flex-column align-items-center">
         {notes.length === 0 ? (
           <p className="text-center">No notes found.</p>
