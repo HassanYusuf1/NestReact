@@ -81,6 +81,8 @@ const PictureCard: React.FC<PictureCardProps> = ({ picture, returnUrl }) => {
         src={picture.pictureUrl}
         alt={picture.title || "Picture"}
         className="picture-feed-card-img"
+        onClick={() => navigate(`/pictures/${picture.pictureId}`)}
+        style={{ cursor: "pointer" }}
       />
 
       {/* Body Section */}

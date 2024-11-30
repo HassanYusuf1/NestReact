@@ -3,7 +3,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { fetchPictureById, deletePicture } from './PictureService';
 import { Picture } from '../types/picture';
 
-const DeletePicturePage: React.FC = () => {
+const DeletePicture: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const location = useLocation();
@@ -11,7 +11,7 @@ const DeletePicturePage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const searchParams = new URLSearchParams(location.search);
-  const source = searchParams.get('source') || '/picture/grid'; // Default til grid hvis ikke angitt
+  const source = searchParams.get('source') || '/picture/grid'; 
 
   useEffect(() => {
     if (id) {
@@ -21,7 +21,7 @@ const DeletePicturePage: React.FC = () => {
           setPicture(fetchedPicture);
         } catch (err) {
           console.error(`Error fetching picture with id ${id}:`, err);
-          setError('Kunne ikke hente bildeinformasjon. Vennligst prøv igjen senere.');
+          setError('Could not get picture information.');
         }
       };
       fetchData();
@@ -29,7 +29,7 @@ const DeletePicturePage: React.FC = () => {
   }, [id]);
 
   const handleDelete = async () => {
-    if (!window.confirm('Er du sikker på at du vil slette dette bildet?')) {
+    if (!window.confirm('Are you sure you want to delete this picture?')) {
       return;
     }
 
@@ -37,8 +37,8 @@ const DeletePicturePage: React.FC = () => {
       await deletePicture(Number(id));
       navigate(source);
     } catch (error) {
-      console.error(`Feil ved sletting av bildet med id ${id}:`, error);
-      setError('Kunne ikke slette bildet. Vennligst prøv igjen senere.');
+      console.error(`Failed to delete picture with ID. ${id}:`, error);
+      setError('Could not delete the picture.');
     }
   };
 
@@ -47,25 +47,25 @@ const DeletePicturePage: React.FC = () => {
   }
 
   if (!picture) {
-    return <p>Laster bildeinformasjon...</p>;
+    return <p>Loading picture information.....</p>;
   }
 
   return (
     <div className="container">
-      <h2>Slett Bilde</h2>
-      <p>Er du sikker på at du vil slette dette bildet?</p>
+      <h2>Delete Picture</h2>
+      <p>Are you sure you want to delete this picture?</p>
       <div>
         <img src={picture.pictureUrl} alt={picture.title} style={{ width: '200px' }} />
         <h3>{picture.title}</h3>
       </div>
       <div className="mt-3">
-        <button onClick={handleDelete} className="btn btn-danger me-3">Slett</button>
+        <button onClick={handleDelete} className="btn btn-danger me-3">Delete</button>
         <button onClick={() => navigate(source)} className="btn btn-secondary">
-          Avbryt
+          Cancel
         </button>
       </div>
     </div>
   );
 };
 
-export default DeletePicturePage;
+export default DeletePicture;

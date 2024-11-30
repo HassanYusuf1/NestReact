@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Nav, Navbar, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-const NavMenu: React.FC = () => {
+const NavBar: React.FC = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); 
 
@@ -40,4 +40,4 @@ const NavMenu: React.FC = () => {
   );
 };
 
-export default NavMenu;
+export default NavBar;

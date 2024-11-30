@@ -16,21 +16,31 @@ h1 {
   }
   
 
-  h1::after {
+  h1 {
+    font-size: 2.5rem;
+    font-family: "Helvetica", "Arial", sans-serif;
+    color: #333;
+    text-align: center;
+    font-weight: 700;
+    margin: 20px auto;
+    position: relative;
+    letter-spacing: 0.7px;
+  }
+  
+  h1::before {
     content: "";
     display: block;
     width: 100%;
     height: 4px;
     background: linear-gradient(90deg, #28c5b0, #149dd3);
-    margin: 10px auto 0;
+    margin: 0 auto 10px;
     border-radius: 2px;
     transition: width 0.3s ease-in-out;
   }
   
-  h1:hover::after {
+  h1:hover::before {
     width: 80%;
   }
-  
   body.home-page {
     background: linear-gradient(
       45deg,

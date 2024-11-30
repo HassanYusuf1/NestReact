@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPicture } from './PictureService';
 
-const CreatePicturePage: React.FC = () => {
+const CreatePicture: React.FC = () => {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
@@ -88,4 +88,4 @@ const CreatePicturePage: React.FC = () => {
   );
 };
 
-export default CreatePicturePage;
+export default CreatePicture;

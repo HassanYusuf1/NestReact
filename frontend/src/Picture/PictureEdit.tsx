@@ -3,7 +3,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { fetchPictureById, updatePicture } from './PictureService';
 import { Picture } from '../types/picture';
 
-const PictureEditPage: React.FC = () => {
+const PictureEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const location = useLocation();
@@ -12,7 +12,7 @@ const PictureEditPage: React.FC = () => {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
 
-  // Hente "source" parameteren fra URL-en, standard til "/picture/grid" hvis den ikke er angitt
+
   const searchParams = new URLSearchParams(location.search);
   const source = searchParams.get('source') || '/picture/grid';
 
@@ -44,7 +44,7 @@ const PictureEditPage: React.FC = () => {
           userName: picture.userName
         };
         await updatePicture(Number(id), updatedPicture);
-        navigate(source); // Navigerer tilbake til riktig side etter lagring
+        navigate(source); 
       }
     } catch (error) {
       console.error(`Error updating picture with id ${id}:`, error);
@@ -97,4 +97,4 @@ const PictureEditPage: React.FC = () => {
   );
 };
 
-export default PictureEditPage;
+export default PictureEdit;

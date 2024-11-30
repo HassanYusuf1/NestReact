@@ -3,8 +3,7 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { fetchPictureById } from './PictureService';
 import { Picture } from '../types/picture';
 
-
-const PictureDetailsPage: React.FC = () => {
+const PictureDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
   const navigate = useNavigate();
@@ -34,52 +33,52 @@ const PictureDetailsPage: React.FC = () => {
   }
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-12">
-          {picture.pictureUrl && (
-            <img src={picture.pictureUrl} alt={picture.title || 'Picture'} className="img-fluid" />
-          )}
-        </div>
+    <div className="picture-feed-card container mt-4">
+      {/* Header with Title */}
+      <h1 className="username-in-description">{picture.title}</h1>
+
+      {/* Image Section */}
+      <img
+        src={picture.pictureUrl}
+        alt={picture.title || 'Picture'}
+        className="picture-feed-card-img"
+      />
+
+      {/* Body Section */}
+      <div className="picture-feed-card-body p-3">
+        <p>{picture.description}</p>
+        <p>
+          <strong>Uploaded on:</strong> {new Date(picture.uploadDate).toLocaleDateString()}
+        </p>
       </div>
 
-      <div className="row mt-4">
-        <div className="col-md-12">
-          <h1>{picture.title}</h1>
-          <p>{picture.description}</p>
-          <p><strong>Uploaded on:</strong> {new Date(picture.uploadDate).toLocaleDateString()}</p>
-        </div>
+      {/* Action Buttons */}
+      <div className="picture-feed-card-actions p-3 d-flex gap-2">
+        <button
+          className="btn btn-warning btn-sm"
+          onClick={() => navigate(`/pictures/${picture.pictureId}/edit?source=${location.pathname}`)}
+        >
+          Edit
+        </button>
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => navigate(`/pictures/${picture.pictureId}/delete?source=${location.pathname}`)}
+        >
+          Delete
+        </button>
       </div>
 
-      <div className="row mt-3">
-        <div className="col-md-12">
-          <button
-            className="btn btn-warning me-3"
-            onClick={() => navigate(`/pictures/${picture.pictureId}/edit?source=${source}`)}
-          >
-            Edit
-          </button>
-          <button
-            className="btn btn-danger me-3"
-            onClick={() => navigate(`/pictures/${picture.pictureId}/delete?source=${source}`)}
-          >
-            Delete
-          </button>
-        </div>
-      </div>
+      <div className="p-3">
+        <button
+          className="btn btn-secondary"
+          onClick={() => navigate(-1)} 
 
-      <div className="row mt-3">
-        <div className="col-md-12">
-          <button
-            className="btn btn-secondary"
-            onClick={() => navigate(source)}
-          >
-            Return
-          </button>
-        </div>
+        >
+          Return
+        </button>
       </div>
     </div>
   );
 };
 
-export default PictureDetailsPage;
+export default PictureDetails;
