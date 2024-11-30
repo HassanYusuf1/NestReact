@@ -3723,11 +3723,25 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
+    "C:\\Users\\hassan\\.nuget\\packages\\": {}
+=======
     "C:\\Users\\mbmik\\.nuget\\packages\\": {}
+>>>>>>> 8b03c23687d28cbd4a8e530c59330bff2f4e273d
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
+      "projectUniqueName": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\Api.csproj",
+      "projectName": "Api",
+      "projectPath": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\Api.csproj",
+      "packagesPath": "C:\\Users\\hassan\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\hassan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+=======
       "projectUniqueName": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\Api.csproj",
       "projectName": "Api",
       "projectPath": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\Api.csproj",
@@ -3736,6 +3750,7 @@
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mbmik\\AppData\\Roaming\\NuGet\\NuGet.Config"
+>>>>>>> 8b03c23687d28cbd4a8e530c59330bff2f4e273d
       ],
       "originalTargetFrameworks": [
         "net8.0"
