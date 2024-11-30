@@ -14,7 +14,7 @@ interface CommentTableProps {
   noteId: number;
 }
 
-const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
+const CommentTableNote: React.FC<CommentTableProps> = ({ note, noteId }) => {
   const [newComment, setNewComment] = useState<string>('');
   const [comments, setComments] = useState<Comment[]>([]);
   const [showComments, setShowComments] = useState<boolean>(false);
@@ -110,9 +110,9 @@ const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
       <p
         onClick={toggleCommentsVisibility}
         className="view-comments-p"
-        aria-label={showComments ? 'Hide Comments' : 'Show Comments'}
+        aria-label={showComments ? 'Hide Comments' : `Show Comments (${comments.length})`}
       >
-        {showComments ? 'Hide Comments' : 'Show Comments'}
+        {showComments ? `Hide Comments (${comments.length})` : `Show Comments (${comments.length})`}
       </p>
   
       {/* Add Comment Section */}
@@ -136,6 +136,10 @@ const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
           {isLoading && <p>Loading comments...</p>}
   
           {error && <p className="error-message">{error}</p>}
+  
+          {!isLoading && !error && comments.length === 0 && (
+            <p>No comments found.</p>
+          )}
   
           {!isLoading && !error && comments.length > 0 && (
             <div className="comments-grid">
@@ -205,4 +209,4 @@ const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
   );
 };
 
-export default CommentTable;
+export default CommentTableNote;
