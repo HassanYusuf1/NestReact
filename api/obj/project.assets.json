@@ -3723,19 +3723,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/miski/.nuget/packages/": {}
+    "C:\\Users\\hassan\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/miski/Documents/NestReact/api/Api.csproj",
+      "projectUniqueName": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\Api.csproj",
       "projectName": "Api",
-      "projectPath": "/Users/miski/Documents/NestReact/api/Api.csproj",
-      "packagesPath": "/Users/miski/.nuget/packages/",
-      "outputPath": "/Users/miski/Documents/NestReact/api/obj/",
+      "projectPath": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\Api.csproj",
+      "packagesPath": "C:\\Users\\hassan\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/miski/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\hassan\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -3830,7 +3830,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

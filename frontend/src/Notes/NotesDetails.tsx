@@ -16,10 +16,12 @@ const NotesDetails: React.FC<NoteDetail> = ({ onNoteDeleted }) => {
   const [error, setError] = useState<string | null>(null);
 
   const onCancel = () => {
+    
     navigate(-1); 
   };
 
   const onDeleteNote = (note: Note) => {
+  
     navigate(-1); 
   };
 
