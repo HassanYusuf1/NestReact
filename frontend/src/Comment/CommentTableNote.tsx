@@ -107,13 +107,13 @@ const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
   return (
     <div className="comments-container">
       {/* Toggle Comments Visibility */}
-      <a
+      <p
         onClick={toggleCommentsVisibility}
-        className="view-comments-link"
+        className="view-comments-p"
         aria-label={showComments ? 'Hide Comments' : 'Show Comments'}
       >
         {showComments ? 'Hide Comments' : 'Show Comments'}
-      </a>
+      </p>
   
       {/* Add Comment Section */}
       <div className="add-comment-section p-3">

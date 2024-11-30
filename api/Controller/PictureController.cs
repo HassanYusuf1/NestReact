@@ -279,7 +279,7 @@ public class PictureController : Controller
     public async Task<IActionResult> Picture()
     {
         var pictures = await _pictureRepository.GetAll();
-        var pictureViewModel = new PicturesViewModel(pictures, "Picture");
+        var pictureViewModel = new PicturesViewModel(pictures, "Picture" ?? string.Empty);
 
         if (pictures == null)
         {
@@ -292,7 +292,7 @@ public class PictureController : Controller
     public async Task<IActionResult> Grid()
     {
         var pictures = await _pictureRepository.GetAll();
-        var pictureViewModel = new PicturesViewModel(pictures, "Picture");
+        var pictureViewModel = new PicturesViewModel(pictures, "Picture" ?? string.Empty);
 
         if (pictures == null)
         {
