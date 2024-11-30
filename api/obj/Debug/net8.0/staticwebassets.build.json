@@ -1,10 +1,6 @@
 {
   "Version": 1,
-<<<<<<< HEAD
-  "Hash": "y7pbM+WasAze/TKuoOpXZDPcAzjK0gCGkRPQrJtZN/g=",
-=======
-  "Hash": "IPwppQxni6nHOAgPcapkrjGhR8RoySiBn30eTK4HixQ=",
->>>>>>> 1d6b16ece49f54951c978fe7decb7fb2ad8387d0
+  "Hash": "dwkvwJ66BoU7hzdND9RXOiiqP1AQAz57O4WTXuk+BWg=",
   "Source": "Api",
   "BasePath": "_content/Api",
   "Mode": "Default",
@@ -1180,17 +1176,10 @@
       "OriginalItemSpec": "wwwroot\\css\\j"
     },
     {
-<<<<<<< HEAD
       "Identity": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\wwwroot\\images\\24dec1cc-8a55-4b9f-9838-52f8c90aec95_last ned.jpeg",
       "SourceId": "Api",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\wwwroot\\",
-=======
-      "Identity": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\images\\24dec1cc-8a55-4b9f-9838-52f8c90aec95_last ned.jpeg",
-      "SourceId": "Api",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\",
->>>>>>> 1d6b16ece49f54951c978fe7decb7fb2ad8387d0
       "BasePath": "_content/Api",
       "RelativePath": "images/24dec1cc-8a55-4b9f-9838-52f8c90aec95_last ned.jpeg",
       "AssetKind": "All",
@@ -1206,17 +1195,10 @@
       "OriginalItemSpec": "wwwroot\\images\\24dec1cc-8a55-4b9f-9838-52f8c90aec95_last ned.jpeg"
     },
     {
-<<<<<<< HEAD
       "Identity": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\wwwroot\\images\\2eb7468c-adbc-414e-94a7-83a6dbd2c4e3_Skjermbilde 2023-09-22 104402.png",
       "SourceId": "Api",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\wwwroot\\",
-=======
-      "Identity": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\images\\2eb7468c-adbc-414e-94a7-83a6dbd2c4e3_Skjermbilde 2023-09-22 104402.png",
-      "SourceId": "Api",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\",
->>>>>>> 1d6b16ece49f54951c978fe7decb7fb2ad8387d0
       "BasePath": "_content/Api",
       "RelativePath": "images/2eb7468c-adbc-414e-94a7-83a6dbd2c4e3_Skjermbilde 2023-09-22 104402.png",
       "AssetKind": "All",
@@ -1251,11 +1233,7 @@
       "OriginalItemSpec": "wwwroot\\images\\922afeac-80e6-46e7-9637-5cbbf9d815f6_last ned.jpeg"
     },
     {
-<<<<<<< HEAD
       "Identity": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\wwwroot\\images\\9e556a42-f7ef-43aa-9fc3-990e93de2feb_last ned.jpeg",
-=======
-      "Identity": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\images\\9e556a42-f7ef-43aa-9fc3-990e93de2feb_last ned.jpeg",
->>>>>>> 1d6b16ece49f54951c978fe7decb7fb2ad8387d0
       "SourceId": "Api",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\wwwroot\\",
@@ -1272,7 +1250,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\9e556a42-f7ef-43aa-9fc3-990e93de2feb_last ned.jpeg"
-<<<<<<< HEAD
+    },
+    {
+      "Identity": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\wwwroot\\images\\c124e46f-6356-440e-9c52-f28099ec5363_last ned.jpeg",
+      "SourceId": "Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\wwwroot\\",
+      "BasePath": "_content/Api",
+      "RelativePath": "images/c124e46f-6356-440e-9c52-f28099ec5363_last ned.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\c124e46f-6356-440e-9c52-f28099ec5363_last ned.jpeg"
     },
     {
       "Identity": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\wwwroot\\images\\d063ec40-3f6a-440b-b4e5-b47284c43219_last ned.jpeg",
@@ -1292,8 +1288,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\d063ec40-3f6a-440b-b4e5-b47284c43219_last ned.jpeg"
-=======
->>>>>>> 1d6b16ece49f54951c978fe7decb7fb2ad8387d0
     },
     {
       "Identity": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\wwwroot\\js\\k",
