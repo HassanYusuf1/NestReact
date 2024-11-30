@@ -4,8 +4,6 @@ import NoteForm from './NoteForm';
 import { Note } from '../types/Note';
 import { fetchNoteById, updateNote } from './NoteService';
 
-const API_URL = 'http://localhost:5215';
-
 const NoteEdits: React.FC = () => {
   const { noteId } = useParams<{ noteId: string }>(); // Get noteId from the URL
   const navigate = useNavigate();

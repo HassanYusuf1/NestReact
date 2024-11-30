@@ -6,8 +6,6 @@ import { fetchAllNotes } from './NoteService';
 import CommentTableNote from '../Comment/CommentTableNote';
 import { formatTimeAgo } from '../utils/dateUtils';
 
-const API_URL = 'http://localhost:5215';
-
 const NotesPage: React.FC = () => {
   const navigate = useNavigate(); // Create a navigate function
   const [notes, setNotes] = useState<Note[]>([]);

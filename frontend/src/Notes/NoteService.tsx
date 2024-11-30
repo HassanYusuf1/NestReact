@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { Note } from '../types/Note';
 
 const API_URL = 'http://localhost:5215';
@@ -8,7 +6,6 @@ const headers = {
     'Content-Type': 'application/json',
   };
 
-    //BRUKT
 export const handleResponse = async (response: Response) => {
     if (response.ok) {
       if (response.status === 204) {
@@ -21,7 +18,6 @@ export const handleResponse = async (response: Response) => {
     }
   };
 
-  //BRUKT
 export const fetchNoteById = async (noteId: string): Promise<Note> => {
     try {
       const response = await fetch(`${API_URL}/api/noteapi/${noteId}`);
@@ -73,10 +69,6 @@ export const fetchNoteById = async (noteId: string): Promise<Note> => {
     }
   };
 
-  
-  
-
-//BRUKT
 export const fetchAllNotes = async (): Promise<Note[]> => {
   try {
     const response = await fetch(`${API_URL}/api/NoteAPI/getnotes`);
@@ -87,7 +79,7 @@ export const fetchAllNotes = async (): Promise<Note[]> => {
     const data: Note[] = await response.json();
     console.log('Raw data from API:', data);
 
-    // Konverter uploadDate fra streng til Date-objekt
+    // Convert date to string
     const notesWithParsedDates = data.map((note) => ({
       ...note,
       uploadDate: new Date(note.uploadDate), // Konverter datoen til Date-objekt
