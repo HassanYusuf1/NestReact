@@ -3723,19 +3723,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Andyt\\.nuget\\packages\\": {}
+    "C:\\Users\\hassan\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Andyt\\OneDrive\\Skrivebord\\react\\instagram\\NestReact\\api\\Api.csproj",
+      "projectUniqueName": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\Api.csproj",
       "projectName": "Api",
-      "projectPath": "C:\\Users\\Andyt\\OneDrive\\Skrivebord\\react\\instagram\\NestReact\\api\\Api.csproj",
-      "packagesPath": "C:\\Users\\Andyt\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Andyt\\OneDrive\\Skrivebord\\react\\instagram\\NestReact\\api\\obj\\",
+      "projectPath": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\Api.csproj",
+      "packagesPath": "C:\\Users\\hassan\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Andyt\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\hassan\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
