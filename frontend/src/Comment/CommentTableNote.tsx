@@ -39,11 +39,10 @@ const CommentTableNote: React.FC<CommentTableProps> = ({ note, noteId }) => {
     }
   }, [noteId]);
 
+  // Load comments on component mount
   useEffect(() => {
-    if (showComments) {
-      loadComments();
-    }
-  }, [showComments, loadComments]);
+    loadComments(); // Always try to load comments when the component mounts
+  }, [loadComments]);
 
   const handleCreateComment = async () => {
     if (!newComment.trim()) {
@@ -55,7 +54,7 @@ const CommentTableNote: React.FC<CommentTableProps> = ({ note, noteId }) => {
       const createdComment = await createCommentNote({
         noteId: note.noteId,
         commentDescription: newComment,
-        userName: 'currentUserName', // Replace with actual username
+        userName: 'Harry', 
       });
 
       setComments((prevComments) => [...prevComments, createdComment]);
@@ -105,16 +104,67 @@ const CommentTableNote: React.FC<CommentTableProps> = ({ note, noteId }) => {
   };
 
   return (
-    <div className="comments-container">
+    <div className="picture-card-footer p-3">
       {/* Toggle Comments Visibility */}
-      <p
-        onClick={toggleCommentsVisibility}
-        className="view-comments-p"
-        aria-label={showComments ? 'Hide Comments' : `Show Comments (${comments.length})`}
-      >
-        {showComments ? `Hide Comments (${comments.length})` : `Show Comments (${comments.length})`}
-      </p>
-  
+      {comments.length > 0 && (
+        <p className="text-muted">
+          <a
+            href="javascript:void(0);"
+            onClick={toggleCommentsVisibility}
+            className="view-comments-link"
+          >
+            View all {comments.length} comments
+          </a>
+        </p>
+      )}
+
+      {/* Hidden Comments Section */}
+      {showComments && (
+        <div id="all-comments" style={{ display: showComments ? 'block' : 'none' }}>
+          {isLoading && <p>Loading comments...</p>}
+          {error && <p className="error-message">{error}</p>}
+          
+          {!isLoading && !error && comments.length === 0 && (
+            <p>No comments found.</p>
+          )}
+
+          {!isLoading && !error && comments.length > 0 && (
+            <div className="comments-grid">
+              {comments.map((comment) => (
+                <div key={comment.commentId} className="comment d-flex justify-content-between align-items-center mb-2">
+                  <div>
+                    <strong>{comment.userName.split('@')[0]}:</strong> {comment.commentDescription}
+                    <p className="timestamp relative-time text-muted" data-timestamp={comment.uploadDate}>
+                      {formatTimeAgo(comment.uploadDate)}
+                    </p>
+                  </div>
+
+                  {(
+                    <div className="comment-actions">
+                      <button
+                        className="btn btn-link text-primary me-2 p-0 fw-bold"
+                        onClick={() => {
+                          setEditingCommentId(comment.commentId);
+                          setEditingCommentText(comment.commentDescription);
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-link text-danger p-0 fw-bold"
+                        onClick={() => handleDeleteComment(comment.commentId)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Add Comment Section */}
       <div className="add-comment-section p-3">
         <textarea
@@ -130,81 +180,6 @@ const CommentTableNote: React.FC<CommentTableProps> = ({ note, noteId }) => {
           Add Comment
         </button>
       </div>
-  
-      {showComments && (
-        <div className="comments-section">
-          {isLoading && <p>Loading comments...</p>}
-  
-          {error && <p className="error-message">{error}</p>}
-  
-          {!isLoading && !error && comments.length === 0 && (
-            <p>No comments found.</p>
-          )}
-  
-          {!isLoading && !error && comments.length > 0 && (
-            <div className="comments-grid">
-              {comments.map((comment) => (
-                <div
-                  key={comment.commentId}
-                  className="comment-card mb-2 p-2 bg-light shadow-sm rounded"
-                >
-                  {editingCommentId === comment.commentId ? (
-                    <div>
-                      <textarea
-                        className="form-control mb-2"
-                        value={editingCommentText}
-                        onChange={(e) => setEditingCommentText(e.target.value)}
-                        autoFocus
-                      />
-                      <button
-                        className="btn btn-success btn-sm me-2"
-                        onClick={() => handleEditComment(comment.commentId)}
-                      >
-                        Save
-                      </button>
-                      <button
-                        className="btn btn-secondary btn-sm"
-                        onClick={() => {
-                          setEditingCommentId(null);
-                          setEditingCommentText('');
-                        }}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  ) : (
-                    <div>
-                      <p className="mb-1 fs-6 text-dark">{comment.commentDescription}</p>
-                      <div className="text-muted small d-flex justify-content-between align-items-center">
-                        <small>{formatTimeAgo(comment.uploadDate)}</small>
-                        {comment.userName === 'currentUserName' && (
-                          <span className="comment-actions">
-                            <button
-                              className="btn btn-link text-primary me-2 p-0 fw-bold"
-                              onClick={() => {
-                                setEditingCommentId(comment.commentId);
-                                setEditingCommentText(comment.commentDescription);
-                              }}
-                            >
-                              ✏️ Edit
-                            </button>
-                            <button
-                              className="btn btn-link text-danger p-0 fw-bold"
-                              onClick={() => handleDeleteComment(comment.commentId)}
-                            >
-                              🗑️ Delete
-                            </button>
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 };
