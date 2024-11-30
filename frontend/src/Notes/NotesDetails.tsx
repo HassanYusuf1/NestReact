@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {  useNavigate,useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { Note } from "../types/Note";
 import { fetchNoteById } from "./NoteService";
@@ -10,14 +10,19 @@ interface NoteDetail {
 
 //Component for showing a detailed view of a note
 const NotesDetails: React.FC<NoteDetail> = ({ onNoteDeleted }) => {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const { noteId } = useParams<{ noteId: string }>(); // Extract `noteId` from route parameters
   const [note, setNote] = useState<Note | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   const onCancel = () => {
-    Navigate(-1); // This will navigate back one step in the history
+    navigate(-1); // This will navigate back one step in the history
+  };
+
+  const onDeleteNote = (note: Note) => {
+    onNoteDeleted(note);
+    navigate(-1); // Navigate back to the previous page after deleting
   };
 
   useEffect(() => {
@@ -57,7 +62,7 @@ const NotesDetails: React.FC<NoteDetail> = ({ onNoteDeleted }) => {
     <div>
       <p>{note.title}</p>
       <p>{note.content}</p>
-      <Button onClick={() => onNoteDeleted(note)}>Delete Note</Button>
+      <Button onClick={() => onDeleteNote(note)}>Delete Note</Button>
       <Button onClick={() => onCancel()}>Cancel</Button>
     </div>
   );

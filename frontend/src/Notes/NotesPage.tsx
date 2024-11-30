@@ -1,65 +1,77 @@
-import React, { useEffect, useState } from 'react';
-import { Button } from 'react-bootstrap';
-import { Note } from '../types/Note';
-import { useNavigate } from 'react-router-dom';
-import { fetchAllNotes } from './NoteService';
-import CommentTableNote from '../Comment/CommentTableNote';
-import { formatTimeAgo } from '../utils/dateUtils';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { fetchAllNotes } from "./NoteService";
+import { Note } from "../types/Note";
+import { Button } from "react-bootstrap";
+import { formatTimeAgo } from "../utils/dateUtils";
+import CommentTableNote from "../Comment/CommentTableNote";
+import '../layout.css';
 
 const NotesPage: React.FC = () => {
-  const navigate = useNavigate(); // Create a navigate function
   const [notes, setNotes] = useState<Note[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
-  const getNotes = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await fetchAllNotes();
-      const sortedNotes = data.sort((a, b) => b.noteId - a.noteId);
-      setNotes(sortedNotes);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error occurred.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getNotes();
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchAllNotes();
+        setNotes(data);
+      } catch (err) {
+        setError("Could not load notes. Please try again later.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
+  if (loading) {
+    return <p>Loading notes...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
   return (
-    <div className="container-custom">
-      <h1 className="text-center">Notes</h1>
-      <div className="row flex-column align-items-center">
-        {notes.length === 0 ? (
-          <p className="text-center">No notes found.</p>
-        ) : (
-          notes.map(note => (
-            <div key={note.noteId} className="col-12 mb-4"> {/* Single column per card */}
-              <div className="card mb-4 shadow-sm note-card">
-                <div className="card-body">
-                  <h4 className="note-title">{note.title}</h4>
-                  <p className="note-content">{note.content}</p>
-                  <p className="note-timestamp">Uploaded: {formatTimeAgo(note.uploadDate)}</p>
-                  <CommentTableNote note={note} noteId={note.noteId}></CommentTableNote>
-                </div>
-                <div className="card-footer bg-light">
-                  <div className="note-actions">
-                    <Button onClick={() => navigate(`/edit/${note.noteId}`)} className="btn btn-sm btn-warning">
-                      Edit
-                    </Button>
-                    <Button onClick={() => navigate(`/NotesDetails/${note.noteId}`)} variant="danger">
-                      Delete
-                    </Button>
-                  </div>
+    <div className="container">
+      <h1 className="text-center mb-4">Notes</h1>
+      <div className="d-flex flex-column align-items-center">
+        {notes.map((note) => (
+          <div key={note.noteId} className="mb-4" style={{ width: "100%", maxWidth: "800px" }}>
+            <div className="card shadow-sm" style={{ minHeight: "300px" }}>
+              <div className="card-body">
+                <h4 className="card-title">{note.title}</h4>
+                <p className="card-text">{note.content}</p>
+                <p className="card-subtitle mb-2 text-muted">
+                  Uploaded: {formatTimeAgo(note.uploadDate)}
+                </p>
+                <div className="d-flex justify-content-start gap-1">
+                  <Button
+                    onClick={() => navigate(`/edit/${note.noteId}`, { state: { from: '/notes' } })}
+                    className="btn btn-warning btn-sm"
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    onClick={() => navigate(`/NotesDetails/${note.noteId}`)}
+                    className="btn btn-danger btn-sm"
+                  >
+                    Delete
+                  </Button>
                 </div>
               </div>
+              <div className="card-footer p-3">
+                <CommentTableNote note={note} noteId={note.noteId} />
+              </div>
             </div>
-          ))
-        )}
+          </div>
+        ))}
       </div>
     </div>
   );

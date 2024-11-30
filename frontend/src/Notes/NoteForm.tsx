@@ -57,7 +57,7 @@ const NoteForm: React.FC<NoteFormProps> = ({onNoteChanged, noteId, isUpdate = fa
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
-      <Button variant="primary" type="submit">Create note</Button>
+      <Button variant="primary" type="submit">save changes</Button>
       <Button variant="secondary" onClick={onCancel} className="ms-2">Cancel</Button>
     </Form>
   );
