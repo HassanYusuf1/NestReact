@@ -9,19 +9,11 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Api
 build_property.RootNamespace = Api
-<<<<<<< HEAD
-build_property.ProjectDir = C:\Users\hassan\Desktop\NestReact\api\
-=======
-build_property.ProjectDir = C:\Users\Andyt\OneDrive\Skrivebord\react\instagram\NestReact\api\
->>>>>>> 1d6b16ece49f54951c978fe7decb7fb2ad8387d0
+build_property.ProjectDir = C:\Users\mbmik\OneDrive\Dokumenter\GitHub\NestReact\api\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-<<<<<<< HEAD
-build_property.MSBuildProjectDirectory = C:\Users\hassan\Desktop\NestReact\api
-=======
-build_property.MSBuildProjectDirectory = C:\Users\Andyt\OneDrive\Skrivebord\react\instagram\NestReact\api
->>>>>>> 1d6b16ece49f54951c978fe7decb7fb2ad8387d0
+build_property.MSBuildProjectDirectory = C:\Users\mbmik\OneDrive\Dokumenter\GitHub\NestReact\api
 build_property._RazorSourceGeneratorDebug = 
