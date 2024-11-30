@@ -2,10 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using InstagramMVC.Models;
 using InstagramMVC.DAL;
 using InstagramMVC.DTOs;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
-using System.Linq;
+
 
 namespace InstagramMVC.Controllers
 {
@@ -125,18 +122,7 @@ namespace InstagramMVC.Controllers
             return Ok(existingComment);
         }
 
-        [HttpGet("delete/confirm/{id}")]
-        public async Task<IActionResult> ConfirmDeleteComment(int id)
-        {
-            var comment = await _commentRepository.GetCommentById(id);
-            if (comment == null)
-            {
-                _logger.LogError("[CommentAPIController] Comment with id {CommentId} not found", id);
-                return NotFound("Comment not found.");
-            }
-
-            return Ok(comment);
-        }
+        
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteComment(int id)

@@ -1,6 +1,7 @@
 import { Note } from '../types/Note';
+import API_URL from '../apiConfig';
 
-const API_URL = 'http://localhost:5215';
+
 
 const headers = {
     'Content-Type': 'application/json',

@@ -87,7 +87,7 @@ const NotesMyPage: React.FC = () => {
           className="btn btn-primary btn-lg rounded-pill shadow-sm"
           onClick={() => navigate("/notescreate", { state: { source: location.pathname } })}
         >
-          📤 Upload New Note
+           Upload New Note
         </button>
       </div>
     </div>

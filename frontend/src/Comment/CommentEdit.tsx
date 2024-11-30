@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CommentForm from './CommentForm';
 import { Comment } from '../types/Comment';
+import API_URL from '../apiConfig';
 
-const API_URL = 'http://localhost:5215'
 
 const CommentUpdatePage: React.FC = () => {
-  const { commentId } = useParams<{ commentId: string }>(); // Get commentId from the URL
-  const navigate = useNavigate(); // Create a navigate function
+  const { commentId } = useParams<{ commentId: string }>(); 
+  const navigate = useNavigate(); 
   const [comment, setComment] = useState<Comment | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -15,7 +15,7 @@ const CommentUpdatePage: React.FC = () => {
   useEffect(() => {
     const fetchComment = async () => {
       try {
-        const response = await fetch(`${API_URL}/api/commentapi/${commentId}`); // default Get
+        const response = await fetch(`${API_URL}/api/commentapi/${commentId}`); 
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
