@@ -59,7 +59,7 @@ const NotesCreate: React.FC = () => {
   
   return (
     <div>
-      <h2>Detailed view of the note</h2>
+      <h2>Are you sure you want to delete this note?</h2>
       <NotesDetails onNoteDeleted={handleNotesDeleted} />
     </div>
   );

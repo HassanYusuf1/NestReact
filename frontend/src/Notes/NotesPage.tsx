@@ -52,7 +52,7 @@ const NotesPage: React.FC = () => {
                       Edit
                     </Button>
                     <Button onClick={() => navigate(`/NotesDetails/${note.noteId}`)} variant="danger">
-                      Details
+                      Delete
                     </Button>
                   </div>
                 </div>
