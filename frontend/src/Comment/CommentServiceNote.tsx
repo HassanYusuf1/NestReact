@@ -28,12 +28,22 @@ export const fetchCommentsNote = async (noteId: number): Promise<Comment[]> => {
       },
     });
 
-    return handleResponse(response);
+    const data = await handleResponse(response);
+
+    // Konverter uploadDate fra streng til Date-objekt
+    const commentsWithParsedDates = data.map((comment: Comment) => ({
+      ...comment,
+      uploadDate: new Date(comment.uploadDate), // Konverter datoen
+    }));
+
+    return commentsWithParsedDates;
   } catch (error) {
     console.error(`Error fetching comments for note with id ${noteId}:`, error);
     throw error;
   }
 };
+
+
 
 // Create a comment associated with a note
 export const createCommentNote = async (commentData: {

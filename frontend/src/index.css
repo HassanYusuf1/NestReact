@@ -15,7 +15,7 @@ code {
 
 /*Picture grid*/
 
-/* Center the container and set a max width */
+/* Center the container */
 .container-page {
     max-width: 1000px;
     margin: 0 auto;
@@ -72,6 +72,7 @@ code {
     padding: 10px;
 }
 
+/*Comments*/
 .description {
     margin: 0;
     font-size: 14px;
@@ -117,7 +118,7 @@ code {
 .comment-form button:hover {
     background-color: #007bb5;
 }
-/* Slett-knapp stil */
+/* Delete btn */
 .btn-delete {
     background-color: #ff4d4d; /* Rød farge for slett-knappen */
     color: white;
@@ -174,6 +175,15 @@ code {
 .view-comments-link {
     font-size: 14px;
     color: #8e8e8e;
+}
+
+.view-comments-p {
+    font-size: 16px;
+    text-decoration: underline;
+}
+
+.view-comments-p:hover {
+    cursor: pointer
 }
 
 .comment-form textarea {

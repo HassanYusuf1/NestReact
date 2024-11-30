@@ -1,39 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NoteForm from './NoteForm';
 import { Note } from '../types/Note';
-
-const API_URL = 'http://localhost:5215'
+import { createNote } from '../Notes/NoteService';
+import { formatTimeAgo } from '../utils/dateUtils'; // Importer hjelpefunksjonen
 
 const NotesCreate: React.FC = () => {
-  const navigate = useNavigate(); // Create a navigate function
+  const navigate = useNavigate();
+  const [formattedTime, setFormattedTime] = useState<string | null>(null); // State for formatert tid
 
   const handleNoteCreated = async (note: Note) => {
     try {
-      const response = await fetch(`${API_URL}/api/NoteAPI/Create`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(note),
-      });
+      const createdNote = await createNote(note);
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
+      const formatted = formatTimeAgo(createdNote.uploadDate);
+      setFormattedTime(formatted);
 
-      const data = await response.json();
-      console.log('note created successfully:', data);
-      navigate('/notes'); // Navigate back after successful creation
+      navigate('/notes'); 
     } catch (error) {
-      console.error('There was a problem with the fetch operation:', error);
+      console.error('Error creating note:', error);
     }
-  }
-  
+  };
+
   return (
     <div>
-      <h2>Create New note</h2>
+      <h2>Create New Note</h2>
       <NoteForm onNoteChanged={handleNoteCreated} />
+      {formattedTime && <p>Note uploaded: {formattedTime}</p>} {/* Vis formatert tid */}
     </div>
   );
 };

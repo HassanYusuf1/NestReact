@@ -7,10 +7,10 @@ namespace InstagramMVC.ViewModels
         public IEnumerable<Note> Notes;
         public string? CurrentViewName;
 
-        public NotesViewModel(IEnumerable<Note> notes, string? currentViewName)
+        public NotesViewModel(IEnumerable<Note>? notes, string? currentViewName)
         {
-            Notes = notes;
-            CurrentViewName = currentViewName;
+            Notes = notes ?? Enumerable.Empty<Note>();
+            CurrentViewName = currentViewName ?? string.Empty;
         }
     }
 }

@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { fetchCommentsNote, createCommentNote, editCommentForNote, deleteCommentForNote } from './CommentServiceNote';
+import {
+  fetchCommentsNote,
+  createCommentNote,
+  editCommentForNote,
+  deleteCommentForNote,
+} from './CommentServiceNote';
 import { Comment } from '../types/Comment';
 import { Note } from '../types/Note';
+import { formatTimeAgo } from "../utils/dateUtils";
+
 
 interface CommentTableProps {
   note: Note;
@@ -9,18 +16,18 @@ interface CommentTableProps {
 }
 
 const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
-  const [newComment, setNewComment] = useState<string>("");
+  const [newComment, setNewComment] = useState<string>('');
   const [comments, setComments] = useState<Comment[]>([]);
   const [showComments, setShowComments] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
-  const [editingCommentText, setEditingCommentText] = useState<string>("");
+  const [editingCommentText, setEditingCommentText] = useState<string>('');
 
   const loadComments = async () => {
     setIsLoading(true);
     setError(null);
-  
+
     try {
       const data = await fetchCommentsNote(noteId);
       setComments(data);
@@ -34,7 +41,7 @@ const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
 
   const handleCreateComment = async () => {
     if (!newComment.trim()) {
-      alert("Please enter a valid comment.");
+      alert('Please enter a valid comment.');
       return;
     }
 
@@ -42,31 +49,33 @@ const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
       const createdComment = await createCommentNote({
         noteId: note.noteId,
         commentDescription: newComment,
-        userName: "currentUserName"
+        userName: 'currentUserName', // Replace with actual username
       });
 
-      setComments(prevComments => [...prevComments, createdComment]);
-      setNewComment("");
+      setComments((prevComments) => [...prevComments, createdComment]);
+      setNewComment('');
     } catch (error) {
-      console.error("Error creating comment:", error);
+      console.error('Error creating comment:', error);
     }
   };
 
   const handleEditComment = async (commentId: number) => {
     if (!editingCommentText.trim()) {
-      alert("Please enter a valid comment.");
+      alert('Please enter a valid comment.');
       return;
     }
 
     try {
       await editCommentForNote(commentId, { commentDescription: editingCommentText });
-      setComments(prevComments =>
-        prevComments.map(comment =>
-          comment.commentId === commentId ? { ...comment, commentDescription: editingCommentText } : comment
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment.commentId === commentId
+            ? { ...comment, commentDescription: editingCommentText }
+            : comment
         )
       );
       setEditingCommentId(null);
-      setEditingCommentText("");
+      setEditingCommentText('');
     } catch (error) {
       console.error(`Error editing comment with id ${commentId}:`, error);
     }
@@ -75,10 +84,10 @@ const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
   const handleDeleteComment = async (commentId: number) => {
     try {
       await deleteCommentForNote(commentId);
-      setComments(prevComments => prevComments.filter(comment => comment.commentId !== commentId));
+      setComments((prevComments) => prevComments.filter((comment) => comment.commentId !== commentId));
     } catch (error) {
-      if (error.message.includes("Comment not found")) {
-        setComments(prevComments => prevComments.filter(comment => comment.commentId !== commentId));
+      if (error.message.includes('Comment not found')) {
+        setComments((prevComments) => prevComments.filter((comment) => comment.commentId !== commentId));
       } else {
         console.error(`Error deleting comment with id ${commentId}:`, error);
       }
@@ -97,26 +106,44 @@ const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
 
   return (
     <div className="comments-container">
-      <a
+      {/* Toggle Comments Visibility */}
+      <p
         onClick={toggleCommentsVisibility}
-        className="view-comments-link"
+        className="view-comments-p"
         aria-label={showComments ? 'Hide Comments' : 'Show Comments'}
       >
         {showComments ? 'Hide Comments' : 'Show Comments'}
-      </a>
-
+      </p>
+  
+      {/* Add Comment Section */}
+      <div className="add-comment-section p-3">
+        <textarea
+          id="newComment"
+          name="newComment"
+          className="form-control mb-2"
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          placeholder="Add a comment..."
+          rows={1}
+        />
+        <button className="btn btn-secondary" onClick={handleCreateComment}>
+          Add Comment
+        </button>
+      </div>
+  
       {showComments && (
         <div className="comments-section">
-          <h2>Comments</h2>
-
           {isLoading && <p>Loading comments...</p>}
-
+  
           {error && <p className="error-message">{error}</p>}
-
+  
           {!isLoading && !error && comments.length > 0 && (
             <div className="comments-grid">
               {comments.map((comment) => (
-                <div key={comment.commentId} className="comment-card mb-2 p-2 bg-light shadow-sm rounded">
+                <div
+                  key={comment.commentId}
+                  className="comment-card mb-2 p-2 bg-light shadow-sm rounded"
+                >
                   {editingCommentId === comment.commentId ? (
                     <div>
                       <textarea
@@ -135,7 +162,7 @@ const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
                         className="btn btn-secondary btn-sm"
                         onClick={() => {
                           setEditingCommentId(null);
-                          setEditingCommentText("");
+                          setEditingCommentText('');
                         }}
                       >
                         Cancel
@@ -145,7 +172,7 @@ const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
                     <div>
                       <p className="mb-1 fs-6 text-dark">{comment.commentDescription}</p>
                       <div className="text-muted small d-flex justify-content-between align-items-center">
-                        <small>{comment.uploadDate ? new Date(comment.uploadDate).toLocaleString() : "Unknown date"}</small>
+                        <small>{formatTimeAgo(comment.uploadDate)}</small>
                         {comment.userName === 'currentUserName' && (
                           <span className="comment-actions">
                             <button
@@ -172,32 +199,12 @@ const CommentTable: React.FC<CommentTableProps> = ({ note, noteId }) => {
               ))}
             </div>
           )}
-
-          {!isLoading && !error && comments.length === 0 && (
-            <p>No comments available for this note.</p>
-          )}
-
-          <div className="add-comment-section p-3">
-            <textarea
-              id="newComment"
-              name="newComment"
-              className="form-control mb-2"
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              placeholder="Add a comment..."
-              rows={1}
-            />
-            <button
-              className="btn btn-secondary"
-              onClick={handleCreateComment}
-            >
-              Add Comment
-            </button>
-          </div>
         </div>
       )}
     </div>
   );
+  
+  
 };
 
 export default CommentTable;

@@ -21,7 +21,7 @@ const PicturesGridPage: React.FC = () => {
 
   return (
     <div className="pictures-grid">
-      <h2>All Pictures</h2>
+      <h1>All Pictures</h1>
       <div className="row flex-column align-items-center">
         {pictures.map((picture) => (
           <div key={picture.pictureId} className="col-12 mb-4">

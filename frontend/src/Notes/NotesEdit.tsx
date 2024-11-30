@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import NoteForm from './NoteForm';
 import { Note } from '../types/Note';
-import { fetchNoteById } from './NoteService';
+import { fetchNoteById, updateNote } from './NoteService';
 
-const API_URL = 'http://localhost:5215'
-
-const NoteUpdatePage: React.FC = () => {
+const NoteEdits: React.FC = () => {
   const { noteId } = useParams<{ noteId: string }>(); // Get noteId from the URL
   const navigate = useNavigate();
   const [note, setNote] = useState<Note | null>(null);
@@ -14,6 +12,7 @@ const NoteUpdatePage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Function to fetch the note by ID
     const handleFetchNote = async () => {
       if (!noteId) {
         setError('No note ID provided.');
@@ -22,8 +21,8 @@ const NoteUpdatePage: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        const data = await fetchNoteById(noteId);
-        setNote(data); // Update the state with the fetched note
+        const fetchedNote = await fetchNoteById(noteId); // Fetch the note
+        setNote(fetchedNote);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error occurred.');
       } finally {
@@ -32,38 +31,35 @@ const NoteUpdatePage: React.FC = () => {
     };
 
     handleFetchNote();
-  }, [noteId]);
+  }, [noteId]); // Dependency on noteId so it refetches if it changes
 
-  const handleNoteUpdated = async (note: Note) => {
+  const handleNoteUpdated = async (updatedNote: Note) => {
     try {
-      const response = await fetch(`${API_URL}/api/NoteAPI/edit/${note.noteId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(note),
-      });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      console.log('Note updated successfully:', data);
-      navigate('/notes'); // Navigate back after successful creation
+      const response = await updateNote(updatedNote); // Call the update function from NoteService
+      console.log('Note updated successfully:', response);
+      navigate('/notes'); // Navigate back to the notes list page after update
     } catch (error) {
-      console.error('There was a problem with the fetch operation:', error);
+      console.error('Error updating note:', error);
+      setError('Failed to update note');
     }
-  }
+  };
 
+  // Render loading, error, or the form depending on state
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
   if (!note) return <p>No note found</p>;
-  
+
   return (
     <div>
-      <h2>Update Note</h2>
-      <NoteForm onNoteChanged={handleNoteUpdated} noteId={note.noteId} isUpdate={true} initialData={note} />
+      <h2>Edit Note</h2>
+      <NoteForm
+        onNoteChanged={handleNoteUpdated} // Callback to handle note update
+        noteId={note.noteId}
+        isUpdate={true}
+        initialData={note}
+      />
     </div>
   );
 };
 
-export default NoteUpdatePage;
+export default NoteEdits;
