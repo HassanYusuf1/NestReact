@@ -17,7 +17,7 @@ const PictureCard: React.FC<PictureCardProps> = ({ picture, returnUrl }) => {
   return (
     <div className="picture-feed-card mb-4">
       {/* Header */}
-      <div className="picture-feed-card-header d-flex align-items-center justify-content-between p-2">
+      <div className="picture-feed-card-header d-flex align-items-center p-2">
         <h5 className="username">{userName}</h5>
         <small className="relative-time text-muted">
           {formatTimeAgo(picture.uploadDate)}

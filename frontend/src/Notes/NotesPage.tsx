@@ -40,7 +40,7 @@ const NotesPage: React.FC = () => {
 
   return (
     <div className="container">
-      <h1 className="text-center mb-4">Notes</h1>
+      <h1 className="text-center mb-4">Notes Feed</h1>
       <div className="d-flex flex-column align-items-center">
         {notes.map((note) => (
           <div key={note.noteId} className="mb-4" style={{ width: "100%", maxWidth: "800px" }}>

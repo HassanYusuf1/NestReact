@@ -41,7 +41,7 @@ const NotesMyPage: React.FC = () => {
 
   return (
     <div className="container">
-      <h1 className="text-center mb-4">My Notes</h1>
+      <h2 className="spaced-heading">My Notes</h2>
       <div className="row">
         {notes.map((note) => (
           <div key={note.noteId} className="col-12 col-md-6 mb-4">

@@ -37,7 +37,7 @@ const PictureMyPage: React.FC = () => {
 
   return (
     <div className="container-page">
-      <h1 className="text-center mb-4">My Pictures</h1>
+      <h2 className="spaced-heading">My Pictures</h2>
       <div className="row mt-5">
         {pictures.length === 0 ? (
           <p className="text-center">No pictures found.</p>
