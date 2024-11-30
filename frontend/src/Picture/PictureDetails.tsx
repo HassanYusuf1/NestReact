@@ -3,6 +3,7 @@ import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { fetchPictureById } from './PictureService';
 import { Picture } from '../types/picture';
 
+
 const PictureDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
@@ -44,9 +45,8 @@ const PictureDetailsPage: React.FC = () => {
 
       <div className="row mt-4">
         <div className="col-md-12">
-          <h2>{picture.title}</h2>
+          <h1>{picture.title}</h1>
           <p>{picture.description}</p>
-          <p><strong>Uploaded by:</strong> {picture.userName}</p>
           <p><strong>Uploaded on:</strong> {new Date(picture.uploadDate).toLocaleDateString()}</p>
         </div>
       </div>

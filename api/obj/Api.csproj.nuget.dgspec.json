@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Andyt\\OneDrive\\Skrivebord\\react\\instagram\\NestReact\\api\\Api.csproj": {}
+    "/Users/miski/Documents/NestReact/api/Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Andyt\\OneDrive\\Skrivebord\\react\\instagram\\NestReact\\api\\Api.csproj": {
+    "/Users/miski/Documents/NestReact/api/Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Andyt\\OneDrive\\Skrivebord\\react\\instagram\\NestReact\\api\\Api.csproj",
+        "projectUniqueName": "/Users/miski/Documents/NestReact/api/Api.csproj",
         "projectName": "Api",
-        "projectPath": "C:\\Users\\Andyt\\OneDrive\\Skrivebord\\react\\instagram\\NestReact\\api\\Api.csproj",
-        "packagesPath": "C:\\Users\\Andyt\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Andyt\\OneDrive\\Skrivebord\\react\\instagram\\NestReact\\api\\obj\\",
+        "projectPath": "/Users/miski/Documents/NestReact/api/Api.csproj",
+        "packagesPath": "/Users/miski/.nuget/packages/",
+        "outputPath": "/Users/miski/Documents/NestReact/api/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Andyt\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/miski/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -109,7 +109,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
