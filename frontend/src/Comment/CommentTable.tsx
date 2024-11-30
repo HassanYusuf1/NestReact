@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from "react";
 import {
   fetchComments,
   createComment,
   editComment,
   deleteComment,
-} from './CommentService';
-import { Comment } from '../types/Comment';
+} from "./CommentService";
+import { Comment } from "../types/Comment";
 import { formatTimeAgo } from "../utils/dateUtils";
 
 interface CommentTableProps {
@@ -13,13 +13,13 @@ interface CommentTableProps {
 }
 
 const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
-  const [newComment, setNewComment] = useState<string>('');
+  const [newComment, setNewComment] = useState<string>("");
   const [comments, setComments] = useState<Comment[]>([]);
   const [showComments, setShowComments] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
-  const [editingCommentText, setEditingCommentText] = useState<string>('');
+  const [editingCommentText, setEditingCommentText] = useState<string>("");
 
   // Memoize loadComments using useCallback
   const loadComments = useCallback(async () => {
@@ -28,10 +28,20 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
 
     try {
       const data = await fetchComments(pictureId);
-      setComments(data);
+
+      // Endre her for å bruke commentTime i stedet for uploadDate
+      const commentsWithValidDates = data.map((comment) => {
+        const commentTime = new Date(comment.commentTime); // Bruk commentTime fra serveren
+        return {
+          ...comment,
+          commentTime: isNaN(commentTime.getTime()) ? null : commentTime, // Bruk commentTime i stedet for uploadDate
+        };
+      });
+
+      setComments(commentsWithValidDates);
     } catch (error) {
-      console.error('Error fetching comments:', error);
-      setError('Failed to load comments. Please try again later.');
+      console.error("Error fetching comments:", error);
+      setError("Failed to load comments. Please try again later.");
     } finally {
       setIsLoading(false);
     }
@@ -44,7 +54,7 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
 
   const handleCreateComment = async () => {
     if (!newComment.trim()) {
-      alert('Please enter a valid comment.');
+      alert("Please enter a valid comment.");
       return;
     }
 
@@ -52,19 +62,19 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
       const createdComment = await createComment({
         pictureId: pictureId,
         commentDescription: newComment,
-        userName: 'Harry', 
+        userName: "Harry", // For simplicity, you can hardcode userName or get it from the context
       });
 
       setComments((prevComments) => [...prevComments, createdComment]);
-      setNewComment('');
+      setNewComment("");
     } catch (error) {
-      console.error('Error creating comment:', error);
+      console.error("Error creating comment:", error);
     }
   };
 
   const handleEditComment = async (commentId: number) => {
     if (!editingCommentText.trim()) {
-      alert('Please enter a valid comment.');
+      alert("Please enter a valid comment.");
       return;
     }
 
@@ -78,7 +88,7 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
         )
       );
       setEditingCommentId(null);
-      setEditingCommentText('');
+      setEditingCommentText("");
     } catch (error) {
       console.error(`Error editing comment with id ${commentId}:`, error);
     }
@@ -87,10 +97,14 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
   const handleDeleteComment = async (commentId: number) => {
     try {
       await deleteComment(commentId);
-      setComments((prevComments) => prevComments.filter((comment) => comment.commentId !== commentId));
+      setComments((prevComments) =>
+        prevComments.filter((comment) => comment.commentId !== commentId)
+      );
     } catch (error) {
-      if (error.message.includes('Comment not found')) {
-        setComments((prevComments) => prevComments.filter((comment) => comment.commentId !== commentId));
+      if (error.message.includes("Comment not found")) {
+        setComments((prevComments) =>
+          prevComments.filter((comment) => comment.commentId !== commentId)
+        );
       } else {
         console.error(`Error deleting comment with id ${commentId}:`, error);
       }
@@ -118,10 +132,13 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
 
       {/* Hidden Comments Section */}
       {showComments && (
-        <div id="all-comments" style={{ display: showComments ? 'block' : 'none' }}>
+        <div
+          id="all-comments"
+          style={{ display: showComments ? "block" : "none" }}
+        >
           {isLoading && <p>Loading comments...</p>}
           {error && <p className="error-message">{error}</p>}
-          
+
           {!isLoading && !error && comments.length === 0 && (
             <p>No comments found.</p>
           )}
@@ -129,33 +146,36 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
           {!isLoading && !error && comments.length > 0 && (
             <div className="comments-grid">
               {comments.map((comment) => (
-                <div key={comment.commentId} className="comment d-flex justify-content-between align-items-center mb-2">
+                <div
+                  key={comment.commentId}
+                  className="comment d-flex justify-content-between align-items-center mb-2"
+                >
                   <div>
-                    <strong>{comment.userName.split('@')[0]}:</strong> {comment.commentDescription}
-                    <p className="timestamp relative-time text-muted" data-timestamp={comment.uploadDate}>
-                      {formatTimeAgo(comment.uploadDate)}
+                    <strong>{comment.userName.split("@")[0]}:</strong>{" "}
+                    {comment.commentDescription}
+                    <p className="timestamp relative-time text-muted">
+                      {formatTimeAgo(comment.commentTime)}{" "}
+                      {/* Use commentTime here */}
                     </p>
                   </div>
 
-                  {(
-                    <div className="comment-actions">
-                      <button
-                        className="btn btn-link text-primary me-2 p-0 fw-bold"
-                        onClick={() => {
-                          setEditingCommentId(comment.commentId);
-                          setEditingCommentText(comment.commentDescription);
-                        }}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="btn btn-link text-danger p-0 fw-bold"
-                        onClick={() => handleDeleteComment(comment.commentId)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  )}
+                  <div className="comment-actions">
+                    <button
+                      className="btn btn-link text-primary me-2 p-0 fw-bold"
+                      onClick={() => {
+                        setEditingCommentId(comment.commentId);
+                        setEditingCommentText(comment.commentDescription);
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn btn-link text-danger p-0 fw-bold"
+                      onClick={() => handleDeleteComment(comment.commentId)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

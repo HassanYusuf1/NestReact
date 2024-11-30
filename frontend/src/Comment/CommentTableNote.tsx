@@ -39,7 +39,6 @@ const CommentTableNote: React.FC<CommentTableProps> = ({ note, noteId }) => {
     }
   }, [noteId]);
 
-  // Load comments on component mount
   useEffect(() => {
     loadComments(); // Always try to load comments when the component mounts
   }, [loadComments]);
@@ -134,30 +133,28 @@ const CommentTableNote: React.FC<CommentTableProps> = ({ note, noteId }) => {
                 <div key={comment.commentId} className="comment d-flex justify-content-between align-items-center mb-2">
                   <div>
                     <strong>{comment.userName.split('@')[0]}:</strong> {comment.commentDescription}
-                    <p className="timestamp relative-time text-muted" data-timestamp={comment.uploadDate}>
-                      {formatTimeAgo(comment.uploadDate)}
+                    <p className="timestamp relative-time text-muted" data-timestamp={comment.commentTime}>
+                      {formatTimeAgo(comment.commentTime)} {/* Use commentTime here */}
                     </p>
                   </div>
 
-                  {(
-                    <div className="comment-actions">
-                      <button
-                        className="btn btn-link text-primary me-2 p-0 fw-bold"
-                        onClick={() => {
-                          setEditingCommentId(comment.commentId);
-                          setEditingCommentText(comment.commentDescription);
-                        }}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="btn btn-link text-danger p-0 fw-bold"
-                        onClick={() => handleDeleteComment(comment.commentId)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  )}
+                  <div className="comment-actions">
+                    <button
+                      className="btn btn-link text-primary me-2 p-0 fw-bold"
+                      onClick={() => {
+                        setEditingCommentId(comment.commentId);
+                        setEditingCommentText(comment.commentDescription);
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn btn-link text-danger p-0 fw-bold"
+                      onClick={() => handleDeleteComment(comment.commentId)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
