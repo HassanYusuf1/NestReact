@@ -8,12 +8,17 @@ interface NoteDetail {
   onNoteDeleted: (note: Note) => void;
 }
 
-// Component for showing a detailed view of a note
+//Component for showing a detailed view of a note
 const NotesDetails: React.FC<NoteDetail> = ({ onNoteDeleted }) => {
+  const Navigate = useNavigate();
   const { noteId } = useParams<{ noteId: string }>(); // Extract `noteId` from route parameters
   const [note, setNote] = useState<Note | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const onCancel = () => {
+    Navigate(-1); // This will navigate back one step in the history
+  };
 
   useEffect(() => {
     const handleFetchNote = async () => {
@@ -53,6 +58,7 @@ const NotesDetails: React.FC<NoteDetail> = ({ onNoteDeleted }) => {
       <p>{note.title}</p>
       <p>{note.content}</p>
       <Button onClick={() => onNoteDeleted(note)}>Delete Note</Button>
+      <Button onClick={() => onCancel()}>Cancel</Button>
     </div>
   );
 };
