@@ -121,5 +121,21 @@ export const updateNote = async (note: Note): Promise<Note> => {
     }
   };
 
+  export const deleteNoteById = async (noteId: string): Promise<void> => {
+    try {
+      const response = await fetch(`${API_URL}/api/NoteAPI/delete/${noteId}`, {
+        method: 'DELETE',
+        headers,
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to delete the note.');
+      }
+    } catch (error) {
+      console.error('Error deleting note:', error);
+      throw new Error('Failed to delete note.');
+    }
+  };
+
   
   

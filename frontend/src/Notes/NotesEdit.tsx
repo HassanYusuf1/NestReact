@@ -37,7 +37,7 @@ const NoteEdit: React.FC = () => {
     try {
       const response = await updateNote(updatedNote); 
       console.log('Note updated successfully:', response);
-      navigate('/notes'); 
+      navigate(-1); 
     } catch (error) {
       console.error('Error updating note:', error);
       setError('Failed to update note');

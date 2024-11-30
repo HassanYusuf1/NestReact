@@ -1,10 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import { Note } from '../types/Note';
 import NotesDetails from './NotesDetails';
-import { fetchNoteByIdForDisplay } from './NoteService';
-
-const API_URL = 'http://localhost:5215';
+import { fetchNoteByIdForDisplay, deleteNoteById } from './NoteService';
 
 const NotesCreate: React.FC = () => {
   const { noteId } = useParams<{ noteId: string }>();
@@ -12,7 +10,7 @@ const NotesCreate: React.FC = () => {
   const [, setNote] = useState<Note | null>(null);
   const [, setLoading] = useState<boolean>(true);
   const [, setError] = useState<string | null>(null);
-  
+
   useEffect(() => {
     const fetchNote = async () => {
       if (!noteId) {
@@ -35,22 +33,14 @@ const NotesCreate: React.FC = () => {
   }, [noteId]); // Fetch note when the component mounts or when noteId changes
 
   const handleNotesDeleted = async (note: Note) => {
-    const confirmDelete = window.confirm(`Are you sure you want to delete the note "${note?.title}"?`);
+    const confirmDelete = true; // Automatically set to true to bypass the confirmation dialog
     if (confirmDelete && note) {
       try {
-        const response = await fetch(`${API_URL}/api/NoteAPI/delete/${note.noteId}`, {
-          method: "DELETE",
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to delete the note.");
-        }
-
-        alert("Note deleted successfully.");
-        navigate("/"); // Navigate back to the home page or another appropriate page
+        await deleteNoteById(note.noteId.toString());
+        navigate(-1); // Navigate back to the home page or another appropriate page
       } catch (error) {
-        console.error("Error deleting note:", error);
-        setError("Failed to delete note.");
+        console.error('Error deleting note:', error);
+        setError('Failed to delete note.');
       }
     }
   };
