@@ -1,39 +1,52 @@
-import React, { useState } from 'react';
-import { Nav, Navbar, Button } from 'react-bootstrap';
+import React from 'react';
+import { Nav, Navbar } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import "../../src/layout.css";  
 
 const NavBar: React.FC = () => {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); 
-
-  const handleLoginLogout = () => {
-    if (isLoggedIn) {
-      setIsLoggedIn(false);
-      navigate('/');
-    } else {
-      navigate('/login');
-    }
-  };
 
   return (
-    <Navbar expand="lg" bg="light" className="border-bottom">
+    <Navbar expand="lg" bg="light" className="navbar-light bg-light border-bottom">
       <div className="container-fluid">
-        <Navbar.Brand href="/">NEST</Navbar.Brand>
+        <Navbar.Brand onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+          NEST
+        </Navbar.Brand>
+
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto mb-2 mb-lg-0">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/pictures">Pictures</Nav.Link>
-            <Nav.Link href="/notes">Notes</Nav.Link>
-            <Nav.Link href="/picture/mypage">MyPagePics</Nav.Link>
-            <Nav.Link href="/notes/mypage">MyPageNotes</Nav.Link>
+            <Nav.Link
+              onClick={() => navigate('/')}
+              className="nav-item-custom" 
+            >
+              Home
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => navigate('/pictures')}
+              className="nav-item-custom" 
+            >
+              Pictures
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => navigate('/notes')}
+              className="nav-item-custom" 
+            >
+              Notes
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => navigate('/picture/mypage')}
+              className="nav-item-custom" 
+            >
+              MyPagePics
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => navigate('/notes/mypage')}
+              className="nav-item-custom" 
+            >
+              MyPageNotes
+            </Nav.Link>
           </Nav>
-
-          {isLoggedIn && (
-            <Button variant="danger" onClick={handleLoginLogout}>
-              Logout
-            </Button>
-          )}
         </Navbar.Collapse>
       </div>
     </Navbar>

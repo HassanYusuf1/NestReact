@@ -1,14 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Picture } from "../types/picture";
-import { Comment } from "../types/Comment";
-import {
-  createComment,
-  fetchComments,
-  deleteComment,
-} from "../Comment/CommentService";
 import "../../src/layout.css";
-import { formatTimeAgo } from "../utils/dateUtils"; // Juster stien basert på prosjektstrukturen
+import { formatTimeAgo } from "../utils/dateUtils"; // Adjust path based on project structure
+import CommentTable from "../Comment/CommentTable";
 
 type PictureCardProps = {
   picture: Picture;
@@ -17,53 +12,6 @@ type PictureCardProps = {
 
 const PictureCard: React.FC<PictureCardProps> = ({ picture, returnUrl }) => {
   const navigate = useNavigate();
-  const [newComment, setNewComment] = useState<string>("");
-  const [commentsVisible, setCommentsVisible] = useState<boolean>(false);
-  const [comments, setComments] = useState<Comment[]>([]);
-
-  useEffect(() => {
-    const loadComments = async () => {
-      try {
-        const fetchedComments = await fetchComments(picture.pictureId);
-        setComments(fetchedComments);
-      } catch (error) {
-        console.error("Error fetching comments:", error);
-      }
-    };
-    loadComments();
-  }, [picture.pictureId]);
-
-  const handleCreateComment = async () => {
-    if (!newComment.trim()) {
-      alert("Please enter a valid comment.");
-      return;
-    }
-
-    try {
-      const createdComment = await createComment({
-        pictureId: picture.pictureId,
-        commentDescription: newComment,
-        userName: "currentUserName",
-      });
-
-      setComments((prevComments) => [...prevComments, createdComment]);
-      setNewComment("");
-    } catch (error) {
-      console.error("Error creating comment:", error);
-    }
-  };
-
-  const handleDeleteComment = async (commentId: number) => {
-    try {
-      await deleteComment(commentId);
-      setComments((prevComments) =>
-        prevComments.filter((comment) => comment.commentId !== commentId)
-      );
-    } catch (error) {
-      console.error(`Error deleting comment with id ${commentId}:`, error);
-    }
-  };
-
   const userName = picture.userName ? picture.userName.split("@")[0] : "Harry";
 
   return (
@@ -121,65 +69,9 @@ const PictureCard: React.FC<PictureCardProps> = ({ picture, returnUrl }) => {
         </button>
       </div>
 
-      {/* Footer with Comments */}
+      {/* Comments Section */}
       <div className="picture-feed-card-footer p-3">
-        {comments.length > 0 && (
-          <button
-            type="button"
-            onClick={() => setCommentsVisible(!commentsVisible)}
-            className="btn btn-link p-0 text-muted view-comments-link"
-          >
-            {commentsVisible
-              ? "Hide comments"
-              : `View all ${comments.length} comments`}
-          </button>
-        )}
-
-        {commentsVisible && (
-          <div className="comments-section">
-            {comments.map((comment) => (
-              <div
-                key={comment.commentId}
-                className="d-flex justify-content-between mb-2"
-              >
-                <div>
-                  <strong>{comment.userName}</strong>:{" "}
-                  {comment.commentDescription}
-                  <p className="relative-time text-muted">
-                    {formatTimeAgo(comment.uploadDate)}
-                  </p>
-                </div>
-                {comment.userName === "currentUserName" && (
-                  <button
-                    className="btn btn-sm btn-danger"
-                    onClick={() => handleDeleteComment(comment.commentId)}
-                  >
-                    Delete
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Add Comment */}
-        <form
-          className="comment-form mt-3"
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleCreateComment();
-          }}
-        >
-          <textarea
-            className="comment-textarea"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Add a comment..."
-          />
-          <button type="submit" className="btn btn-primary mt-2">
-            Comment
-          </button>
-        </form>
+        <CommentTable pictureId={picture.pictureId} />
       </div>
     </div>
   );

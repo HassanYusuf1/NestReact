@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
-import NavMenu from './shared/NavBar'; // Changed NavBar to NavMenu to match import
+import NavMenu from './shared/NavBar'; 
 import HomePage from './Home/Home';
 import CreatePicturePage from './Picture/PictureCreate';
 import DeletePicturePage from './Picture/PictureDelete';

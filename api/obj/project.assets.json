@@ -3723,19 +3723,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\hassan\\.nuget\\packages\\": {}
+    "C:\\Users\\mbmik\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\Api.csproj",
+      "projectUniqueName": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\Api.csproj",
       "projectName": "Api",
-      "projectPath": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\Api.csproj",
-      "packagesPath": "C:\\Users\\hassan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\obj\\",
+      "projectPath": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\Api.csproj",
+      "packagesPath": "C:\\Users\\mbmik\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\hassan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\mbmik\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -3833,13 +3833,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file C:\\Users\\hassan\\Desktop\\NestReact\\api\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  }
 }
