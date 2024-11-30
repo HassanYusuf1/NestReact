@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { Note } from "../types/Note";
 import { fetchNoteById } from "./NoteService";
