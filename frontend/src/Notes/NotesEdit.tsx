@@ -4,7 +4,7 @@ import NoteForm from './NoteForm';
 import { Note } from '../types/Note';
 import { fetchNoteById, updateNote } from './NoteService';
 
-const NoteEdits: React.FC = () => {
+const NoteEdit: React.FC = () => {
   const { noteId } = useParams<{ noteId: string }>(); // Get noteId from the URL
   const navigate = useNavigate();
   const [note, setNote] = useState<Note | null>(null);
@@ -31,20 +31,20 @@ const NoteEdits: React.FC = () => {
     };
 
     handleFetchNote();
-  }, [noteId]); // Dependency on noteId so it refetches if it changes
+  }, [noteId]); 
 
   const handleNoteUpdated = async (updatedNote: Note) => {
     try {
-      const response = await updateNote(updatedNote); // Call the update function from NoteService
+      const response = await updateNote(updatedNote); 
       console.log('Note updated successfully:', response);
-      navigate('/notes'); // Navigate back to the notes list page after update
+      navigate('/notes'); 
     } catch (error) {
       console.error('Error updating note:', error);
       setError('Failed to update note');
     }
   };
 
-  // Render loading, error, or the form depending on state
+  
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
   if (!note) return <p>No note found</p>;
@@ -53,7 +53,7 @@ const NoteEdits: React.FC = () => {
     <div>
       <h2>Edit Note</h2>
       <NoteForm
-        onNoteChanged={handleNoteUpdated} // Callback to handle note update
+        onNoteChanged={handleNoteUpdated} 
         noteId={note.noteId}
         isUpdate={true}
         initialData={note}
@@ -62,4 +62,4 @@ const NoteEdits: React.FC = () => {
   );
 };
 
-export default NoteEdits;
+export default NoteEdit;

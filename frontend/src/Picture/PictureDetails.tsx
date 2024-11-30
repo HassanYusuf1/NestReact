@@ -71,7 +71,7 @@ const PictureDetails: React.FC = () => {
       <div className="p-3">
         <button
           className="btn btn-secondary"
-          onClick={() => navigate(-1)} 
+          onClick={() => navigate(source)} 
 
         >
           Return

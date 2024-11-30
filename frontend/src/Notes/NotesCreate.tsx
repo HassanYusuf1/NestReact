@@ -16,7 +16,7 @@ const NotesCreate: React.FC = () => {
       const formatted = formatTimeAgo(createdNote.uploadDate);
       setFormattedTime(formatted);
 
-      navigate('/notes'); 
+      navigate('/notes/mypage'); 
     } catch (error) {
       console.error('Error creating note:', error);
     }

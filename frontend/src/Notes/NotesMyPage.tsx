@@ -54,13 +54,21 @@ const NotesMyPage: React.FC = () => {
                 </p>
                 <div className="d-flex justify-content-start gap-1">
                   <Button
-                    onClick={() => navigate(`/edit/${note.noteId}`, { state: { from: location.pathname } })}
+                    onClick={() =>
+                      navigate(`/edit/${note.noteId}`, {
+                        state: { source: location.pathname },
+                      })
+                    }
                     className="btn btn-warning btn-sm"
                   >
                     Edit
                   </Button>
                   <Button
-                    onClick={() => navigate(`/NotesDetails/${note.noteId}`, { state: { from: location.pathname } })}
+                    onClick={() =>
+                      navigate(`/NotesDetails/${note.noteId}`, {
+                        state: { source: location.pathname },
+                      })
+                    }
                     className="btn btn-danger btn-sm"
                   >
                     Delete
@@ -77,7 +85,7 @@ const NotesMyPage: React.FC = () => {
       <div className="mt-5 text-center">
         <button
           className="btn btn-primary btn-lg rounded-pill shadow-sm"
-          onClick={() => navigate("/notescreate")}
+          onClick={() => navigate("/notescreate", { state: { source: location.pathname } })}
         >
           📤 Upload New Note
         </button>
