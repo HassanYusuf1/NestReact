@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import { Comment } from "../types/Comment";
 
-interface CommentFormProps {
+interface CommentFormProps { //Initialize a comment form prop
   onCommentChanged: (newComment: Comment) => void;
   commentId?: number;
   isUpdate?: boolean;
@@ -22,17 +22,17 @@ const CommentForm: React.FC<CommentFormProps> = ({
   const navigate = useNavigate();
 
   const onCancel = () => {
-    navigate(-1); // This will navigate back one step in the history
+    navigate(-1); //This will navigate back one step in the history
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const comment: Comment = { commentId, commentDescription, userName };
+    const comment: Comment = { commentId, commentDescription, userName }; //Handles the inputs after submitting
     onCommentChanged(comment);
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}> 
       <Form.Group controlId="formCommentContent">
         <Form.Label>Content</Form.Label>
         <Form.Control

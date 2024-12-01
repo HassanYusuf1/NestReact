@@ -1,11 +1,11 @@
-import API_URL from "../apiConfig";
+import API_URL from "../apiConfig"; //imports api url 
 import { Comment } from "../types/Comment";
 
 const headers = {
   "Content-Type": "application/json",
 };
 
-// Handle server responses
+//Handle server responses
 const handleResponse = async (response: Response) => {
   if (response.ok) {
     if (response.status === 204) {
@@ -18,7 +18,7 @@ const handleResponse = async (response: Response) => {
   }
 };
 
-// Fetch comments for a specific note
+//Fetch comments for a specific note
 export const fetchCommentsNote = async (noteId: number): Promise<Comment[]> => {
   try {
     const response = await fetch(
@@ -48,21 +48,21 @@ export const fetchCommentsNote = async (noteId: number): Promise<Comment[]> => {
   }
 };
 
-// Create a comment associated with a note
+//Create a comment associated with a note
 export const createCommentNote = async (commentData: {
   noteId: number;
   commentDescription: string;
-  userName: string;
+  userName: string; 
 }) => {
   try {
-    const response = await fetch(`${API_URL}/api/CommentAPI/create`, {
+    const response = await fetch(`${API_URL}/api/CommentAPI/create`, { //Uses create comment from API controller
       method: "POST",
       headers: {
         ...headers,
       },
       body: JSON.stringify({
         ...commentData,
-        pictureId: null, // Ensures we are associating with a note only
+        pictureId: null, //Ensures we are associating with a note only
       }),
     });
     return handleResponse(response);
@@ -72,7 +72,7 @@ export const createCommentNote = async (commentData: {
   }
 };
 
-// Edit an existing comment for a note
+//Edit an existing comment for a note
 export const editCommentForNote = async (
   commentId: number,
   updatedCommentData: { commentDescription: string }
@@ -83,7 +83,7 @@ export const editCommentForNote = async (
 
   try {
     const response = await fetch(
-      `${API_URL}/api/CommentAPI/edit/${commentId}`,
+      `${API_URL}/api/CommentAPI/edit/${commentId}`, //Uses API controller edit method
       {
         method: "PUT",
         headers: {
@@ -102,7 +102,7 @@ export const editCommentForNote = async (
   }
 };
 
-// Delete a comment by ID (Note-specific)
+//Delete a comment by ID (Note-specific)
 export const deleteCommentForNote = async (commentId: number) => {
   try {
     const response = await fetch(

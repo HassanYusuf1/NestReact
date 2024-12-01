@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Comment } from '../types/Comment'; // Sørg for at du har riktig Comment-type
-import { fetchCommentById, deleteComment } from './CommentService';
+import { Comment } from '../types/Comment'; 
+import { fetchCommentById, deleteComment } from './CommentService'; //Imports methods from the service
 
 const CommentDelete: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>(); //Gets the id to the comment the user want to delete
   const navigate = useNavigate();
   const [comment, setComment] = useState<Comment | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +14,7 @@ const CommentDelete: React.FC = () => {
     if (id) {
       const fetchData = async () => {
         try {
-          const fetchedComment = await fetchCommentById(Number(id));
+          const fetchedComment = await fetchCommentById(Number(id)); // fetches the comment id with method from service
           setComment(fetchedComment);
         } catch (err) {
           console.error(`Error fetching comment with id ${id}:`, err);
@@ -25,23 +25,23 @@ const CommentDelete: React.FC = () => {
     }
   }, [id]);
 
-  // Funksjon for å håndtere sletting av kommentar
+  //Function for handling deleted data
   const handleDelete = async () => {
     if (!window.confirm('Are you sure you want to delete this comment for the picture?')) {
       return;
     }
 
     try {
-      await deleteComment(Number(id));
-      navigate('/pictures'); // Navigerer tilbake til oversikten etter sletting
+      await deleteComment(Number(id)); //Deleting the comment with method from service
+      navigate('/pictures'); //Navigates back
     } catch (error) {
-      console.error(`Feil ved sletting av bildet med id ${id}:`, error);
-      setError('Kunne ikke slette bildet. Vennligst prøv igjen senere.');
+      console.error(`Error by deleting picture with id: ${id}:`, error);
+      setError('Could not delete picture, please try again.');
     }
   };
 
   if (error) {
-    return <p>{error}</p>;
+    return <p>{error}</p>; //Display error
   }
 
   if (!comment) {

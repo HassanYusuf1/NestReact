@@ -5,14 +5,14 @@ import { Note } from '../types/Note';
 import { fetchNoteById, updateNote } from './NoteService';
 
 const NoteEdit: React.FC = () => {
-  const { noteId } = useParams<{ noteId: string }>(); // Get noteId from the URL
+  const { noteId } = useParams<{ noteId: string }>(); //Get noteId from the URL
   const navigate = useNavigate();
   const [note, setNote] = useState<Note | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Function to fetch the note by ID
+    //Function to fetch the note by ID
     const handleFetchNote = async () => {
       if (!noteId) {
         setError('No note ID provided.');
@@ -21,7 +21,7 @@ const NoteEdit: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        const fetchedNote = await fetchNoteById(noteId); // Fetch the note
+        const fetchedNote = await fetchNoteById(noteId); //Fetch the note
         setNote(fetchedNote);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error occurred.');
@@ -35,7 +35,7 @@ const NoteEdit: React.FC = () => {
 
   const handleNoteUpdated = async (updatedNote: Note) => {
     try {
-      const response = await updateNote(updatedNote); 
+      const response = await updateNote(updatedNote); //Handling the notes
       console.log('Note updated successfully:', response);
       navigate(-1); 
     } catch (error) {
@@ -51,7 +51,7 @@ const NoteEdit: React.FC = () => {
 
   return (
     <div>
-      <h2>Edit Note</h2>
+      <h2>Edit Note</h2> 
       <NoteForm
         onNoteChanged={handleNoteUpdated} 
         noteId={note.noteId}

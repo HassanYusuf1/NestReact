@@ -4,12 +4,12 @@ import {
   createCommentNote,
   editCommentForNote,
   deleteCommentForNote,
-} from './CommentServiceNote';
+} from './CommentServiceNote'; 
 import { Comment } from '../types/Comment';
 import { Note } from '../types/Note';
 import { formatTimeAgo } from "../utils/dateUtils";
 
-interface CommentTableProps {
+interface CommentTableProps { //initialize a comment prop for note
   note: Note;
   noteId: number;
 }
@@ -23,13 +23,13 @@ const CommentTableNote: React.FC<CommentTableProps> = ({ note, noteId }) => {
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [editingCommentText, setEditingCommentText] = useState<string>('');
 
-  // Memoize loadComments using useCallback
+  //Memoize loadComments using useCallback
   const loadComments = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const data = await fetchCommentsNote(noteId);
+      const data = await fetchCommentsNote(noteId); //Uses service method to fetch comments under note
       setComments(data);
     } catch (error) {
       console.error('Error fetching comments:', error);
@@ -40,7 +40,7 @@ const CommentTableNote: React.FC<CommentTableProps> = ({ note, noteId }) => {
   }, [noteId]);
 
   useEffect(() => {
-    loadComments(); // Always try to load comments when the component mounts
+    loadComments(); //Always try to load comments when the component mounts
   }, [loadComments]);
 
   const handleCreateComment = async () => {
@@ -63,14 +63,14 @@ const CommentTableNote: React.FC<CommentTableProps> = ({ note, noteId }) => {
     }
   };
 
-  const handleEditComment = async (commentId: number) => {
+  const handleEditComment = async (commentId: number) => { //Handles the note data
     if (!editingCommentText.trim()) {
       alert('Please enter a valid comment.');
       return;
     }
 
     try {
-      await editCommentForNote(commentId, { commentDescription: editingCommentText });
+      await editCommentForNote(commentId, { commentDescription: editingCommentText }); //calls for edit method
       setComments((prevComments) =>
         prevComments.map((comment) =>
           comment.commentId === commentId
@@ -87,7 +87,7 @@ const CommentTableNote: React.FC<CommentTableProps> = ({ note, noteId }) => {
 
   const handleDeleteComment = async (commentId: number) => {
     try {
-      await deleteCommentForNote(commentId);
+      await deleteCommentForNote(commentId); //Uses delete method from service
       setComments((prevComments) => prevComments.filter((comment) => comment.commentId !== commentId));
     } catch (error) {
       if (error.message.includes('Comment not found')) {
@@ -98,7 +98,7 @@ const CommentTableNote: React.FC<CommentTableProps> = ({ note, noteId }) => {
     }
   };
 
-  const toggleCommentsVisibility = () => {
+  const toggleCommentsVisibility = () => { //Switch between showing and not showing comments under a note
     setShowComments((prev) => !prev);
   };
 

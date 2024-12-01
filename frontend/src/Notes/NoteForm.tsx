@@ -19,18 +19,18 @@ const NoteForm: React.FC<NoteFormProps> = ({ onNoteChanged, noteId, isUpdate = f
   useEffect(() => {
     if (initialData) {
       setTitle(initialData.title);
-      setContent(initialData.content);
+      setContent(initialData.content); //sets the data as what the initial data is
     }
   }, [initialData]); 
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const note: Note = { noteId, title, content, uploadDate };
+    const note: Note = { noteId, title, content, uploadDate }; //After submit, the attribute changes
     onNoteChanged(note); 
   };
 
   const onCancel = () => {
-    window.history.back(); 
+    window.history.back(); //Goes back to previous page
   };
 
   return (
@@ -43,7 +43,7 @@ const NoteForm: React.FC<NoteFormProps> = ({ onNoteChanged, noteId, isUpdate = f
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
-          pattern="[0-9a-zA-ZæøåÆØÅ. \-]{2,20}" // Regular expression pattern
+          pattern="[0-9a-zA-ZæøåÆØÅ. \-]{2,20}" //Regular expression pattern
           title="The Name must be numbers or letters and between 2 to 20 characters."
         />
       </Form.Group>

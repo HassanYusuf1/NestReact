@@ -5,14 +5,14 @@ import "../../src/layout.css";
 import { formatTimeAgo } from "../utils/dateUtils"; 
 import CommentTable from "../Comment/CommentTable"; //Adjust paths based on project structure
 
-type PictureCardProps = { //Cardb
+type PictureCardProps = { //Card prop
   picture: Picture;
   returnUrl: string;
 };
 
 const PictureCard: React.FC<PictureCardProps> = ({ picture, returnUrl }) => {
   const navigate = useNavigate();
-  const userName = picture.userName ? picture.userName.split("@")[0] : "Harry";
+  const userName = picture.userName ? picture.userName.split("@")[0] : "Harry"; //initialize variables
 
   return (
     <div className="picture-feed-card mb-4">
@@ -24,7 +24,7 @@ const PictureCard: React.FC<PictureCardProps> = ({ picture, returnUrl }) => {
         </small>
       </div>
 
-      {/* Image Section */}
+      {/* Image */}
       <img
         src={picture.pictureUrl}
         alt={picture.title || "Picture"}
@@ -33,7 +33,7 @@ const PictureCard: React.FC<PictureCardProps> = ({ picture, returnUrl }) => {
         style={{ cursor: "pointer" }}
       />
 
-      {/* Body Section */}
+      {/* Body for the image card*/}
       <div className="picture-feed-card-body p-3">
         <p className="card-text">
           <span className="username-in-description">{userName}:</span>{" "}

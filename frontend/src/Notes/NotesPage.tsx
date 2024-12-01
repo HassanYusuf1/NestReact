@@ -14,10 +14,10 @@ const NotesPage: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async () => { 
       try {
         setLoading(true);
-        const data = await fetchAllNotes();
+        const data = await fetchAllNotes(); //uses method which fetches all notes in database from service
         setNotes(data);
       } catch (err) {
         setError("Could not load notes. Please try again later.");
@@ -35,14 +35,14 @@ const NotesPage: React.FC = () => {
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p>{error}</p>; //displays error if error
   }
 
   return (
     <div className="container">
       <h1 className="text-center mb-4">Notes Feed</h1>
       <div className="d-flex flex-column align-items-center">
-        {notes.map((note) => (
+        {notes.map((note) => ( //Uses .map() to retrieve note attributes for html
           <div key={note.noteId} className="mb-4" style={{ width: "100%", maxWidth: "800px" }}>
             <div className="card shadow-sm" style={{ minHeight: "300px" }}>
               <div className="card-body">
@@ -53,7 +53,7 @@ const NotesPage: React.FC = () => {
                 </p>
                 <div className="d-flex justify-content-start gap-1">
                   <Button
-                    onClick={() => navigate(`/edit/${note.noteId}`, { state: { from: '/notes' } })}
+                    onClick={() => navigate(`/edit/${note.noteId}`, { state: { from: '/notes' } })} //Action buttons
                     className="btn btn-warning btn-sm"
                   >
                     Edit

@@ -4,7 +4,7 @@ import { fetchAllNotes } from "./NoteService";
 import { Note } from "../types/Note";
 import { Button } from "react-bootstrap";
 import { formatTimeAgo } from "../utils/dateUtils";
-import CommentTableNote from "../Comment/CommentTableNote"; // Import the CommentTableNote component
+import CommentTableNote from "../Comment/CommentTableNote"; //Import the CommentTableNote component
 import '../layout.css';
 
 const NotesMyPage: React.FC = () => {
@@ -12,13 +12,13 @@ const NotesMyPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  const location = useLocation(); // To get the source of the current page
+  const location = useLocation(); //To get the source of the current page
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const data = await fetchAllNotes();
+        const data = await fetchAllNotes(); //uses method which fetches all notes in database from service
         setNotes(data);
       } catch (err) {
         setError("Could not load notes. Please try again later.");
@@ -36,14 +36,14 @@ const NotesMyPage: React.FC = () => {
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p>{error}</p>; //displays error if error
   }
 
   return (
     <div className="container">
       <h2 className="spaced-heading">My Notes</h2>
       <div className="row">
-        {notes.map((note) => (
+        {notes.map((note) => ( //maps the note using .map() to be able to retrieve note attributes
           <div key={note.noteId} className="col-12 col-md-6 mb-4">
             <div className="card shadow-sm" style={{ minHeight: "300px" }}>
               <div className="card-body">
@@ -52,7 +52,7 @@ const NotesMyPage: React.FC = () => {
                 <p className="card-subtitle mb-2 text-muted">
                   Uploaded: {formatTimeAgo(note.uploadDate)}
                 </p>
-                <div className="d-flex justify-content-start gap-1">
+                <div className="d-flex justify-content-start gap-1"> 
                   <Button
                     onClick={() =>
                       navigate(`/edit/${note.noteId}`, {
