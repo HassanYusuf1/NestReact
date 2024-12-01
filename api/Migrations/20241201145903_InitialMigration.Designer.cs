@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Migrations
 {
     [DbContext(typeof(MediaDbContext))]
-    [Migration("20241128095216_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241201145903_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,6 +46,8 @@ namespace Api.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("CommentId");
+
+                    b.HasIndex("NoteId");
 
                     b.HasIndex("PictureId");
 
@@ -299,9 +301,17 @@ namespace Api.Migrations
 
             modelBuilder.Entity("InstagramMVC.Models.Comment", b =>
                 {
+                    b.HasOne("InstagramMVC.Models.Note", "Note")
+                        .WithMany("Comments")
+                        .HasForeignKey("NoteId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("InstagramMVC.Models.Picture", "Picture")
                         .WithMany("Comments")
-                        .HasForeignKey("PictureId");
+                        .HasForeignKey("PictureId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Note");
 
                     b.Navigation("Picture");
                 });
@@ -355,6 +365,11 @@ namespace Api.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("InstagramMVC.Models.Note", b =>
+                {
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("InstagramMVC.Models.Picture", b =>
