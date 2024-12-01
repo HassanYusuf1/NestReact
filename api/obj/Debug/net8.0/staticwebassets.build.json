@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "vG78fn5+I4V2DeO30gYQP/jgHQhhcBLG3Tpo+UOnYOo=",
+  "Hash": "RV1rUT/dO3cj308ISs5CSktMa0cvKDti/smWfysgTn8=",
   "Source": "Api",
   "BasePath": "_content/Api",
   "Mode": "Default",
@@ -1231,6 +1231,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\4e616280-a325-4d98-ae52-c9d8bfc84599_last ned.jpeg"
+    },
+    {
+      "Identity": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\wwwroot\\images\\b8a2b3df-6b72-4a09-b7a8-4769c6440861_last ned.jpeg",
+      "SourceId": "Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\wwwroot\\",
+      "BasePath": "_content/Api",
+      "RelativePath": "images/b8a2b3df-6b72-4a09-b7a8-4769c6440861_last ned.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\b8a2b3df-6b72-4a09-b7a8-4769c6440861_last ned.jpeg"
     },
     {
       "Identity": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\wwwroot\\images\\ccb956ba-116d-4fd1-91b1-64ad68fe47d7_last ned.jpeg",
