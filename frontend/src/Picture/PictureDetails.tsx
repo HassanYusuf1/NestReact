@@ -52,26 +52,12 @@ const PictureDetails: React.FC = () => {
         </p>
       </div>
 
-      {/* Action Buttons */}
-      <div className="picture-feed-card-actions p-3 d-flex gap-2">
-        <button
-          className="btn btn-warning btn-sm"
-          onClick={() => navigate(`/pictures/${picture.pictureId}/edit?source=${location.pathname}`)}
-        >
-          Edit
-        </button>
-        <button
-          className="btn btn-danger btn-sm"
-          onClick={() => navigate(`/pictures/${picture.pictureId}/delete?source=${location.pathname}`)}
-        >
-          Delete
-        </button>
-      </div>
+      
 
       <div className="p-3">
         <button
           className="btn btn-secondary"
-          onClick={() => navigate(source)} 
+          onClick={() => navigate(-1)} 
 
         >
           Return

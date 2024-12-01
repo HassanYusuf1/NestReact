@@ -120,13 +120,13 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
       {/* Toggle Comments Visibility */}
       {comments.length > 0 && (
         <p className="text-muted">
-          <a
-            href="javascript:void(0);"
+          <button
             onClick={toggleCommentsVisibility}
-            className="view-comments-link"
+            className="view-comments-link btn btn-link p-0"
+            style={{ textDecoration: 'none' }}
           >
             View all {comments.length} comments
-          </a>
+          </button>
         </p>
       )}
 
