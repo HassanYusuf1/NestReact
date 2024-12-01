@@ -295,28 +295,9 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.border-bottom {
     background-color: #218838;
   }
   
-  /* LOG OUT BUTTON ON NAVBAR*/
-  .logout-button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-family: "Arial", sans-serif;
-    color: #fff;
-    background: red;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
-  }
   
-  .logout-button:hover {
-    background: linear-gradient(90deg, #e60000, #cc0000);
-    transform: scale(1.05);
-  }
+
   
-  .logout-button:active {
-    transform: scale(0.95);
-    background: linear-gradient(90deg, #cc0000, #b30000);
-  }
   
   /* Button styling for pictures Home */
   .button-container {
