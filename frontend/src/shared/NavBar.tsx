@@ -1,7 +1,7 @@
 import React from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import "../../src/layout.css";  
+import "../css/layout.css";  
 
 const NavBar: React.FC = () => {
   const navigate = useNavigate();

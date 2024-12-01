@@ -5,7 +5,7 @@ import { Note } from "../types/Note";
 import { Button } from "react-bootstrap";
 import { formatTimeAgo } from "../utils/dateUtils";
 import CommentTableNote from "../Comment/CommentTableNote";
-import '../layout.css';
+import '../css/layout.css';
 
 const NotesPage: React.FC = () => {
   const [notes, setNotes] = useState<Note[]>([]);
