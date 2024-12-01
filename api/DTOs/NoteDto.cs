@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace InstagramMVC.DTOs
 {
-    public class NoteDto
+    public class NoteDto //DTO for Notes
     {
         public int NoteId { get; set; }
 
@@ -13,7 +13,7 @@ namespace InstagramMVC.DTOs
         [Required]
         [Display(Name = "Content")]
         public string Content { get; set; } = string.Empty;
-        public DateTime UploadDate {get; set;} // dato innlegget ble opprettet
+        public DateTime UploadDate {get; set;} //When the note got uploaded
         
     }
 }

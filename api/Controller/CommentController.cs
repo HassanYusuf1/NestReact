@@ -8,7 +8,7 @@ namespace InstagramMVC.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CommentAPIController : ControllerBase
+    public class CommentAPIController : ControllerBase //initialize controllerbase 
     {
         private readonly ICommentRepository _commentRepository;
         private readonly ILogger<CommentAPIController> _logger;
@@ -22,14 +22,13 @@ namespace InstagramMVC.Controllers
         [HttpGet("getcomments/picture/{pictureId}")]
         public async Task<IActionResult> GetCommentsByPictureId(int pictureId)
         {
-            // Hent kommentarene for pictureId direkte
-            var comments = await _commentRepository.GetAll();
+            var comments = await _commentRepository.GetAll(); //Get comments using repository method
             var filteredComments = comments.Where(c => c.PictureId == pictureId).ToList();
 
-            if (!filteredComments.Any())
+            if (!filteredComments.Any()) //if no comments there
             {
                 _logger.LogWarning("[CommentAPIController] No comments found for pictureId {PictureId}", pictureId);
-                return Ok(new List<Comment>());
+                return Ok(new List<Comment>()); //returns the list of comment
             }
 
             return Ok(filteredComments);
@@ -40,14 +39,13 @@ namespace InstagramMVC.Controllers
         [HttpGet("getcomments/note/{noteId}")]
         public async Task<IActionResult> GetCommentsByNoteId(int noteId)
         {
-            // Hent kommentarene for noteId direkte
-            var comments = await _commentRepository.GetAll();
-            var filteredComments = comments.Where(c => c.NoteId == noteId).ToList();
+            var comments = await _commentRepository.GetAll(); //Retrieves all the comments under notes
+            var filteredComments = comments.Where(c => c.NoteId == noteId).ToList(); //filters it
 
-            if (!filteredComments.Any())
+            if (!filteredComments.Any()) //if no comments under chosen note
             {
                 _logger.LogWarning("[CommentAPIController] No comments found for noteId {NoteId}", noteId);
-                return Ok(new List<Comment>());
+                return Ok(new List<Comment>()); //Returns the comments as a list
             }
 
             return Ok(filteredComments);
@@ -58,21 +56,21 @@ namespace InstagramMVC.Controllers
 
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateComment([FromBody] CommentDto commentDto)
+        public async Task<IActionResult> CreateComment([FromBody] CommentDto commentDto) //takes in dto as argument on creation
         {
             if (commentDto == null)
             {
-                return BadRequest("Comment data cannot be null");
+                return BadRequest("Comment data cannot be null"); //Model has to be valid
             }
 
-            // Sjekk at enten PictureId eller NoteId er satt, men ikke begge.
+            // Check that only one of the ids are set
             if ((commentDto.PictureId == null && commentDto.NoteId == null) ||
                 (commentDto.PictureId != null && commentDto.NoteId != null))
             {
                 return BadRequest("Either PictureId or NoteId must be specified, but not both.");
             }
 
-            var newComment = new Comment
+            var newComment = new Comment //initialize the variables
             {
                 PictureId = commentDto.PictureId,
                 NoteId = commentDto.NoteId,
@@ -83,7 +81,7 @@ namespace InstagramMVC.Controllers
 
             try
             {
-                await _commentRepository.Create(newComment);
+                await _commentRepository.Create(newComment); //uses repository method
             }
             catch (Exception ex)
             {
@@ -95,24 +93,24 @@ namespace InstagramMVC.Controllers
         }
 
         [HttpPut("edit/{id}")]
-        public async Task<IActionResult> EditComment(int id, [FromBody] CommentDto updatedCommentDto)
+        public async Task<IActionResult> EditComment(int id, [FromBody] CommentDto updatedCommentDto) //takes in dto on edit metho
         {
-            if (updatedCommentDto == null || id != updatedCommentDto.CommentId)
+            if (updatedCommentDto == null || id != updatedCommentDto.CommentId) //has to be found in database
             {
                 return BadRequest("Invalid comment data");
             }
 
-            var existingComment = await _commentRepository.GetCommentById(id);
-            if (existingComment == null)
+            var existingComment = await _commentRepository.GetCommentById(id); //finds the comment with repo method
+            if (existingComment == null) //if not found
             {
                 _logger.LogError("[CommentAPIController] Comment with id {CommentId} not found", id);
                 return NotFound("Comment not found.");
             }
 
-            existingComment.CommentDescription = updatedCommentDto.CommentDescription;
+            existingComment.CommentDescription = updatedCommentDto.CommentDescription; //sets new description
             existingComment.CommentTime = DateTime.Now;
 
-            var success = await _commentRepository.Edit(existingComment);
+            var success = await _commentRepository.Edit(existingComment); //returns a bool after post to database
             if (!success)
             {
                 _logger.LogWarning("[CommentAPIController] Could not update the comment.");
@@ -125,16 +123,16 @@ namespace InstagramMVC.Controllers
         
 
         [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> DeleteComment(int id)
+        public async Task<IActionResult> DeleteComment(int id) //method for deletion
         {
-            var comment = await _commentRepository.GetCommentById(id);
-            if (comment == null)
+            var comment = await _commentRepository.GetCommentById(id); //finds the comment by its id
+            if (comment == null) //if comment not found
             {
                 _logger.LogError("[CommentAPIController] Comment with id {CommentId} not found", id);
                 return NotFound("Comment not found.");
             }
 
-            var success = await _commentRepository.Delete(id);
+            var success = await _commentRepository.Delete(id); //Deletes with repo method and returns true if successful
             if (!success)
             {
                 _logger.LogError("[CommentAPIController] Comment with id {CommentId} could not be deleted", id);
