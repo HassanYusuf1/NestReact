@@ -43,7 +43,7 @@ const NoteForm: React.FC<NoteFormProps> = ({ onNoteChanged, noteId, isUpdate = f
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
-          pattern="[0-9a-zA-ZæøåÆØÅ. \-]{2,20}" //Regular expression pattern
+          pattern="[0-9a-zA-ZæøåÆØÅ. \-?!]{2,20}" //Regular expression pattern
           title="The Name must be numbers or letters and between 2 to 20 characters."
         />
       </Form.Group>

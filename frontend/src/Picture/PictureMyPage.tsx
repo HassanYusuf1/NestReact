@@ -55,7 +55,7 @@ const PictureMyPage: React.FC = () => {
           className="btn btn-primary btn-lg rounded-pill shadow-sm"
           onClick={() => navigate('/pictures/create')}
         >
-          📤 Upload New Picture
+           Upload New Picture
         </button>
       </div>
     </div>
