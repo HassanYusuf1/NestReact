@@ -22,19 +22,26 @@ const App: React.FC = () => {
       <NavMenu /> 
       <Container>
         <Routes>
+          {/* Home Route */}
           <Route path="/" element={<HomePage />} />
-          <Route path="/pictures" element={<PictureGrid />} /> {/* Changed path to /pictures */}
+
+          {/* Pictures Routes */}
+          <Route path="/pictures" element={<PictureGrid />} />
           <Route path="/pictures/create" element={<CreatePicturePage />} />
           <Route path="/pictures/:id" element={<PictureDetails />} />
-          <Route path="/pictures/:id/edit" element={<PictureEditPage />} /> 
+          <Route path="/pictures/:id/edit" element={<PictureEditPage />} />
           <Route path="/pictures/:id/delete" element={<DeletePicturePage />} />
           <Route path="/picture/mypage" element={<PictureMyPage />} />
+
+          {/* Notes Routes */}
           <Route path="/notes" element={<NotesPage />} />
           <Route path="/notescreate" element={<NotesCreate />} />
           <Route path="/edit/:noteId" element={<NotesEdit />} />
           <Route path="/notesdetails/:noteId" element={<NoteDisplay />} />
           <Route path="/commenteditnote/:commentId" element={<CommentEditPage />} />
           <Route path="/notes/mypage" element={<NotesMyPage />} />
+
+          {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Container>
