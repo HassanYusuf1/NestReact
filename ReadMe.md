@@ -2,7 +2,7 @@ When the code project and code is ready to run, the first step is to start up th
 
 1. Open terminal and type in ‘cd api’. We want to start the backend first.
 
-2. Being in the correct directory, type in ‘dotnet build’
+2. Being in the correct directory, type in ‘dotnet build’ (Check that obj and Bin folder is not created before dotnet build. If so, then delete obj and bin folders and type in ´dotnet clean´)
 
 3. Finally ‘dotnet run’
 
