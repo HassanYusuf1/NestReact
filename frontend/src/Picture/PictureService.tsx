@@ -4,7 +4,7 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-// Handle server responses
+//Handle server responses
 const handleResponse = async (response: Response) => {
   if (response.ok) {
     if (response.status === 204) {
@@ -17,7 +17,7 @@ const handleResponse = async (response: Response) => {
   }
 };
 
-// Get all pictures
+//Get or fetch all pictures
 export const fetchPictures = async () => {
   try {
     const response = await fetch(`${API_URL}/api/PictureAPI/allpictures`);
@@ -28,7 +28,7 @@ export const fetchPictures = async () => {
   }
 };
 
-// Get pictures for the current user
+//Get pictures for the current user 
 export const fetchMyPictures = async () => {
   try {
     const response = await fetch(`${API_URL}/api/PictureAPI/mypage`, {
@@ -43,7 +43,7 @@ export const fetchMyPictures = async () => {
   }
 };
 
-// Get picture by id
+//Get picture by its id
 export const fetchPictureById = async (pictureId: number) => {
   try {
     const response = await fetch(`${API_URL}/api/PictureAPI/details/${pictureId}`);
@@ -55,18 +55,18 @@ export const fetchPictureById = async (pictureId: number) => {
 };
 
 
-// Create a new picture
+//Create a new picture using form data
 export const createPicture = async (formData: FormData) => {
   try {
     const response = await fetch(`${API_URL}/api/PictureAPI/create`, {
       method: 'POST',
-      body: formData, // Ikke sett Content-Type til 'application/json' her, fordi vi bruker FormData
+      body: formData, //do not set Content-Type to application json, because its formdata
     });
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(errorText);
     }
-    return response.json();
+    return response.json(); //checking response
   } catch (error) {
     console.error('Error creating picture:', error);
     throw error;
@@ -74,19 +74,19 @@ export const createPicture = async (formData: FormData) => {
 };
 
 
-// Update an existing picture
+//Update an existing picture
 export const updatePicture = async (pictureId: number, updatedPicture: any) => {
   try {
-    const formData = new FormData();
-    formData.append('PictureId', String(pictureId)); // Vær sikker på at PictureId blir sendt
-    formData.append('Title', updatedPicture.title); // Bruk eksakt samme navn som i PictureDto
+    const formData = new FormData(); //uses formdata
+    formData.append('PictureId', String(pictureId)); //be sure that the picture id is sent
+    formData.append('Title', updatedPicture.title); //Use exact same variables as PictureDto
     formData.append('Description', updatedPicture.description);
     
     if (updatedPicture.newPictureUrl) {
-      formData.append('PictureFile', updatedPicture.newPictureUrl); // Merk at dette må være 'PictureFile'
+      formData.append('PictureFile', updatedPicture.newPictureUrl); //This must be named 'PictureFile'
     }
 
-    const response = await fetch(`${API_URL}/api/PictureAPI/edit/${pictureId}`, {
+    const response = await fetch(`${API_URL}/api/PictureAPI/edit/${pictureId}`, { //uses a put http request
       method: 'PUT',
       body: formData,
     });
@@ -98,7 +98,7 @@ export const updatePicture = async (pictureId: number, updatedPicture: any) => {
 };
 
 
-// Delete a picture
+//Delete a picture
 export const deletePicture = async (pictureId: number) => {
   try {
     const response = await fetch(`${API_URL}/api/PictureAPI/delete/${pictureId}`, {

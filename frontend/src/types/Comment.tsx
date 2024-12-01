@@ -1,4 +1,4 @@
-export interface Comment {
+export interface Comment { //Interface for comment
   commentId: number; 
   noteId?: number;
   pictureId?: number;

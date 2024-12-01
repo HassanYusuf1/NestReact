@@ -1,4 +1,4 @@
-export interface Picture {
+export interface Picture { //Interface for picture
     pictureId: number;              
     pictureUrl?: string;           
     title?: string;                 
