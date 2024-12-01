@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Note } from '../types/Note';
 import NotesDetails from './NotesDetails';

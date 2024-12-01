@@ -5,7 +5,7 @@ import "../../src/layout.css";
 import { formatTimeAgo } from "../utils/dateUtils"; 
 import CommentTable from "../Comment/CommentTable"; //Adjust paths based on project structure
 
-type PictureCardProps = { //Card
+type PictureCardProps = { //Cardb
   picture: Picture;
   returnUrl: string;
 };
