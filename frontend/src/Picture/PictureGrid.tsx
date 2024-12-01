@@ -3,7 +3,7 @@ import { fetchPictures } from './PictureService';
 import { Picture } from '../types/picture';
 import PictureCard from '../shared/PictureCard'; //uses picturecard from shared
 
-const PicturesGrid: React.FC = () => {
+const PictureGrid: React.FC = () => {
   const [pictures, setPictures] = useState<Picture[]>([]);
 
   useEffect(() => {
@@ -33,4 +33,4 @@ const PicturesGrid: React.FC = () => {
   );
 };
 
-export default PicturesGrid;
+export default PictureGrid;
