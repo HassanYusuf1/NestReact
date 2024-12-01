@@ -6,19 +6,19 @@ namespace InstagramMVC.DAL
 {
     public interface IPictureRepository
     {
-        //Henter Alle pictures fra databasen
+        //Get all pictures
         Task<IEnumerable<Picture>?> GetAll();
 
-        //Opprette et nytt picture
+        //creates new picture
         Task<bool> Create(Picture picture);
 
-        // Hente Picture basert på ID
+        //Get picture by its id
         Task<Picture?> PictureId(int id);
 
-        // Updateer en eksisterende picture   
+        //Update existing pictures  
         Task<bool> Edit(Picture picture);
 
-        // Sletter et picture basert på ID.
+        //Deletes a chosen picture
         Task<bool> Delete(int id);
 
 
