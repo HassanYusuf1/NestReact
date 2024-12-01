@@ -29,12 +29,11 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
     try {
       const data = await fetchComments(pictureId);
 
-      // Endre her for å bruke commentTime i stedet for uploadDate
       const commentsWithValidDates = data.map((comment) => {
-        const commentTime = new Date(comment.commentTime); // Bruk commentTime fra serveren
+        const commentTime = new Date(comment.commentTime);
         return {
           ...comment,
-          commentTime: isNaN(commentTime.getTime()) ? null : commentTime, // Bruk commentTime i stedet for uploadDate
+          commentTime: isNaN(commentTime.getTime()) ? null : commentTime,
         };
       });
 
@@ -62,7 +61,7 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
       const createdComment = await createComment({
         pictureId: pictureId,
         commentDescription: newComment,
-        userName: "Harry", // For simplicity, you can hardcode userName or get it from the context
+        userName: "Harry", // Hardcoded for simplicity
       });
 
       setComments((prevComments) => [...prevComments, createdComment]);
@@ -132,10 +131,7 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
 
       {/* Hidden Comments Section */}
       {showComments && (
-        <div
-          id="all-comments"
-          style={{ display: showComments ? "block" : "none" }}
-        >
+        <div id="all-comments">
           {isLoading && <p>Loading comments...</p>}
           {error && <p className="error-message">{error}</p>}
 
@@ -151,31 +147,60 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
                   className="comment d-flex justify-content-between align-items-center mb-2"
                 >
                   <div>
-                    <strong>{comment.userName.split("@")[0]}:</strong>{" "}
-                    {comment.commentDescription}
-                    <p className="timestamp relative-time text-muted">
-                      {formatTimeAgo(comment.commentTime)}{" "}
-                      {/* Use commentTime here */}
-                    </p>
+                    {editingCommentId === comment.commentId ? (
+                      <>
+                        <textarea
+                          value={editingCommentText}
+                          onChange={(e) => setEditingCommentText(e.target.value)}
+                          className="form-control mb-1"
+                          rows={1}
+                        />
+                        <button
+                          className="btn btn-primary btn-sm me-2"
+                          onClick={() => handleEditComment(comment.commentId)}
+                        >
+                          Save
+                        </button>
+                        <button
+                          className="btn btn-secondary btn-sm"
+                          onClick={() => {
+                            setEditingCommentId(null);
+                            setEditingCommentText("");
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <strong>{comment.userName.split("@")[0]}:</strong>{" "}
+                        {comment.commentDescription}
+                        <p className="timestamp relative-time text-muted">
+                          {formatTimeAgo(comment.commentTime)}
+                        </p>
+                      </>
+                    )}
                   </div>
 
-                  <div className="comment-actions">
-                    <button
-                      className="btn btn-link text-primary me-2 p-0 fw-bold"
-                      onClick={() => {
-                        setEditingCommentId(comment.commentId);
-                        setEditingCommentText(comment.commentDescription);
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-link text-danger p-0 fw-bold"
-                      onClick={() => handleDeleteComment(comment.commentId)}
-                    >
-                      Delete
-                    </button>
-                  </div>
+                  {editingCommentId !== comment.commentId && (
+                    <div className="comment-actions">
+                      <button
+                        className="btn btn-link text-primary me-2 p-0 fw-bold"
+                        onClick={() => {
+                          setEditingCommentId(comment.commentId);
+                          setEditingCommentText(comment.commentDescription);
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-link text-danger p-0 fw-bold"
+                        onClick={() => handleDeleteComment(comment.commentId)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

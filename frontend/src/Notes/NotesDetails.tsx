@@ -4,11 +4,7 @@ import { Button } from "react-bootstrap";
 import { Note } from "../types/Note";
 import { fetchNoteById, deleteNoteById } from "./NoteService"; // Import deleteNoteById
 
-interface NoteDetail {
-  onNoteDeleted: (note: Note) => void;
-}
-
-const NotesDetails: React.FC<NoteDetail> = ({ onNoteDeleted }) => {
+const NotesDetails: React.FC = () => {
   const navigate = useNavigate();
   const { noteId } = useParams<{ noteId: string }>(); 
   const [note, setNote] = useState<Note | null>(null);
@@ -26,7 +22,6 @@ const NotesDetails: React.FC<NoteDetail> = ({ onNoteDeleted }) => {
 
     try {
       await deleteNoteById(note.noteId.toString()); // Call delete function
-      onNoteDeleted(note); // Notify parent component (optional, if needed)
       navigate(-1); // Navigate back after deletion
     } catch (err) {
       setError('Failed to delete the note. Please try again.');
