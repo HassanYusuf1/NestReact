@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams,  useNavigate } from 'react-router-dom';
 import { fetchPictureById } from './PictureService';
 import { Picture } from '../types/picture';
 
 const PictureDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const location = useLocation();
   const navigate = useNavigate();
   
   const [picture, setPicture] = useState<Picture | null>(null);
 
-  //Get the parameters in the url to save the source for navigation
-  const searchParams = new URLSearchParams(location.search);
-  const source = searchParams.get('source') || '/picture/grid';
+  
+  
 
   useEffect(() => {
     const loadPicture = async () => {

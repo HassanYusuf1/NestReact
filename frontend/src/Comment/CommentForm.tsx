@@ -18,7 +18,6 @@ const CommentForm: React.FC<CommentFormProps> = ({
 }) => {
   const [commentDescription, setCommentDescription] = useState<string>(""); // Endret fra 'Content' til 'commentDescription'
   const [userName] = useState<string>("");
-  const [uploadDate] = useState<Date>(new Date()); // Default to the current date
   const [error] = useState<string | null>(null);
   const navigate = useNavigate();
 
