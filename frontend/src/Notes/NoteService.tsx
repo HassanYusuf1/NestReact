@@ -5,7 +5,7 @@ const headers = {
   "Content-Type": "application/json",
 };
 
-export const handleResponse = async (response: Response) => {
+export const handleResponse = async (response: Response) => { //handles response and displays it
   if (response.ok) {
     if (response.status === 204) {
       return null;
@@ -17,13 +17,13 @@ export const handleResponse = async (response: Response) => {
   }
 };
 
-export const fetchNoteById = async (noteId: string): Promise<Note> => {
+export const fetchNoteById = async (noteId: string): Promise<Note> => { //Method for fetching note by its id
   try {
     const response = await fetch(`${API_URL}/api/noteapi/${noteId}`);
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
-    const data: Note = await response.json(); // Explicitly type the data as Note
+    const data: Note = await response.json(); //Explicitly type the data as Note
     return data;
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error);
@@ -31,7 +31,7 @@ export const fetchNoteById = async (noteId: string): Promise<Note> => {
   }
 };
 
-export const fetchNoteByIdForDisplay = async (
+export const fetchNoteByIdForDisplay = async ( //fetches note for display
   noteId: string
 ): Promise<Note> => {
   try {
@@ -39,7 +39,7 @@ export const fetchNoteByIdForDisplay = async (
     if (!response.ok) {
       throw new Error("Failed to fetch note.");
     }
-    const data: Note = await response.json(); // Explicitly type the response as Note
+    const data: Note = await response.json(); //Explicitly type the response as Note
     return data;
   } catch (error) {
     console.error("Error fetching note:", error);
@@ -47,9 +47,9 @@ export const fetchNoteByIdForDisplay = async (
   }
 };
 
-export const createNote = async (note: Note): Promise<Note> => {
+export const createNote = async (note: Note): Promise<Note> => { //method for creating a note
   try {
-    const response = await fetch(`${API_URL}/api/NoteAPI/Create`, {
+    const response = await fetch(`${API_URL}/api/NoteAPI/Create`, { //using api url to fetch
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,16 +62,16 @@ export const createNote = async (note: Note): Promise<Note> => {
     }
 
     const createdNote = await response.json();
-    return createdNote; // Returnerer den opprettede noten
+    return createdNote; // returns the note after post
   } catch (error) {
     console.error("Error creating note:", error);
     throw new Error("There was a problem creating the note.");
   }
 };
 
-export const fetchAllNotes = async (): Promise<Note[]> => {
+export const fetchAllNotes = async (): Promise<Note[]> => { //fetch all notes 
   try {
-    const response = await fetch(`${API_URL}/api/NoteAPI/getnotes`);
+    const response = await fetch(`${API_URL}/api/NoteAPI/getnotes`); 
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -85,11 +85,11 @@ export const fetchAllNotes = async (): Promise<Note[]> => {
       );
       return {
         ...note,
-        uploadDate: localDate, // Erstatt med lokal tid
+        uploadDate: localDate, //use local time
       };
     });
 
-    return notesWithParsedDates;
+    return notesWithParsedDates; //returns the parsed data
   } catch (error) {
     console.error(
       `There was a problem with the fetch operation: ${
@@ -100,22 +100,22 @@ export const fetchAllNotes = async (): Promise<Note[]> => {
   }
 };
 
-export const updateNote = async (note: Note): Promise<Note> => {
+export const updateNote = async (note: Note): Promise<Note> => { //Method for creating a note
   try {
-    const response = await fetch(`${API_URL}/api/NoteAPI/edit/${note.noteId}`, {
+    const response = await fetch(`${API_URL}/api/NoteAPI/edit/${note.noteId}`, { //Fetches method from controller
       method: "PUT",
       headers,
       body: JSON.stringify(note),
     });
-    const updatedNote = await handleResponse(response);
-    return updatedNote;
+    const updatedNote = await handleResponse(response); 
+    return updatedNote; //Returns the updated note
   } catch (error) {
     console.error("Error updating note:", error);
     throw new Error("Failed to update note.");
   }
 };
 
-export const fetchMyNotes = async () => {
+export const fetchMyNotes = async () => { //Fetches the users notes 
   try {
     const response = await fetch(`${API_URL}/api/NoteApi/mypage`, {
       headers: {
@@ -129,7 +129,7 @@ export const fetchMyNotes = async () => {
   }
 };
 
-export const deleteNoteById = async (noteId: string): Promise<void> => {
+export const deleteNoteById = async (noteId: string): Promise<void> => { //deletes a note by its noteid
   try {
     const response = await fetch(`${API_URL}/api/NoteAPI/delete/${noteId}`, {
       method: "DELETE",

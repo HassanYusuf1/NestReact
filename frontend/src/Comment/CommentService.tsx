@@ -4,7 +4,7 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-// Handle server responses
+//Handle server responses
 const handleResponse = async (response: Response) => {
   if (response.ok) {
     if (response.status === 204) {
@@ -17,7 +17,7 @@ const handleResponse = async (response: Response) => {
   }
 };
 
-// Get all comments
+//Get all comments
 export const fetchComments = async (pictureId: number) => {
   try {
     const response = await fetch(`${API_URL}/api/CommentAPI/getcomments/picture/${pictureId}`);
@@ -28,7 +28,7 @@ export const fetchComments = async (pictureId: number) => {
   }
 };
 
-// Get comment by id
+//Get comment by id
 export const fetchCommentById = async (commentId: number) => {
   try {
     const response = await fetch(`${API_URL}/api/CommentAPI/details/${commentId}`);
@@ -39,7 +39,7 @@ export const fetchCommentById = async (commentId: number) => {
   }
 };
 
-// Create a comment
+//Create a comment
 export const createComment = async (commentData: {
   pictureId?: number;
   noteId?: number;
@@ -47,7 +47,7 @@ export const createComment = async (commentData: {
   userName: string;
 }) => {
   try {
-    const response = await fetch(`${API_URL}/api/CommentAPI/create`, {
+    const response = await fetch(`${API_URL}/api/CommentAPI/create`, { //Creates comment with controller method
       method: 'POST',
       headers: {
         ...headers,
@@ -61,12 +61,13 @@ export const createComment = async (commentData: {
   }
 };
 
-export const editComment = async (commentId: number, updatedCommentData: { commentDescription: string; }) => {
+//Method for editing a comment 
+export const editComment = async (commentId: number, updatedCommentData: { commentDescription: string; }) => { 
   if (!updatedCommentData.commentDescription) {
     throw new Error("Comment description cannot be empty");
   }
   try {
-    const response = await fetch(`${API_URL}/api/CommentAPI/edit/${commentId}`, {
+    const response = await fetch(`${API_URL}/api/CommentAPI/edit/${commentId}`, { //Used edit method from controller
       method: 'PUT',
       headers: {
         ...headers,
@@ -84,10 +85,10 @@ export const editComment = async (commentId: number, updatedCommentData: { comme
 };
 
 
-// Delete a comment
+//Delete a comment
 export const deleteComment = async (commentId: number) => {
   try {
-    const response = await fetch(`${API_URL}/api/CommentAPI/delete/${commentId}`, {
+    const response = await fetch(`${API_URL}/api/CommentAPI/delete/${commentId}`, { //Uses method from the api controller for deletion
       method: 'DELETE',
     });
     return handleResponse(response);

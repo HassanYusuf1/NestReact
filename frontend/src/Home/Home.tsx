@@ -1,10 +1,10 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Home.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'bootstrap/dist/js/bootstrap.bundle.min'; //imports bootstrap
 
 
-const HomePage: React.FC = () => {
+const HomePage: React.FC = () => { //Carousel for homepage to make it more dynamic
   return (
     <div>
       <div

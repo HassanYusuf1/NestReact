@@ -2,10 +2,10 @@ import {  useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Note } from '../types/Note';
 import NotesDetails from './NotesDetails';
-import { fetchNoteByIdForDisplay } from './NoteService'; // Removed deleteNoteById
+import { fetchNoteByIdForDisplay } from './NoteService'; //imports service method
 
 const NotesCreate: React.FC = () => {
-  const { noteId } = useParams<{ noteId: string }>();
+  const { noteId } = useParams<{ noteId: string }>(); //gets the note id from url
   const [, setNote] = useState<Note | null>(null);
   const [, setLoading] = useState<boolean>(true);
   const [, setError] = useState<string | null>(null);
@@ -13,14 +13,14 @@ const NotesCreate: React.FC = () => {
   useEffect(() => {
     const fetchNote = async () => {
       if (!noteId) {
-        setError('No note ID provided.');
+        setError('No note ID provided.'); //error handling if not found
         return;
       }
       setLoading(true);
       setError(null);
       try {
         const data = await fetchNoteByIdForDisplay(noteId);
-        setNote(data); // Update state with fetched note
+        setNote(data); //Update state with fetched note
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch note.');
       } finally {

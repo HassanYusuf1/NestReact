@@ -6,23 +6,23 @@ import { fetchNoteById, deleteNoteById } from "./NoteService"; // Import deleteN
 
 const NotesDetails: React.FC = () => {
   const navigate = useNavigate();
-  const { noteId } = useParams<{ noteId: string }>(); 
+  const { noteId } = useParams<{ noteId: string }>(); //gets note id from url
   const [note, setNote] = useState<Note | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const onCancel = () => {
+  const onCancel = () => { //goes back to previous page if cancel
     navigate(-1); 
   };
 
-  const onDeleteNote = async () => {
+  const onDeleteNote = async () => { //returns after deletion
     if (!note) {
       return;
     }
 
     try {
-      await deleteNoteById(note.noteId.toString()); // Call delete function
-      navigate(-1); // Navigate back after deletion
+      await deleteNoteById(note.noteId.toString()); //Call delete function
+      navigate(-1); //Navigate back after deletion
     } catch (err) {
       setError('Failed to delete the note. Please try again.');
       console.error("Error deleting note:", err);
@@ -32,7 +32,7 @@ const NotesDetails: React.FC = () => {
   useEffect(() => {
     const handleFetchNote = async () => {
       if (!noteId) {
-        setError('No note ID provided.');
+        setError('No note ID provided.'); //Handles fetched the note
         return;
       }
       setLoading(true);
@@ -55,7 +55,7 @@ const NotesDetails: React.FC = () => {
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div>Error: {error}</div>; //Displays error
   }
 
   if (!note) {

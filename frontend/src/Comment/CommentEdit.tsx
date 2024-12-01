@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import CommentForm from './CommentForm';
+import CommentForm from './CommentForm'; //Import the HTML form
 import { Comment } from '../types/Comment';
 import API_URL from '../apiConfig';
 
 
 const CommentEdit: React.FC = () => {
-  const { commentId } = useParams<{ commentId: string }>(); 
+  const { commentId } = useParams<{ commentId: string }>(); //Gets comment id from the url
   const navigate = useNavigate(); 
   const [comment, setComment] = useState<Comment | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -35,7 +35,7 @@ const CommentEdit: React.FC = () => {
   const handleCommentUpdated = async (comment: Comment) => {
 
     try {
-      const response = await fetch(`${API_URL}/api/CommentAPI/edit/${comment.commentId}`, {
+      const response = await fetch(`${API_URL}/api/CommentAPI/edit/${comment.commentId}`, { //Calls on api controller
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const CommentEdit: React.FC = () => {
       }
       const data = await response.json();
       console.log('Comment updated successfully:', data);
-      navigate('/pictures'); // Navigate back after successful creation
+      navigate('/pictures'); //Navigate back after successful creation
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
     }

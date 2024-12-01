@@ -4,12 +4,12 @@ import {
   createComment,
   editComment,
   deleteComment,
-} from "./CommentService";
+} from "./CommentService"; //Imports all functions
 import { Comment } from "../types/Comment";
 import { formatTimeAgo } from "../utils/dateUtils";
 
 interface CommentTableProps {
-  pictureId: number; // Identifier for the specific picture
+  pictureId: number; //Identifier for the specific picture
 }
 
 const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
@@ -21,13 +21,13 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
   const [editingCommentText, setEditingCommentText] = useState<string>("");
 
-  // Memoize loadComments using useCallback
+  //Memoize loadComments using useCallback
   const loadComments = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const data = await fetchComments(pictureId);
+      const data = await fetchComments(pictureId); //Fetches all comments under a picture using id
 
       const commentsWithValidDates = data.map((comment) => {
         const commentTime = new Date(comment.commentTime);
@@ -46,12 +46,12 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
     }
   }, [pictureId]);
 
-  // Load comments on component mount or when the pictureId changes
+  //Load comments on component mount or when the pictureId changes
   useEffect(() => {
     loadComments();
   }, [loadComments]);
 
-  const handleCreateComment = async () => {
+  const handleCreateComment = async () => { //Handles the comment data
     if (!newComment.trim()) {
       alert("Please enter a valid comment.");
       return;
@@ -61,7 +61,7 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
       const createdComment = await createComment({
         pictureId: pictureId,
         commentDescription: newComment,
-        userName: "Harry", // Hardcoded for simplicity
+        userName: "Harry", //Hardcoded for simplicity
       });
 
       setComments((prevComments) => [...prevComments, createdComment]);
@@ -78,7 +78,7 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
     }
 
     try {
-      await editComment(commentId, { commentDescription: editingCommentText });
+      await editComment(commentId, { commentDescription: editingCommentText }); //uses edit method from service
       setComments((prevComments) =>
         prevComments.map((comment) =>
           comment.commentId === commentId
@@ -86,7 +86,7 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
             : comment
         )
       );
-      setEditingCommentId(null);
+      setEditingCommentId(null); //sets the attributes
       setEditingCommentText("");
     } catch (error) {
       console.error(`Error editing comment with id ${commentId}:`, error);
@@ -110,7 +110,7 @@ const CommentTable: React.FC<CommentTableProps> = ({ pictureId }) => {
     }
   };
 
-  const toggleCommentsVisibility = () => {
+  const toggleCommentsVisibility = () => { //Toggles between show or hide comments under a picture
     setShowComments((prev) => !prev);
   };
 

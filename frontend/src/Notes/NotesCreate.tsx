@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import NoteForm from './NoteForm';
 import { Note } from '../types/Note';
 import { createNote } from '../Notes/NoteService';
-import { formatTimeAgo } from '../utils/dateUtils'; // Importer hjelpefunksjonen
+import { formatTimeAgo } from '../utils/dateUtils'; //import help function from dateutils
 
 const NotesCreate: React.FC = () => {
   const navigate = useNavigate();
-  const [formattedTime, setFormattedTime] = useState<string | null>(null); // State for formatert tid
+  const [formattedTime, setFormattedTime] = useState<string | null>(null); //State for time
 
   const handleNoteCreated = async (note: Note) => {
     try {
@@ -26,7 +26,7 @@ const NotesCreate: React.FC = () => {
     <div>
       <h2>Create New Note</h2>
       <NoteForm onNoteChanged={handleNoteCreated} />
-      {formattedTime && <p>Note uploaded: {formattedTime}</p>} {/* Vis formatert tid */}
+      {formattedTime && <p>Note uploaded: {formattedTime}</p>}
     </div>
   );
 };

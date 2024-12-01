@@ -7,12 +7,13 @@ const NavBar: React.FC = () => {
   const navigate = useNavigate();
 
   return (
+    /* navigation bar */
     <Navbar expand="lg" bg="light" className="navbar-light bg-light border-bottom">
       <div className="container-fluid">
         <Navbar.Brand onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
           NEST
         </Navbar.Brand>
-
+        
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto mb-2 mb-lg-0">
