@@ -5,7 +5,7 @@ import { Comment } from '../types/Comment';
 import API_URL from '../apiConfig';
 
 
-const CommentUpdatePage: React.FC = () => {
+const CommentEdit: React.FC = () => {
   const { commentId } = useParams<{ commentId: string }>(); 
   const navigate = useNavigate(); 
   const [comment, setComment] = useState<Comment | null>(null);
@@ -65,4 +65,4 @@ const CommentUpdatePage: React.FC = () => {
   );
 };
 
-export default CommentUpdatePage;
+export default CommentEdit;

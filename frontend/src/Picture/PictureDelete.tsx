@@ -3,7 +3,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { fetchPictureById, deletePicture } from './PictureService';
 import { Picture } from '../types/picture';
 
-const DeletePicture: React.FC = () => {
+const PictureDelete: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const location = useLocation();
@@ -69,4 +69,4 @@ const DeletePicture: React.FC = () => {
   );
 };
 
-export default DeletePicture;
+export default  PictureDelete;

@@ -3,13 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Comment } from '../types/Comment'; // Sørg for at du har riktig Comment-type
 import { fetchCommentById, deleteComment } from './CommentService';
 
-const DeleteCommentPage: React.FC = () => {
+const CommentDelete: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [comment, setComment] = useState<Comment | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Henter kommentar med gitt ID når komponenten lastes inn
+  
   useEffect(() => {
     if (id) {
       const fetchData = async () => {
@@ -65,4 +65,4 @@ const DeleteCommentPage: React.FC = () => {
   );
 };
 
-export default DeleteCommentPage;
+export default CommentDelete;
