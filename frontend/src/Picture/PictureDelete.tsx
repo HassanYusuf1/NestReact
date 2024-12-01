@@ -17,10 +17,10 @@ const DeletePicture: React.FC = () => {
     if (id) {
       const fetchData = async () => {
         try {
-          const fetchedPicture = await fetchPictureById(Number(id));
+          const fetchedPicture = await fetchPictureById(Number(id)); //Uses method from service
           setPicture(fetchedPicture);
         } catch (err) {
-          console.error(`Error fetching picture with id ${id}:`, err);
+          console.error(`Error fetching picture with id ${id}:`, err); //error handling
           setError('Could not get picture information.');
         }
       };
@@ -29,15 +29,15 @@ const DeletePicture: React.FC = () => {
   }, [id]);
 
   const handleDelete = async () => {
-    if (!window.confirm('Are you sure you want to delete this picture?')) {
+    if (!window.confirm('Are you sure you want to delete this picture?')) { //uses a window for confirmation
       return;
     }
 
     try {
-      await deletePicture(Number(id));
+      await deletePicture(Number(id)); //uses method from service for deletion
       navigate(source);
     } catch (error) {
-      console.error(`Failed to delete picture with ID. ${id}:`, error);
+      console.error(`Failed to delete picture with ID. ${id}:`, error); 
       setError('Could not delete the picture.');
     }
   };
@@ -51,6 +51,7 @@ const DeletePicture: React.FC = () => {
   }
 
   return (
+    /*HTML for confirmed deletion   */
     <div className="container">
       <h2>Delete Picture</h2>
       <p>Are you sure you want to delete this picture?</p>

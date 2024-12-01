@@ -24,12 +24,12 @@ const CreatePicture: React.FC = () => {
     }
 
     try {
-      const formData = new FormData();
+      const formData = new FormData(); //Uses formdata to create a picture
       formData.append('Title', title);
       formData.append('Description', description);
-      formData.append('PictureFile', pictureFile); // MERK: "PictureFile" må matche backend
+      formData.append('PictureFile', pictureFile); // PICTURE FILE MUST MATCH BACKEND
 
-      await createPicture(formData);
+      await createPicture(formData); //Method for creation from service
       navigate('/picture/mypage');
     } catch (error) {
       console.error('Error creating picture:', error);
@@ -37,6 +37,7 @@ const CreatePicture: React.FC = () => {
   };
 
   return (
+    /* Form for creating picture*/
     <div className="container">
       <h2>Upload New Image</h2>
       <form onSubmit={handleSubmit} encType="multipart/form-data">

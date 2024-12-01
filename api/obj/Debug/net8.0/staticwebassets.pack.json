@@ -29,11 +29,19 @@
       "PackagePath": "staticwebassets\\images\\d063ec40-3f6a-440b-b4e5-b47284c43219_last ned.jpeg"
     },
     {
+<<<<<<< HEAD
+      "Id": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\wwwroot\\images\\de83bcd6-3037-4e6f-9b93-82a9e04f4910_0515c651-45d4-49ec-986e-fea4f69466c5_r.jpeg",
+      "PackagePath": "staticwebassets\\images\\de83bcd6-3037-4e6f-9b93-82a9e04f4910_0515c651-45d4-49ec-986e-fea4f69466c5_r.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\wwwroot\\js\\k",
+=======
       "Id": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\images\\de83bcd6-3037-4e6f-9b93-82a9e04f4910_0515c651-45d4-49ec-986e-fea4f69466c5_r.jpeg",
       "PackagePath": "staticwebassets\\images\\de83bcd6-3037-4e6f-9b93-82a9e04f4910_0515c651-45d4-49ec-986e-fea4f69466c5_r.jpeg"
     },
     {
       "Id": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\js\\k",
+>>>>>>> 8b68b9ce59b70d5f5548ab928ed520b4f46c4b3c
       "PackagePath": "staticwebassets\\js"
     },
     {

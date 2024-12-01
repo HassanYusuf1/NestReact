@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Picture } from '../types/picture';
 
-interface PictureFormProps {
+interface PictureFormProps { //initialize a prop for creating picture
   picture: Picture;
   isMyPage: boolean;
 }
@@ -11,6 +11,7 @@ const PictureForm: React.FC<PictureFormProps> = ({ picture, isMyPage }) => {
   const navigate = useNavigate();
   const userNameBeforeAt = picture.userName?.split('@')[0] || 'Unknown';
 
+  //Buttons for the navigation use
   const handleEdit = () => {
     navigate(`/pictures/${picture.pictureId}/edit`, { state: { source: isMyPage ? 'MyPage' : 'Grid' } });
   };
@@ -19,6 +20,7 @@ const PictureForm: React.FC<PictureFormProps> = ({ picture, isMyPage }) => {
     navigate(`/pictures/${picture.pictureId}/delete`, { state: { source: isMyPage ? 'MyPage' : 'Grid' } });
   };
 
+  //button for downloading file
   const handleDownload = () => {
     window.location.href = picture.pictureUrl;
   };
@@ -41,8 +43,9 @@ const PictureForm: React.FC<PictureFormProps> = ({ picture, isMyPage }) => {
           <span className="username-in-description">@{userNameBeforeAt}</span> {picture.description}
         </p>
       </div>
-
+      
       {isMyPage && (
+        /* Action Buttons */
         <div className="p-3 d-flex justify-content-start">
           <button className="btn btn-warning me-2" onClick={handleEdit}>
             Edit

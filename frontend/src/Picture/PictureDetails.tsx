@@ -10,7 +10,7 @@ const PictureDetails: React.FC = () => {
   
   const [picture, setPicture] = useState<Picture | null>(null);
 
-  // Hent "source" parameter fra URL-en for å kunne navigere tilbake
+  //Get the parameters in the url to save the source for navigation
   const searchParams = new URLSearchParams(location.search);
   const source = searchParams.get('source') || '/picture/grid';
 
@@ -18,11 +18,11 @@ const PictureDetails: React.FC = () => {
     const loadPicture = async () => {
       try {
         if (id) {
-          const data = await fetchPictureById(Number(id));
+          const data = await fetchPictureById(Number(id)); //Uses a method from the service
           setPicture(data);
         }
       } catch (error) {
-        console.error(`Error fetching picture with id ${id}:`, error);
+        console.error(`Error fetching picture with id ${id}:`, error); //error handling
       }
     };
     loadPicture();
@@ -37,14 +37,14 @@ const PictureDetails: React.FC = () => {
       {/* Header with Title */}
       <h1 className="username-in-description">{picture.title}</h1>
 
-      {/* Image Section */}
+      {/* Image */}
       <img
         src={picture.pictureUrl}
         alt={picture.title || 'Picture'}
         className="picture-feed-card-img"
       />
 
-      {/* Body Section */}
+      {/* Body Section for a picture card */}
       <div className="picture-feed-card-body p-3">
         <p>{picture.description}</p>
         <p>

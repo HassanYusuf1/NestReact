@@ -20,7 +20,7 @@ const PictureEdit: React.FC = () => {
     const loadPicture = async () => {
       try {
         if (id) {
-          const data = await fetchPictureById(Number(id));
+          const data = await fetchPictureById(Number(id)); //Uses a method for fetching chosen picture from service
           setPicture(data);
           setTitle(data.title || '');
           setDescription(data.description || '');
@@ -56,16 +56,17 @@ const PictureEdit: React.FC = () => {
   }
 
   return (
+    /* A HTML 'form' for editing the image which will handle data on submit  */
     <div className="container">
       <h2>Edit Image</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}> 
         <div className="form-group mb-3">
           <label htmlFor="Title">Title</label>
           <input
             type="text"
             id="Title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)} //uses a two way data binding 
             className="form-control"
             required
           />
@@ -76,18 +77,18 @@ const PictureEdit: React.FC = () => {
           <textarea
             id="Description"
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) => setDescription(e.target.value)} //uses a two way data binding
             className="form-control"
             required
           />
         </div>
-
+        
         <div className="mt-3">
           <button type="submit" className="btn btn-primary">Save Changes</button>
           <button
             type="button"
             className="btn btn-secondary ms-3"
-            onClick={() => navigate(source)} // Navigerer tilbake til riktig side ved avbryt
+            onClick={() => navigate(source)} //navigates to correct source after saving changes
           >
             Cancel
           </button>

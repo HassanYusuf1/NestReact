@@ -14,10 +14,10 @@ const PictureMyPage: React.FC = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const data = await fetchMyPictures();
+        const data = await fetchMyPictures(); //uses method from service
         setPictures(data);
       } catch (err) {
-        setError('Could not load pictures. Please try again later.');
+        setError('Could not load pictures. Please try again later.'); //error handling
         console.error(err);
       } finally {
         setLoading(false);
@@ -32,7 +32,7 @@ const PictureMyPage: React.FC = () => {
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p>{error}</p>; //Displays error if error
   }
 
   return (
@@ -42,6 +42,7 @@ const PictureMyPage: React.FC = () => {
         {pictures.length === 0 ? (
           <p className="text-center">No pictures found.</p>
         ) : (
+          /* uses picture as argument in .map() to retrieve pictures*/
           pictures.map((picture) => (
             <div key={picture.pictureId} className="col-12 col-md-6 col-lg-6 mb-4">
               <PictureCard picture={picture} returnUrl="/picture/mypage" />
@@ -50,7 +51,7 @@ const PictureMyPage: React.FC = () => {
         )}
       </div>
       <div className="mt-5 text-center">
-        <button
+        <button /* Action Buttons */
           className="btn btn-primary btn-lg rounded-pill shadow-sm"
           onClick={() => navigate('/pictures/create')}
         >

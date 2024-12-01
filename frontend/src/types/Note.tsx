@@ -1,4 +1,4 @@
-export interface Note {
+export interface Note { //Model for note
     noteId?: number,
     title: string,
     content: string,

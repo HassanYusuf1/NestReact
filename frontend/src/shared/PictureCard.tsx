@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Picture } from "../types/picture";
 import "../../src/layout.css";
-import { formatTimeAgo } from "../utils/dateUtils"; // Adjust path based on project structure
-import CommentTable from "../Comment/CommentTable";
+import { formatTimeAgo } from "../utils/dateUtils"; 
+import CommentTable from "../Comment/CommentTable"; //Adjust paths based on project structure
 
-type PictureCardProps = {
+type PictureCardProps = { //Card
   picture: Picture;
   returnUrl: string;
 };
