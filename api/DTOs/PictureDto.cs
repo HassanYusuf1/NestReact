@@ -14,11 +14,10 @@ namespace InstagramMVC.DTOs
         [StringLength(500)]
         public string? Description { get; set; }
 
-        //Change PictureUrl from PictureFile
-        //For use and manipulation
+        
         public IFormFile? PictureFile { get; set; }
 
-        //Return URL to client
+        
         public string? PictureUrl { get; set; }
 
         [Required]

@@ -7,7 +7,7 @@ import { formatTimeAgo } from '../utils/dateUtils'; //import help function from 
 
 const NotesCreate: React.FC = () => {
   const navigate = useNavigate();
-  const [formattedTime, setFormattedTime] = useState<string | null>(null); //State for time
+  const [formattedTime, setFormattedTime] = useState<string | null>(null); 
 
   const handleNoteCreated = async (note: Note) => {
     try {

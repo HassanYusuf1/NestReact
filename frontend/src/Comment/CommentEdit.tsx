@@ -35,7 +35,8 @@ const CommentEdit: React.FC = () => {
   const handleCommentUpdated = async (comment: Comment) => {
 
     try {
-      const response = await fetch(`${API_URL}/api/CommentAPI/edit/${comment.commentId}`, { //Calls on api controller
+      //Calls on api controller
+      const response = await fetch(`${API_URL}/api/CommentAPI/edit/${comment.commentId}`, { 
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

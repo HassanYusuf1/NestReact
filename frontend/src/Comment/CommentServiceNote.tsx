@@ -55,7 +55,8 @@ export const createCommentNote = async (commentData: {
   userName: string; 
 }) => {
   try {
-    const response = await fetch(`${API_URL}/api/CommentAPI/create`, { //Uses create comment from API controller
+    //Uses create comment from API controller
+    const response = await fetch(`${API_URL}/api/CommentAPI/create`, { 
       method: "POST",
       headers: {
         ...headers,
