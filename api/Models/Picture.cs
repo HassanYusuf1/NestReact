@@ -4,15 +4,15 @@ using InstagramMVC.Models;
 namespace InstagramMVC.Models {
     public class Picture {
         public int PictureId { get; set; }  
-        public string? PictureUrl {get; set;}  // Lagrer filstien til picture
-        public string? Title {get; set;} // Picturetekst
+        public string? PictureUrl {get; set;}  //sabed path for picture
+        public string? Title {get; set;} //picture title
 
 
-        // Beskrivelse for picture picturet  Maks 500 tegn
+        //maximum 500 letters
         [StringLength(500)]
         public String? Description {get; set;}
-//endring
-        public DateTime UploadDate {get; set;} // dato innlegget ble opprettet
+
+        public DateTime UploadDate {get; set;} //when the post got posted
 
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
         
