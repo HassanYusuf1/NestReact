@@ -58,7 +58,7 @@ app.UseAuthentication(); // Use Authentication Middleware
 app.UseAuthorization(); // Use Authorization Middleware
 
 
-app.MapRazorPages(); // Legg til Razor Pages-ruter for autentisering
+app.MapRazorPages(); 
 
 app.MapControllerRoute(
     name: "default",

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -204,10 +204,17 @@ namespace Api.Migrations
                 {
                     table.PrimaryKey("PK_Comments", x => x.CommentId);
                     table.ForeignKey(
+                        name: "FK_Comments_Notes_NoteId",
+                        column: x => x.NoteId,
+                        principalTable: "Notes",
+                        principalColumn: "NoteId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Comments_Pictures_PictureId",
                         column: x => x.PictureId,
                         principalTable: "Pictures",
-                        principalColumn: "PictureId");
+                        principalColumn: "PictureId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -248,6 +255,11 @@ namespace Api.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comments_NoteId",
+                table: "Comments",
+                column: "NoteId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comments_PictureId",
                 table: "Comments",
                 column: "PictureId");
@@ -275,13 +287,13 @@ namespace Api.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Notes");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Notes");
 
             migrationBuilder.DropTable(
                 name: "Pictures");

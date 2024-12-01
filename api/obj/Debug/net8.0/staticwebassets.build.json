@@ -1,10 +1,6 @@
 {
   "Version": 1,
-<<<<<<< HEAD
-  "Hash": "FaQZiCf89ttTnHr7G8q2SS2PWEkoOB28qvAuk96glDg=",
-=======
-  "Hash": "Ka20+x274cUjfVUzQCtNyvrxRWdoq1vTxsWrjRZick8=",
->>>>>>> 6cca98cecf1d8afcbe2b408d815b9a9709e5b6bd
+  "Hash": "P01mru1G674RJsKick0iwe2efoOPcMYoAvxoHMqZkvE=",
   "Source": "Api",
   "BasePath": "_content/Api",
   "Mode": "Default",
@@ -1218,11 +1214,7 @@
       "OriginalItemSpec": "wwwroot\\images\\2eb7468c-adbc-414e-94a7-83a6dbd2c4e3_Skjermbilde 2023-09-22 104402.png"
     },
     {
-<<<<<<< HEAD
-      "Identity": "C:\\Users\\hassan\\Desktop\\NestReact\\api\\wwwroot\\images\\4e616280-a325-4d98-ae52-c9d8bfc84599_last ned.jpeg",
-=======
       "Identity": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\images\\4e616280-a325-4d98-ae52-c9d8bfc84599_last ned.jpeg",
->>>>>>> 6cca98cecf1d8afcbe2b408d815b9a9709e5b6bd
       "SourceId": "Api",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\",
@@ -1241,12 +1233,12 @@
       "OriginalItemSpec": "wwwroot\\images\\4e616280-a325-4d98-ae52-c9d8bfc84599_last ned.jpeg"
     },
     {
-      "Identity": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\images\\c124e46f-6356-440e-9c52-f28099ec5363_last ned.jpeg",
+      "Identity": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\images\\b8a2b3df-6b72-4a09-b7a8-4769c6440861_last ned.jpeg",
       "SourceId": "Api",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\",
       "BasePath": "_content/Api",
-      "RelativePath": "images/c124e46f-6356-440e-9c52-f28099ec5363_last ned.jpeg",
+      "RelativePath": "images/b8a2b3df-6b72-4a09-b7a8-4769c6440861_last ned.jpeg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -1257,7 +1249,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\c124e46f-6356-440e-9c52-f28099ec5363_last ned.jpeg"
+      "OriginalItemSpec": "wwwroot\\images\\b8a2b3df-6b72-4a09-b7a8-4769c6440861_last ned.jpeg"
     },
     {
       "Identity": "C:\\Users\\mbmik\\OneDrive\\Dokumenter\\GitHub\\NestReact\\api\\wwwroot\\images\\ccb956ba-116d-4fd1-91b1-64ad68fe47d7_last ned.jpeg",
