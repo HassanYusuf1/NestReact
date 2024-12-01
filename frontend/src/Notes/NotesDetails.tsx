@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { Note } from "../types/Note";
-import { fetchNoteById } from "./NoteService";
+import { fetchNoteById, deleteNoteById } from "./NoteService"; // Import deleteNoteById
 
 interface NoteDetail {
   onNoteDeleted: (note: Note) => void;
@@ -16,13 +16,22 @@ const NotesDetails: React.FC<NoteDetail> = ({ onNoteDeleted }) => {
   const [error, setError] = useState<string | null>(null);
 
   const onCancel = () => {
-    
     navigate(-1); 
   };
 
-  const onDeleteNote = (note: Note) => {
-  
-    navigate(-1); 
+  const onDeleteNote = async () => {
+    if (!note) {
+      return;
+    }
+
+    try {
+      await deleteNoteById(note.noteId.toString()); // Call delete function
+      onNoteDeleted(note); // Notify parent component (optional, if needed)
+      navigate(-1); // Navigate back after deletion
+    } catch (err) {
+      setError('Failed to delete the note. Please try again.');
+      console.error("Error deleting note:", err);
+    }
   };
 
   useEffect(() => {
@@ -60,10 +69,14 @@ const NotesDetails: React.FC<NoteDetail> = ({ onNoteDeleted }) => {
 
   return (
     <div>
-      <p>{note.title}</p>
+      <h3>{note.title}</h3>
       <p>{note.content}</p>
-      <Button onClick={() => onDeleteNote(note)}>Delete Note</Button>
-      <Button onClick={() => onCancel()}>Cancel</Button>
+      <Button variant="danger" onClick={onDeleteNote}>
+        Delete Note
+      </Button>
+      <Button variant="secondary" onClick={onCancel}>
+        Cancel
+      </Button>
     </div>
   );
 };
