@@ -107,13 +107,13 @@ const CommentTableNote: React.FC<CommentTableProps> = ({ note, noteId }) => {
       {/* Toggle Comments Visibility */}
       {comments.length > 0 && (
         <p className="text-muted">
-          <a
-            href="javascript:void(0);"
+          <button
             onClick={toggleCommentsVisibility}
-            className="view-comments-link"
+            className="view-comments-link btn btn-link p-0"
+            style={{ textDecoration: 'none' }}
           >
             View all {comments.length} comments
-          </a>
+          </button>
         </p>
       )}
 
@@ -132,29 +132,59 @@ const CommentTableNote: React.FC<CommentTableProps> = ({ note, noteId }) => {
               {comments.map((comment) => (
                 <div key={comment.commentId} className="comment d-flex justify-content-between align-items-center mb-2">
                   <div>
-                    <strong>{comment.userName.split('@')[0]}:</strong> {comment.commentDescription}
-                    <p className="timestamp relative-time text-muted" data-timestamp={comment.commentTime}>
-                      {formatTimeAgo(comment.commentTime)} {/* Use commentTime here */}
-                    </p>
+                    {editingCommentId === comment.commentId ? (
+                      <>
+                        <textarea
+                          value={editingCommentText}
+                          onChange={(e) => setEditingCommentText(e.target.value)}
+                          className="form-control mb-1"
+                          rows={1}
+                        />
+                        <button
+                          className="btn btn-primary btn-sm me-2"
+                          onClick={() => handleEditComment(comment.commentId)}
+                        >
+                          Save
+                        </button>
+                        <button
+                          className="btn btn-secondary btn-sm"
+                          onClick={() => {
+                            setEditingCommentId(null);
+                            setEditingCommentText('');
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <strong>{comment.userName.split('@')[0]}:</strong> {comment.commentDescription}
+                        <p className="timestamp relative-time text-muted" data-timestamp={comment.commentTime}>
+                          {formatTimeAgo(comment.commentTime)}
+                        </p>
+                      </>
+                    )}
                   </div>
 
-                  <div className="comment-actions">
-                    <button
-                      className="btn btn-link text-primary me-2 p-0 fw-bold"
-                      onClick={() => {
-                        setEditingCommentId(comment.commentId);
-                        setEditingCommentText(comment.commentDescription);
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-link text-danger p-0 fw-bold"
-                      onClick={() => handleDeleteComment(comment.commentId)}
-                    >
-                      Delete
-                    </button>
-                  </div>
+                  {editingCommentId !== comment.commentId && (
+                    <div className="comment-actions">
+                      <button
+                        className="btn btn-link text-primary me-2 p-0 fw-bold"
+                        onClick={() => {
+                          setEditingCommentId(comment.commentId);
+                          setEditingCommentText(comment.commentDescription);
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-link text-danger p-0 fw-bold"
+                        onClick={() => handleDeleteComment(comment.commentId)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
