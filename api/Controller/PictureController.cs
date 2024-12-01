@@ -8,7 +8,7 @@ namespace InstagramMVC.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PictureAPIController : ControllerBase
+    public class PictureAPIController : ControllerBase //Initialize controllerBase
     {
         private readonly IPictureRepository _pictureRepository;
         private readonly ILogger<PictureAPIController> _logger;
@@ -20,17 +20,16 @@ namespace InstagramMVC.Controllers
         }
 
         [HttpGet("mypage")]
-
-        public async Task<IActionResult> MyPage()
+        public async Task<IActionResult> MyPage() //Method for showing all the user's notes 
         {
-            var allPictures = await _pictureRepository.GetAll();
+            var allPictures = await _pictureRepository.GetAll(); //Uses repository from
             if (allPictures == null)
             {
                 _logger.LogError("[PictureAPIController] Could not retrieve images.");
                 return NotFound("No pictures found.");
             }
 
-            // Hent alle bilder uten å filtrere på bruker.
+            //Get all pictures with DTO
             var userPictures = allPictures.ToList();
             var pictureDtos = userPictures.Select(picture => new PictureDto
             {
@@ -46,16 +45,16 @@ namespace InstagramMVC.Controllers
         }
 
         [HttpGet("allpictures")]
-        public async Task<IActionResult> GetAllPictures()
+        public async Task<IActionResult> GetAllPictures() //Gets all pictures 
         {
-            var pictures = await _pictureRepository.GetAll();
+            var pictures = await _pictureRepository.GetAll(); //uses repo method
             if (pictures == null)
             {
                 _logger.LogError("[PictureAPIController] Could not retrieve pictures.");
                 return NotFound("No pictures found.");
             }
 
-            var pictureDtos = pictures.Select(picture => new PictureDto
+            var pictureDtos = pictures.Select(picture => new PictureDto //initialize new variable
             {
                 PictureId = picture.PictureId,
                 Title = picture.Title,
@@ -65,20 +64,20 @@ namespace InstagramMVC.Controllers
                 UserName = picture.UserName
             });
 
-            return Ok(pictureDtos);
+            return Ok(pictureDtos); //returns the dto
         }
 
         [HttpGet("details/{id}")]
-        public async Task<IActionResult> GetPictureDetails(int id)
+        public async Task<IActionResult> GetPictureDetails(int id) //method for getting the details from a picture
         {
-            var picture = await _pictureRepository.PictureId(id);
-            if (picture == null)
+            var picture = await _pictureRepository.PictureId(id); //uses method from picture repo
+            if (picture == null) //if not found
             {
                 _logger.LogError("[PictureAPIController] Picture with id {Id} not found", id);
                 return NotFound("Picture not found.");
             }
 
-            var pictureDto = new PictureDto
+            var pictureDto = new PictureDto //new dto variable with picture variables found from repo
             {
                 PictureId = picture.PictureId,
                 Title = picture.Title,
@@ -92,16 +91,16 @@ namespace InstagramMVC.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreatePicture([FromForm] PictureDto pictureDto)
+        public async Task<IActionResult> CreatePicture([FromForm] PictureDto pictureDto) //method for creating picture and takes in dto
         {
-            if (pictureDto == null || pictureDto.PictureFile == null)
+            if (pictureDto == null || pictureDto.PictureFile == null) //if dto is not valid or not found
             {
                 return BadRequest("Picture data cannot be null");
             }
 
-            // Lagre bildet til serveren
+            //Save picture to server
             string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
-            if (!Directory.Exists(uploadsFolder))
+            if (!Directory.Exists(uploadsFolder)) //creates folder under wwwroot if not exist
             {
                 Directory.CreateDirectory(uploadsFolder);
             }
@@ -109,12 +108,12 @@ namespace InstagramMVC.Controllers
             string uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(pictureDto.PictureFile.FileName);
             string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            using (var fileStream = new FileStream(filePath, FileMode.Create)) //copies the file
             {
                 await pictureDto.PictureFile.CopyToAsync(fileStream);
             }
 
-            // Lagre informasjonen om bildet i databasen
+            //Save new information about the picture in the database
             var newPicture = new Picture
             {
                 Title = pictureDto.Title,
@@ -123,7 +122,7 @@ namespace InstagramMVC.Controllers
                 PictureUrl = $"{Request.Scheme}://{Request.Host}/images/{uniqueFileName}"
             };
 
-            bool success = await _pictureRepository.Create(newPicture);
+            bool success = await _pictureRepository.Create(newPicture); //returns true if successful
             if (!success)
             {
                 _logger.LogWarning("[PictureAPIController] Could not create new image.");
@@ -137,29 +136,29 @@ namespace InstagramMVC.Controllers
 
 
         [HttpPut("edit/{id}")]
-        public async Task<IActionResult> EditPicture(int id, [FromForm] PictureDto updatedPictureDto)
+        public async Task<IActionResult> EditPicture(int id, [FromForm] PictureDto updatedPictureDto) //method for editing picture details
         {
-            if (updatedPictureDto == null || id != updatedPictureDto.PictureId)
+            if (updatedPictureDto == null || id != updatedPictureDto.PictureId) //if not found
             {
                 return BadRequest("Invalid picture data");
             }
 
-            var existingPicture = await _pictureRepository.PictureId(id);
+            var existingPicture = await _pictureRepository.PictureId(id); //uses picture repo method to find exact picture
             if (existingPicture == null)
             {
                 _logger.LogError("[PictureAPIController] Picture with id {PictureId} not found", id);
                 return NotFound("Picture not found.");
             }
 
-            // Oppdater bare tittel og beskrivelse
+            //Updates the title and description
             existingPicture.Title = updatedPictureDto.Title;
-            existingPicture.Description = updatedPictureDto.Description;
+            existingPicture.Description = updatedPictureDto.Description; 
 
-            // Hvis en ny fil er lastet opp, oppdater bilde-URL
+            //If a new file is uploaded, update picture-URL
             if (updatedPictureDto.PictureFile != null)
             {
                 string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
-                if (!Directory.Exists(uploadsFolder))
+                if (!Directory.Exists(uploadsFolder)) //create new directory if no folder under wwwroot
                 {
                     Directory.CreateDirectory(uploadsFolder);
                 }
@@ -172,10 +171,10 @@ namespace InstagramMVC.Controllers
                     await updatedPictureDto.PictureFile.CopyToAsync(fileStream);
                 }
 
-                existingPicture.PictureUrl = "/images/" + uniqueFileName; // Oppdater URL hvis et nytt bilde ble lastet opp
+                existingPicture.PictureUrl = "/images/" + uniqueFileName; //Updates URL when new image is saved 
             }
 
-            bool success = await _pictureRepository.Edit(existingPicture);
+            bool success = await _pictureRepository.Edit(existingPicture); //calls on function for editing the picture
             if (!success)
             {
                 _logger.LogWarning("[PictureAPIController] Could not update the picture.");
@@ -187,7 +186,7 @@ namespace InstagramMVC.Controllers
 
 
         [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> DeletePicture(int id)
+        public async Task<IActionResult> DeletePicture(int id) //deleting picture
         {
             var picture = await _pictureRepository.PictureId(id);
             if (picture == null)
@@ -196,35 +195,35 @@ namespace InstagramMVC.Controllers
                 return NotFound("Picture not found.");
             }
 
-            if (!string.IsNullOrEmpty(picture.PictureUrl))
+            if (!string.IsNullOrEmpty(picture.PictureUrl)) //checks for picture url
             {
                 try
                 {
-                    Uri pictureUri = new Uri(picture.PictureUrl);
+                    Uri pictureUri = new Uri(picture.PictureUrl); 
                     string fileName = Path.GetFileName(pictureUri.LocalPath);
                     string fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
 
                     _logger.LogInformation("Full file path for deletion: {Path}", fullPath);
 
-                    if (System.IO.File.Exists(fullPath))
+                    if (System.IO.File.Exists(fullPath)) //deletes picture if file path exists
                     {
                         System.IO.File.SetAttributes(fullPath, FileAttributes.Normal);
                         System.IO.File.Delete(fullPath);
                         _logger.LogInformation("Picture file at {Path} deleted successfully", fullPath);
                     }
-                    else
+                    else 
                     {
                         _logger.LogWarning("Picture file at {Path} was not found on the server", fullPath);
                     }
                 }
-                catch (Exception ex)
+                catch (Exception ex) //catch if not found
                 {
                     _logger.LogError(ex, "Failed to delete picture file from URL {PictureUrl}", picture.PictureUrl);
                     return StatusCode(500, "Failed to delete the picture file from the server.");
                 }
             }
 
-            bool success = await _pictureRepository.Delete(id);
+            bool success = await _pictureRepository.Delete(id); //calls on picture repo method for deletion
             if (!success)
             {
                 _logger.LogError("[PictureAPIController] Picture with id {Id} could not be deleted from the database", id);

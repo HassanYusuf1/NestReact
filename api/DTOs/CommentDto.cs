@@ -1,6 +1,6 @@
 namespace InstagramMVC.DTOs
 {
-    public class CommentDto
+    public class CommentDto //DTO for comment
     {
         public int CommentId { get; set; }
         public int? PictureId { get; set; }
